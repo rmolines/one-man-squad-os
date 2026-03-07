@@ -1,8 +1,22 @@
-# CLAUDE.md — Instructions for Claude Code
-<!-- TODO: Replace this file with your project's specific instructions after forking -->
+# CLAUDE.md — One Man Squad OS
 
-## Project overview
-<!-- TODO: 2-3 sentences about what this project does and why it exists -->
+## Visão geral
+
+**One Man Squad OS** — cockpit para PM-fundador solo que usa Claude Code como squad de engenharia.
+
+**WHY:** O gargalo do founder solo com AI não é capacidade de build — é atenção e julgamento humano.
+Re-entry de contexto frio ao alternar entre hipóteses custa minutos. Nenhuma ferramenta foi
+desenhada para essa nova escassez.
+
+**WHAT:** Um leitor de filesystem que detecta worktrees git como hipóteses de produto, mostra
+portfolio em um relance, e entrega cada decisão pendente como um Decision Brief estruturado (SBAR)
+processável em <60 segundos.
+
+**HOW:** macOS-native (SwiftUI + SwiftData + FSEvents). Local-first puro. Worktree = Hipótese (1:1).
+V1 é leitor puro — sem PTY, sem lançar sessões, sem IPC.
+
+**Regra de ouro (v1):** Se o código interage com PTY, spawna Claude Code, ou abre sockets IPC,
+está no backlog — não no código agora.
 
 ## Critical rules — NEVER do without explicit approval
 
@@ -10,6 +24,7 @@
 - Never force-push to main — always use PRs with CI passing
 - Never skip pre-commit hooks (--no-verify) — fix the underlying issue
 - Never delete data without a dry-run step first
+- Never add PTY/socket IPC code in v1 — it is explicitly out of scope
 
 ## Feature workflow — complete cycle
 
@@ -24,48 +39,56 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 
 **Orientation (any time):** `/project-compass` — "where are we?", "what's left?", "next feature?"
 
-**Why the `/clear` between phases?**
-Clean context = less hallucination. Each phase saves output to `.claude/feature-plans/<name>/`
-so the next phase can read it without relying on conversation memory.
-
 ## Hot files — always read before editing
 
-These files are modified by almost every feature — coordinate with other agents:
-
+- `Sources/Core/HypothesisModel.swift` — enums de status, protocolo HypothesisCard
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — @Observable @MainActor; ponto central de estado
+- `Sources/OneManSquadOS/App/CockpitApp.swift` — configuração de scenes, activationPolicy pattern
+- `Sources/OneManSquadOS/Models/BacklogHypothesis.swift` — SwiftData @Model; schema V1
+- `Package.swift` — targets e dependências SPM
 - `CLAUDE.md`
 - `.github/workflows/ci.yml`
-- `.claude/commands/*.md`
-- `README.md`
-- `Makefile`
+- `.github/workflows/release.yml`
 
 ## Known pitfalls
 
 | Component | Pitfall | Fix |
 |---|---|---|
+| `MenuBarExtra` + `WindowGroup` + `activationPolicy` | Ao alternar janela principal / menu bar | Gerenciar `NSApp.setActivationPolicy` manualmente; ver CockpitApp.swift |
+| `openSettings` dentro de MenuBarExtra | Qualquer SettingsLink no menu | Usar `orchetect/SettingsAccess`; não chamar `openSettings` direto |
+| SwiftData sem VersionedSchema | Adicionar campo novo a @Model | SEMPRE via CockpitSchemaV2 com migration stage; nunca editar V1 direto |
+| FSEvents fora do container | Watch de paths fora do ~/Documents | App não-sandboxed; sem Security-Scoped Bookmarks; `NSOpenPanel` + `UserDefaults` |
+| Subprocess git com string concatenada | Qualquer chamada a git | SEMPRE array de argumentos; NUNCA interpolar path em string de comando |
+| Path traversal em writes `.claude/decisions/` | Ao gravar decisão | Validar que path final tem como prefixo o worktree aprovado pelo usuário |
+| PTY/HITL scope creep | "Só adiciona um botão pra..." | Regra explícita: PTY/socket IPC é backlog v2; feature request → issue, não código |
+| swift-markdown sem frontmatter | SBAR files com `--- ... ---` no topo | Dois estágios: strip frontmatter com SwiftToolkit/frontmatter, depois swift-markdown |
 | template-sync.yml | Runs on template repo itself → no-op | Guard: `!github.event.repository.is_template` |
-| bootstrap.yml | Only fires on first push (run_number == 1) | Don't re-run manually — it will apply protection twice |
-| Hooks | Run in non-interactive shells; `~/.zshrc` with unconditional `echo` breaks JSON | Use `#!/bin/bash` with `set -euo pipefail`; no shell rc sourcing |
-| settings.json | Hooks execute shell without confirmation (CVE-2025-59536) | Comment warns users; hooks in `.claude/hooks/` are auditable |
-| SYNC_VERSION | SHA must match upstream main HEAD | Update with `git rev-parse upstream/main` after sync |
+| bootstrap.yml | Only fires on first push (run_number == 1) | Don't re-run manually |
 
 ## Worktree convention
 
 - Path: `.claude/worktrees/<feature-name>`
-- Branch: `feature/<feature-name>` (kebab-case)
+- Branch: `feat/<feature-name>` (kebab-case)
 - Always rebase before starting: `git fetch origin && git rebase origin/main`
 
 ## Daily commands
 
 ```bash
+swift build          # Build Core + App
+swift test           # Run CoreTests
 make help            # List all available commands
 make check           # Run lint + validate
-make lint            # Lint Markdown files
-make validate        # Validate JSON + structure
-make sync-skills     # Pull latest skills from upstream template
-make clean           # Remove generated files (.claude/worktrees/, .claude/cache/)
 ```
 
 ## Secrets
 
-None required — this template has no backend. Add secrets in `.env` (never commit) when
-your project needs them. Document them here and in `.env.example`.
+Para desenvolvimento local: não há variáveis de ambiente — app é local-only.
+
+Para release (CI notarization):
+
+- `APPLE_DEVELOPER_CERT_BASE64` — certificado Developer ID Application em base64
+- `APPLE_DEVELOPER_CERT_PASSWORD` — senha do .p12
+- `APPLE_TEAM_ID` — Team ID da Apple Developer account
+- `APPLE_NOTARIZE_APPLE_ID` — Apple ID para notarytool
+- `APPLE_NOTARIZE_APP_PASSWORD` — App-specific password para notarytool
+- `KEYCHAIN_PASSWORD` — senha temporária do keychain no CI

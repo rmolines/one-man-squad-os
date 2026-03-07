@@ -194,6 +194,21 @@ Próximo comando: /start-feature --deep <nome>
 
 ---
 
+## Hot files do projeto (One Man Squad OS)
+
+Sempre ler antes de editar qualquer um destes arquivos:
+
+- `Sources/Core/HypothesisModel.swift` — enums de status, protocolo HypothesisCard
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — @Observable @MainActor; ponto central de estado
+- `Sources/OneManSquadOS/App/CockpitApp.swift` — configuração de scenes, activationPolicy pattern
+- `Sources/OneManSquadOS/Models/BacklogHypothesis.swift` — SwiftData @Model; schema V1
+- `Package.swift` — targets e dependências SPM
+- `CLAUDE.md`
+- `.github/workflows/ci.yml`
+- `.github/workflows/release.yml`
+
+---
+
 ## FASE A — Pesquisa (`--deep`)
 
 ### Passo A.1 — Coletar contexto
@@ -320,6 +335,17 @@ Para cada mudança: arquivo exato, o que fazer (específico), ordem de execuçã
 - [ ] CI/CD: <não muda / o que muda>
 - [ ] Config principal: <não muda / o que muda>
 - [ ] Novas dependências: <não / quais>
+
+### Passo B.3b — Checklist de arquitetura Swift (One Man Squad OS)
+
+Verificar antes de criar o plan.md:
+
+- [ ] **SwiftData migration?** — Se a feature adiciona/remove campos em `@Model`, é obrigatório criar `CockpitSchemaV2` com migration stage. Nunca editar `BacklogHypothesis` (V1) diretamente.
+- [ ] **FSEvents path injection?** — Se a feature toca watch de diretórios, verificar que o path vem de `NSOpenPanel` + `UserDefaults` (não hardcoded). App não-sandboxed, sem Security-Scoped Bookmarks.
+- [ ] **PTY/socket IPC scope creep?** — Se a feature menciona "lançar Claude Code", "abrir terminal", "executar comando", "socket", "pipe" ou "IPC": **PARAR**. Isso é backlog v2 explícito. Registrar como issue, não implementar.
+- [ ] **Actor isolation (Swift 6)?** — `PortfolioStore` é `@Observable @MainActor`. Qualquer acesso a seus dados fora de `@MainActor` requer `await MainActor.run { }`.
+- [ ] **git subprocess?** — Sempre array de argumentos (`[String]`). Nunca interpolar path em string de comando shell.
+- [ ] **MenuBarExtra + WindowGroup?** — Se a feature toca scenes ou activation policy, ver `CockpitApp.swift` primeiro.
 
 ### Passo B.4 — Validar contra LEARNINGS.md (se existir)
 
@@ -515,8 +541,8 @@ Regras:
 
 Lançar em background (`run_in_background=true`):
 
-- Build (comando definido no CLAUDE.md — ex: `swift build`, `make check`, `npm run build`)
-- Suite de testes automatizados se disponível (ex: `swift test`, `make test`, `npm test`)
+- Build: `swift build`
+- Suite de testes: `swift test --filter CoreTests`
 
 Enquanto aguarda: exibir resumo (arquivos criados/editados, decisões tomadas).
 

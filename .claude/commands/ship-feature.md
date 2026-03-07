@@ -12,9 +12,9 @@ Após validação bem-sucedida, use `/close-feature` para documentação e clean
 ## Configuração do projeto
 
 Antes de qualquer passo, leia o `CLAUDE.md` do projeto e extraia:
-- **Comando de build** (ex: `npm run build`, `go build`, `make build`) → `{{BUILD_CMD}}`
-- **Comando de teste** (ex: `npm test`, `pytest`, `make test`) → `{{TEST_CMD}}`
-- **Comando de smoke test** (ex: `make test MSG="..."`, `curl`, script de validação) → `{{SMOKE_TEST}}`
+- **Comando de build** → `swift build`
+- **Comando de teste** → `swift test --filter CoreTests`
+- **Comando de smoke test** → Build em Debug via Xcode → app abre → menu bar icon aparece → selecionar repo local → portfolio exibe hipóteses
 - **Hot files do projeto** (arquivos modificados por quase toda feature)
 
 Se o CLAUDE.md não listar hot files explicitamente: inferir pelos arquivos de CI e configuração presentes no repo (ex: `.github/workflows/`, `docker-compose.yml`, `Makefile`, arquivos de config principal).
@@ -73,8 +73,8 @@ Aguardar resposta. Se "continuar": prosseguir normalmente (não é bloqueante).
 Antes de qualquer commit ou push, rodar:
 
 ```bash
-{{BUILD_CMD}}    # ex: npm run build, swift build, make build
-{{TEST_CMD}}     # ex: npm test, swift test, make test
+swift build
+swift test --filter CoreTests
 ```
 
 Se qualquer um falhar: **parar aqui**. Não criar PR com build quebrado.
@@ -243,7 +243,7 @@ Se o plano indicou setup necessário: executar agora e verificar que concluiu se
 
 ### 7. Smoke test
 
-Usar `{{SMOKE_TEST}}` (substituído pelo comando concreto do projeto; se ainda é placeholder, extrair do CLAUDE.md ou `plan.md`).
+Smoke test deste projeto: Build em Debug via Xcode → app abre → menu bar icon aparece → selecionar repo local → portfolio exibe hipóteses.
 
 Se falhar: investigar logs antes de escalar o problema.
 **Não declarar sucesso com smoke test vermelho.**
@@ -322,6 +322,6 @@ Quando estiver satisfeito, rode /close-feature para documentação e cleanup.
 - Nunca commitar arquivos com secrets (`.env`, tokens hardcoded)
 - Commit e PR criados autonomamente — sem aguardar confirmação da mensagem
 - Se qualquer passo falhar: parar e reportar antes de continuar
-- **Nunca criar PR sem antes rodar {{BUILD_CMD}} + {{TEST_CMD}} e mostrar output** (passo 0.5)
+- **Nunca criar PR sem antes rodar `swift build` + `swift test --filter CoreTests` e mostrar output** (passo 0.5)
 - **Nunca declarar "em produção" sem ter verificado deploy (passo 6a) e smoke test (passo 7)**
 - **O smoke test usa o comando do CLAUDE.md ou plan.md — não inventar um genérico**

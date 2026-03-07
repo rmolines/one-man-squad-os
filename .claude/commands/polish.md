@@ -221,13 +221,13 @@ Extrair o comando de build do `CLAUDE.md` do projeto (campo `Comando de build`).
 Rodar em background (`run_in_background=true`):
 
 ```bash
-<BUILD_CMD do CLAUDE.md>   # ex: swift build, npm run build, make build
+swift build
 ```
 
-Se o projeto tiver suite de testes, rodar tambem em background:
+Rodar também em background:
 
 ```bash
-<TEST_CMD do CLAUDE.md>   # ex: swift test, npm test, make test
+swift test --filter CoreTests
 ```
 
 Enquanto aguarda: exibir resumo de arquivos modificados.

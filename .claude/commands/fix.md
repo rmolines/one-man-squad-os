@@ -187,8 +187,8 @@ Confirmar com "✅ Fix aplicado" ao concluir.
 Lançar validação em background com Task tool (`run_in_background=true`):
 
 **Subagente de validação:**
-> 1. Rode o comando de teste do projeto (extraído do CLAUDE.md)
-> 2. Se não houver comando configurado, procure e rode os testes mais próximos dos arquivos modificados
+> 1. Rode: `swift build && swift test --filter CoreTests`
+> 2. Se não houver testes relevantes para o fix, ao menos confirme que `swift build` passa
 > 3. Reporte: ✅ ou ❌ com output completo
 
 Enquanto aguarda: exibir resumo do que foi alterado (arquivos, linhas, natureza da mudança).

@@ -6,27 +6,18 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: read
-
 jobs:
-  lint-and-validate:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: macos-15
+
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@v4
 
-      - name: Lint Markdown
-        uses: DavidAnson/markdownlint-cli2-action@5b7c9f74fec47e6b15667b2cc23c63dff11e449e # v9
-        with:
-          globs: "**/*.md"
-          config: .markdownlint.yaml
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app
 
-      - name: Validate JSON
-        run: |
-          set -euo pipefail
-          find .claude -name "*.json" | while read -r f; do
-            python3 -m json.tool "$f" > /dev/null && echo "✅ $f" || { echo "❌ $f"; exit 1; }
-          done
+      - name: Build (Core + App)
+        run: swift build -c release 2>&1 | xcbeautify || swift build -c release
 
-      - name: Validate structure
-        run: bash .claude/scripts/validate-structure.sh
+      - name: Test (CoreTests)
+        run: swift test --filter CoreTests 2>&1 | xcbeautify || swift test --filter CoreTests
