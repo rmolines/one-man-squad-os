@@ -1,0 +1,51 @@
+{
+  "originHash" : "e24ca7aa675e9a2bb7f32507cf8943ee6d831eae951750c73afe61b1a2098e06",
+  "pins" : [
+    {
+      "identity" : "frontmatter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftToolkit/frontmatter",
+      "state" : {
+        "revision" : "db52a6df5086f5e3b6317057688e5a0ecc5e13d6",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "settingsaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/orchetect/SettingsAccess",
+      "state" : {
+        "revision" : "08e80c35501f273afa2f5d6f737429bbe395ff81",
+        "version" : "2.1.0"
+      }
+    },
+    {
+      "identity" : "swift-cmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-cmark.git",
+      "state" : {
+        "branch" : "gfm",
+        "revision" : "924936d0427cb25a61169739a7660230bffa6ea6"
+      }
+    },
+    {
+      "identity" : "swift-markdown",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-markdown",
+      "state" : {
+        "branch" : "main",
+        "revision" : "55d66d9a9e8d4fd3f48d111b0d437e82fe451903"
+      }
+    },
+    {
+      "identity" : "yams",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jpsim/Yams.git",
+      "state" : {
+        "revision" : "3d6871d5b4a5cd519adf233fbb576e0a2af71c17",
+        "version" : "5.4.0"
+      }
+    }
+  ],
+  "version" : 3
+}

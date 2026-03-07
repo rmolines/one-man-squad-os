@@ -38,6 +38,30 @@ This was documented in CVE-2025-59536. Mitigation: keep hook logic in external s
 
 ---
 
+## SwiftUI macOS — MenuBarExtra + activationPolicy
+
+### Dock icon briefly appears on launch — expected behavior
+
+With `LSUIElement = false` in Info.plist, the app shows a Dock icon on launch.
+When `applicationDidFinishLaunching` calls `NSApp.setActivationPolicy(.accessory)`,
+the icon disappears. This is correct — it looks like a crash but it is not.
+The menu bar icon appears in the top-right corner after the Dock icon vanishes.
+
+If the menu bar is full, the icon may be hidden behind the `>>` overflow indicator.
+
+### EonilFSEvents (`eonil/FSEvents`) is no longer available on GitHub
+
+As of 2026-03, `https://github.com/eonil/FSEvents` returns "Repository not found".
+Removed from `project.yml` — FSEvents watch is M2 scope. Find an alternative before M2.
+Candidates: `eonil/FileSystemEvents`, or roll a thin `FSEvents` C wrapper directly.
+
+### xcodegen + worktrees: always regenerate xcodeproj in the worktree
+
+The committed `OneManSquadOS.xcodeproj` may have absolute paths from the original machine.
+After creating a worktree, run `xcodegen generate` inside it before opening in Xcode.
+
+---
+
 ## markdownlint
 
 - Use `npx --yes markdownlint-cli2` to avoid requiring global install
