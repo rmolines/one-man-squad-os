@@ -43,3 +43,9 @@ out/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
