@@ -8,14 +8,12 @@ let package = Package(
         .library(name: "Core", targets: ["Core"]),
     ],
     dependencies: [
-        // MenuBarExtra Settings workaround
-        .package(url: "https://github.com/orchetect/SettingsAccess", from: "2.0.0"),
-        // FSEvents wrapper (requires non-sandboxed app)
-        .package(url: "https://github.com/eonil/FSEvents", from: "0.3.0"),
         // Markdown parsing (official swift-markdown)
         .package(url: "https://github.com/swiftlang/swift-markdown", branch: "main"),
         // YAML frontmatter (swift-markdown does not support it, issue #73)
         .package(url: "https://github.com/SwiftToolkit/frontmatter", from: "1.0.0"),
+        // App-level deps (EonilFSEvents, SettingsAccess) are managed
+        // via the Xcode project — not needed in the Core SPM target.
     ],
     targets: [
         // Core — no SwiftUI imports, testable in isolation
