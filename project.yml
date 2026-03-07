@@ -10,9 +10,6 @@ packages:
   SettingsAccess:
     url: https://github.com/orchetect/SettingsAccess
     from: 2.0.0
-  FSEvents:
-    url: https://github.com/eonil/FSEvents
-    from: 0.3.0
   Core:
     path: .
 
@@ -25,8 +22,6 @@ targets:
     dependencies:
       - package: SettingsAccess
         product: SettingsAccess
-      - package: FSEvents
-        product: EonilFSEvents
       - package: Core
         product: Core
     settings:
