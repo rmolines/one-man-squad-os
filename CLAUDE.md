@@ -64,6 +64,9 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 | swift-markdown sem frontmatter | SBAR files com `--- ... ---` no topo | Dois estágios: strip frontmatter com SwiftToolkit/frontmatter, depois swift-markdown |
 | template-sync.yml | Runs on template repo itself → no-op | Guard: `!github.event.repository.is_template` |
 | bootstrap.yml | Only fires on first push (run_number == 1) | Don't re-run manually |
+| `EonilFSEvents` (`eonil/FSEvents`) | Repo removido do GitHub — `xcodebuild -resolvePackageDependencies` falha com "Repository not found" | Removido de `project.yml`; FSEvents é M2 — encontrar alternativa antes de M2 (`eonil/FileSystemEvents` é candidato) |
+| `xcodegen` + worktrees | xcodeproj commitado tem package cache paths da máquina original — Xcode abre com "Missing package product" | Rodar `xcodegen generate` dentro da worktree antes de abrir no Xcode |
+| activationPolicy `.accessory` parece crash | Dock icon desaparece quando `applicationDidFinishLaunching` chama `setActivationPolicy(.accessory)` — parece crash silencioso | É comportamento esperado — o ícone migra para a menu bar; verificar canto superior direito (pode estar atrás de `>>`) |
 
 ## Worktree convention
 
