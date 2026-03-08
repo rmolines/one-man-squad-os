@@ -26,7 +26,7 @@ Skills de criação de projetos e meta-skills. Não estão em nenhum repo git po
 
 ### Camada de Projeto — `.claude/commands/`
 
-Skills de workflow: `start-feature`, `ship-feature`, `fix`, `start-milestone`, `close-feature`, `handover`, etc.
+Skills de workflow: `start-feature`, `ship-feature`, `validate`, `fix`, `start-milestone`, `close-feature`, `handover`, etc.
 Estão no repo git do projeto. Criadas a partir do template `rmolines/claude-kickstart`.
 
 ---
