@@ -14,6 +14,7 @@
 		346F7415782F1F419D116751 /* BacklogHypothesis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1483A931688AE22C1D96D562 /* BacklogHypothesis.swift */; };
 		43D962F1531C5D593E701917 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87498EAEC2A6A785DF5A83F1 /* AppDelegate.swift */; };
 		590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */; };
+		AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */; };
 		AF25E5AF8B64B21880FF9E74 /* PortfolioStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */; };
 		D0930F70B63C113406E85476 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C12E183DB75C77F1A47D0 /* PortfolioView.swift */; };
 		FB78D19E7F8559CEDB548E39 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C785ABB6B014BC20DFB59F /* MenuBarView.swift */; };
@@ -26,8 +27,9 @@
 		427386EC072DEB795578999B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		43C785ABB6B014BC20DFB59F /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		54B1921F5959B03F46508A79 /* CockpitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitApp.swift; sourceTree = "<group>"; };
+		74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypothesisCardView.swift; sourceTree = "<group>"; };
 		87498EAEC2A6A785DF5A83F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B4FD9A266C5F4C25E070020F /* app-foundation */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "app-foundation"; path = .; sourceTree = SOURCE_ROOT; };
+		9052C1A434F2C08B53062898 /* portfolio-view */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "portfolio-view"; path = .; sourceTree = SOURCE_ROOT; };
 		BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSchema.swift; sourceTree = "<group>"; };
 		BC755B6EEA537DC414827C48 /* OneManSquadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneManSquadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA7EA0064D2C8541D466558C /* CockpitSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSettings.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		8A833A80AE8368E1AD857143 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */,
 				43C785ABB6B014BC20DFB59F /* MenuBarView.swift */,
 				331C12E183DB75C77F1A47D0 /* PortfolioView.swift */,
 			);
@@ -93,7 +96,7 @@
 		D0B56D9EA0EBA8E20DF1AD93 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				B4FD9A266C5F4C25E070020F /* app-foundation */,
+				9052C1A434F2C08B53062898 /* portfolio-view */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				24053830E786618821046253 /* CockpitApp.swift in Sources */,
 				590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */,
 				02B725E77F574A135B3125B3 /* CockpitSettings.swift in Sources */,
+				AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */,
 				FB78D19E7F8559CEDB548E39 /* MenuBarView.swift in Sources */,
 				AF25E5AF8B64B21880FF9E74 /* PortfolioStore.swift in Sources */,
 				D0930F70B63C113406E85476 /* PortfolioView.swift in Sources */,
