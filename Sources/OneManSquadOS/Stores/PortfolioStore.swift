@@ -5,6 +5,7 @@ import Core
 @Observable @MainActor
 final class PortfolioStore {
     var hypotheses: [FeaturePlanInfo] = []
+    var milestones: [MilestoneInfo] = []
     var isLoading: Bool = false
 
     private var featurePlansWatcher: RepoWatcher?
@@ -37,10 +38,14 @@ final class PortfolioStore {
         isLoading = true
         let path = watchedPath
         Task {
-            let result = await Task.detached(priority: .userInitiated) {
+            async let plans = Task.detached(priority: .userInitiated) {
                 listFeaturePlans(repoPath: path)
             }.value
-            self.hypotheses = result
+            async let milestoneList = Task.detached(priority: .userInitiated) {
+                listMilestones(repoPath: path)
+            }.value
+            self.hypotheses = await plans
+            self.milestones = await milestoneList
             self.isLoading = false
         }
     }
