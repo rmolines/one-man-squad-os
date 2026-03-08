@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import SettingsAccess
+import Core
 
 private enum ViewMode: String {
     case grid, kanban
