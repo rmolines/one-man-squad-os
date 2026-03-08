@@ -3,6 +3,7 @@ import Core
 
 struct HypothesisCardView: View {
     let hypothesis: FeaturePlanInfo
+    var onSelect: () -> Void = {}
     @State private var showingDetail = false
     @State private var isHovered = false
 
@@ -39,6 +40,8 @@ struct HypothesisCardView: View {
         )
         .animation(.easeInOut(duration: 0.15), value: isHovered)
         .onHover { isHovered = $0 }
+        .contentShape(Rectangle())
+        .onTapGesture { onSelect() }
     }
 }
 
@@ -64,18 +67,4 @@ private struct PendingBriefBadge: View {
     }
 }
 
-private struct StatusChip: View {
-    let status: HypothesisStatus
-
-    var body: some View {
-        Text(status.label)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(status.color.opacity(0.15))
-            .foregroundStyle(status.color)
-            .clipShape(Capsule())
-    }
-}
 
