@@ -12,6 +12,14 @@ public struct ArtifactSet: Sendable {
         self.sprintMd = sprintMd
         self.sbarBriefs = sbarBriefs
     }
+
+    /// Priority: pendingDecision > building (sprint/plan) > exploring > idle
+    public var inferredStatus: HypothesisStatus {
+        if sbarBriefs.contains(where: { parseSBAR(from: $0) != nil }) { return .pendingDecision }
+        if sprintMd != nil || planMd != nil { return .building }
+        if exploreMd != nil { return .exploring }
+        return .idle
+    }
 }
 
 public func readArtifacts(worktreePath: String) -> ArtifactSet {

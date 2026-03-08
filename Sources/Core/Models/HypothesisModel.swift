@@ -26,7 +26,7 @@ public protocol HypothesisCard: Identifiable, Sendable {
 extension WorktreeInfo: HypothesisCard {
     public var id: String { path }
     public var title: String { branch ?? URL(fileURLWithPath: path).lastPathComponent }
-    public var status: HypothesisStatus { .idle }
+    public var status: HypothesisStatus { readArtifacts(worktreePath: path).inferredStatus }
 
     public var hasPendingBrief: Bool {
         let artifacts = readArtifacts(worktreePath: path)
