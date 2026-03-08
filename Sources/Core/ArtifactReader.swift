@@ -7,6 +7,8 @@ public struct ArtifactSet: Sendable {
     public let planMd: String?
     public let sprintMd: String?
     public let sbarBriefs: [String]
+    /// Task items extracted from plan.md at construction time — no per-render parsing.
+    public let taskItems: [TaskItem]
 
     public init(
         exploreMd: String?,
@@ -22,6 +24,7 @@ public struct ArtifactSet: Sendable {
         self.planMd = planMd
         self.sprintMd = sprintMd
         self.sbarBriefs = sbarBriefs
+        self.taskItems = planMd.map { parseTaskItems($0) } ?? []
     }
 
     /// Priority: pendingDecision > building > discovered > exploring > idle
