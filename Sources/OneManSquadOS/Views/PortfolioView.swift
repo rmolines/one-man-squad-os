@@ -7,6 +7,7 @@ struct PortfolioView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.openSettings) private var openSettings
     @State private var store = PortfolioStore()
+    @State private var isRefreshSpinning = false
 
     private var settings: CockpitSettings {
         if let existing = settingsList.first {
@@ -76,8 +77,10 @@ struct PortfolioView: View {
                     LazyVGrid(columns: columns, spacing: 12) {
                         ForEach(store.hypotheses) { hypothesis in
                             HypothesisCardView(hypothesis: hypothesis)
+                                .transition(.opacity.combined(with: .scale(scale: 0.95)))
                         }
                     }
+                    .animation(.easeOut(duration: 0.2), value: store.hypotheses.map(\.id))
                     .padding(16)
                 }
             }
@@ -105,10 +108,22 @@ struct PortfolioView: View {
             Button {
                 store.refresh(repoPath: settings.rootRepoPath)
             } label: {
-                Label("Refresh", systemImage: "arrow.clockwise")
+                Image(systemName: "arrow.clockwise")
+                    .rotationEffect(.degrees(isRefreshSpinning ? 360 : 0))
+                    .animation(
+                        isRefreshSpinning
+                            ? .linear(duration: 0.6).repeatForever(autoreverses: false)
+                            : .easeOut(duration: 0.3),
+                        value: isRefreshSpinning
+                    )
+                    .accessibilityLabel("Refresh")
             }
             .buttonStyle(.borderless)
             .disabled(store.isLoading)
+            .keyboardShortcut("r", modifiers: .command)
+            .onChange(of: store.isLoading) { _, loading in
+                isRefreshSpinning = loading
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)

@@ -4,6 +4,7 @@ import Core
 struct HypothesisCardView: View {
     let hypothesis: FeaturePlanInfo
     @State private var showingDetail = false
+    @State private var isHovered = false
 
     private var pendingBrief: SBARBrief? {
         hypothesis.artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
@@ -30,12 +31,14 @@ struct HypothesisCardView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(nsColor: .controlBackgroundColor))
+        .background(isHovered ? Color(nsColor: .selectedControlColor).opacity(0.12) : Color(nsColor: .controlBackgroundColor))
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
+                .strokeBorder(isHovered ? Color.accentColor.opacity(0.3) : Color(nsColor: .separatorColor), lineWidth: 1)
         )
+        .animation(.easeInOut(duration: 0.15), value: isHovered)
+        .onHover { isHovered = $0 }
     }
 }
 
