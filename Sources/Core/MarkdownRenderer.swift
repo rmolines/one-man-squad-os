@@ -76,3 +76,35 @@ public func parseMarkdown(_ raw: String) -> [MarkdownBlock] {
 
     return blocks
 }
+
+// MARK: - Task items
+
+public struct TaskItem: Sendable, Identifiable {
+    public let id: Int
+    public let title: String
+    public let completed: Bool
+
+    public init(id: Int, title: String, completed: Bool) {
+        self.id = id
+        self.title = title
+        self.completed = completed
+    }
+}
+
+/// Extracts checkbox task items (`- [ ]` / `- [x]`) from a raw markdown string.
+public func parseTaskItems(_ raw: String) -> [TaskItem] {
+    let body = stripFrontmatter(raw)
+    var items: [TaskItem] = []
+    var index = 0
+    for line in body.components(separatedBy: "\n") {
+        let trimmed = line.trimmingCharacters(in: .whitespaces)
+        if trimmed.hasPrefix("- [x] ") || trimmed.hasPrefix("- [X] ") {
+            items.append(TaskItem(id: index, title: String(trimmed.dropFirst(6)), completed: true))
+            index += 1
+        } else if trimmed.hasPrefix("- [ ] ") {
+            items.append(TaskItem(id: index, title: String(trimmed.dropFirst(6)), completed: false))
+            index += 1
+        }
+    }
+    return items
+}

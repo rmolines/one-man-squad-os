@@ -10,6 +10,11 @@ struct HypothesisCardView: View {
         hypothesis.artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
     }
 
+    private var tasks: [TaskItem] {
+        guard let planMd = hypothesis.artifacts.planMd else { return [] }
+        return parseTaskItems(planMd)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(hypothesis.title)
@@ -27,6 +32,10 @@ struct HypothesisCardView: View {
                 if let brief = pendingBrief {
                     PendingBriefBadge(showingDetail: $showingDetail, brief: brief)
                 }
+            }
+
+            if !tasks.isEmpty {
+                TaskSummaryView(tasks: tasks)
             }
         }
         .padding(12)
@@ -60,6 +69,55 @@ private struct PendingBriefBadge: View {
         .help("Pending decision brief — click to read")
         .popover(isPresented: $showingDetail, arrowEdge: .bottom) {
             SBARDetailView(brief: brief)
+        }
+    }
+}
+
+private struct TaskSummaryView: View {
+    let tasks: [TaskItem]
+    private let maxVisible = 3
+
+    private var doneCount: Int { tasks.filter(\.completed).count }
+    private var visible: [TaskItem] { Array(tasks.prefix(maxVisible)) }
+    private var overflow: Int { max(0, tasks.count - maxVisible) }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(spacing: 4) {
+                Image(systemName: "checklist")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                Text("\(doneCount)/\(tasks.count) done")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+            ForEach(visible) { task in
+                TaskRowView(task: task)
+            }
+            if overflow > 0 {
+                Text("+\(overflow) more")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+                    .padding(.leading, 16)
+            }
+        }
+        .padding(.top, 2)
+    }
+}
+
+private struct TaskRowView: View {
+    let task: TaskItem
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 5) {
+            Image(systemName: task.completed ? "checkmark.circle.fill" : "circle")
+                .font(.caption2)
+                .foregroundStyle(task.completed ? Color.green : Color.secondary)
+            Text(task.title)
+                .font(.caption2)
+                .foregroundStyle(task.completed ? Color.secondary : Color.primary)
+                .lineLimit(1)
+                .strikethrough(task.completed, color: .secondary)
         }
     }
 }
