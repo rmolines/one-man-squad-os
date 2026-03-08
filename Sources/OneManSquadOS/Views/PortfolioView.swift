@@ -105,16 +105,16 @@ struct PortfolioView: View {
             }
 
             if let hypothesis = selectedHypothesis {
-                Color.black.opacity(0.001)
+                Color.black.opacity(0.25)
                     .ignoresSafeArea()
                     .onTapGesture { selectedHypothesis = nil }
 
                 FeatureDocumentsView(hypothesis: hypothesis)
-                    .background(.regularMaterial)
+                    .background(Color(nsColor: .windowBackgroundColor))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(color: .black.opacity(0.2), radius: 24, x: 0, y: 8)
+                    .shadow(color: .black.opacity(0.25), radius: 32, x: 0, y: 12)
                     .padding(40)
-                    .onTapGesture {} // absorb taps so they don't reach the backdrop
+                    .onTapGesture {}
                     .transition(.opacity.combined(with: .scale(scale: 0.97)))
             }
         }
