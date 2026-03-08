@@ -2,12 +2,17 @@ import SwiftUI
 import SwiftData
 import SettingsAccess
 
+private enum ViewMode: String {
+    case grid, kanban
+}
+
 struct PortfolioView: View {
     @Query private var settingsList: [CockpitSettings]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.openSettings) private var openSettings
     @State private var store = PortfolioStore()
     @State private var isRefreshSpinning = false
+    @AppStorage("portfolioViewMode") private var viewMode: ViewMode = .grid
 
     private var settings: CockpitSettings {
         if let existing = settingsList.first {
@@ -62,26 +67,34 @@ struct PortfolioView: View {
         VStack(spacing: 0) {
             toolbar
             Divider()
-            ScrollView {
+            Group {
                 if store.isLoading {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .padding(40)
-                } else if store.hypotheses.isEmpty {
-                    ContentUnavailableView(
-                        "No feature plans found",
-                        systemImage: "square.stack.3d.up.slash",
-                        description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
-                    )
-                } else {
-                    LazyVGrid(columns: columns, spacing: 12) {
-                        ForEach(store.hypotheses) { hypothesis in
-                            HypothesisCardView(hypothesis: hypothesis)
-                                .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                        }
+                    ScrollView {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(40)
                     }
-                    .animation(.easeOut(duration: 0.2), value: store.hypotheses.map(\.id))
-                    .padding(16)
+                } else if store.hypotheses.isEmpty {
+                    ScrollView {
+                        ContentUnavailableView(
+                            "No feature plans found",
+                            systemImage: "square.stack.3d.up.slash",
+                            description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
+                        )
+                    }
+                } else if viewMode == .kanban {
+                    MilestoneKanbanView(store: store)
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 12) {
+                            ForEach(store.hypotheses) { hypothesis in
+                                HypothesisCardView(hypothesis: hypothesis)
+                                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                            }
+                        }
+                        .animation(.easeOut(duration: 0.2), value: store.hypotheses.map(\.id))
+                        .padding(16)
+                    }
                 }
             }
         }
@@ -98,6 +111,14 @@ struct PortfolioView: View {
                     .lineLimit(1)
             }
             Spacer()
+
+            Picker("", selection: $viewMode) {
+                Label("Grid", systemImage: "square.grid.2x2").tag(ViewMode.grid)
+                Label("Kanban", systemImage: "rectangle.split.3x1").tag(ViewMode.kanban)
+            }
+            .pickerStyle(.segmented)
+            .frame(width: 100)
+
             Button {
                 openSettings()
             } label: {
