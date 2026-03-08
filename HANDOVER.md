@@ -4,6 +4,42 @@ Newest entries at the top.
 
 ---
 
+## milestone-kanban — 2026-03-08
+
+**PR:** #17
+
+### O que foi feito
+
+- Criado `MilestoneKanbanView.swift` — view SwiftUI que agrupa hipóteses em linhas por `MilestoneInfo` × colunas por `HypothesisStatus`. Features sem milestone aparecem em seção "Outros". `rows` implementado como computed var (não `let` no init) para que o `@Observable` tracking de `store.milestones` e `store.hypotheses` funcione corretamente após reloads do FSEvents.
+- Criado `HypothesisStatus+UI.swift` — extension compartilhada com `label` e `color` por status, eliminando a duplicação entre `HypothesisCardView` e `MilestoneKanbanView`.
+- Atualizado `PortfolioView.swift` — toggle "Grid | Kanban" na toolbar com estado persistido via `@AppStorage` usando enum `ViewMode` tipado (conformância `RawRepresentable` disponível macOS 11+, sem `String` rawValue manual).
+- Atualizado `HypothesisCardView.swift` — extensão privada de label/color removida (movida para `HypothesisStatus+UI.swift`).
+
+### Decisões tomadas
+
+- `rows` como computed var (não `let` no init) — correção crítica de reatividade `@Observable`: se calculado no `init`, SwiftUI nunca registra `store.milestones`/`store.hypotheses` como dependências e o kanban mostra dados stale após FSEvents reload.
+- `HypothesisStatus+UI.swift` em `Sources/OneManSquadOS/Views/` — lógica de apresentação, não de domínio; segue separação de camadas.
+- `@AppStorage` com enum `ViewMode` diretamente via `RawRepresentable` — mais type-safe que guardar `String` rawValue explicitamente.
+- Features sem milestone agrupadas em "Outros" — sem crash silencioso para hipóteses órfãs de sprint.md.
+
+### Armadilhas encontradas
+
+- `@Observable` + propriedade computada no `init`: SwiftUI só rastreia acesso a `store.milestones`/`store.hypotheses` se eles forem lidos durante o body render — não durante o `init` da struct. Propriedade `rows` como computed var garante que o acesso ocorre no render path, habilitando o tracking automático.
+
+### Próximos passos
+
+- `artifact-reader` e `agent-tasks-view` são as próximas features do M4 — `MarkdownView` já disponível para renderizar artefatos.
+- Kanban não mostra status do milestone (active/done/pending) — considerar badge de status na row header em iteração futura.
+
+### Arquivos-chave
+
+- `Sources/OneManSquadOS/Views/MilestoneKanbanView.swift` — novo; kanban por milestone × status
+- `Sources/OneManSquadOS/Views/HypothesisStatus+UI.swift` — novo; label/color compartilhados por status
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — extensão privada de status UI removida
+- `Sources/OneManSquadOS/Views/PortfolioView.swift` — toggle Grid/Kanban + `@AppStorage ViewMode`
+
+---
+
 ## milestone-scanner — 2026-03-08
 
 ### O que foi feito

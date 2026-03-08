@@ -217,6 +217,24 @@ o offset é mais seguro.
 
 ---
 
+## 2026-03-08 — @Observable + let em init = dados congelam após reload
+
+SwiftUI's `@Observable` rastreia acessos a propriedades dentro de `body`. Se um `struct` View computa dados derivados em `init` (como `let rows = buildRows(store.milestones, store.hypotheses)`), o acesso a `store.milestones` acontece fora da janela de rastreamento — SwiftUI nunca invalida a view quando o store atualiza. O resultado é dados congelados na primeira renderização.
+
+Fix: usar `private var rows: [T] { buildRows(store.milestones, store.hypotheses) }` como computed property. O comentário "evitar disk I/O em body" não se aplica quando `buildRows` é puramente in-memory.
+
+Nota: isso é o oposto do padrão correto para disk I/O (ver "SwiftUI body: computed property cara re-executa em todo render"). A heurística é: se o cálculo é in-memory e depende de `@Observable`, use computed var. Se é disk I/O ou trabalho caro que não depende de estado observável, use `let` em `init`.
+
+---
+
+## 2026-03-08 — private extension em dois arquivos cria duplicata silenciosa
+
+Quando dois arquivos `.swift` no mesmo módulo precisam das mesmas computed properties em um tipo (ex: `HypothesisStatus.label` e `.color`), o padrão `private extension` por arquivo duplica silenciosamente o código. Mudanças em um arquivo não propagam para o outro.
+
+Fix: arquivo dedicado `TypeName+UI.swift` com extensão internal (default) — visível para todo o módulo, single source of truth.
+
+---
+
 ## markdownlint
 
 - Use `npx --yes markdownlint-cli2` to avoid requiring global install

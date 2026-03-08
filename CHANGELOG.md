@@ -1,5 +1,13 @@
 # Changelog
 
+## milestone-kanban — PR #17 — 2026-03-08
+
+**Tipo:** feat
+**Commit:** `git show bb12b61` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#milestone-kanban
+
+---
+
 ## milestone-scanner — PR #16 — 2026-03-08
 
 **Tipo:** feat
