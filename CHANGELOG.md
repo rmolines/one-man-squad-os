@@ -1,5 +1,31 @@
 # Changelog
 
+## [improvement] Polish — hover, títulos humanizados, animações, ⌘R — 2026-03-08
+
+**Tipo:** improvement
+**Tags:** polish, ux, swiftui, animations, accessibility
+**PR:** [#14](https://github.com/rmolines/one-man-squad-os/pull/14) · **Complexidade:** simples
+
+### O que mudou
+Cards agora mostram "Cockpit Model" (não "cockpit-model"), escurecem ao hover, e o botão refresh gira enquanto carrega. ⌘R dispara refresh via teclado.
+
+### Detalhes técnicos
+- `FeaturePlanInfo.title` humaniza slug (kebab-case → Title Case) no modelo — consistente em todas as views
+- Hover effect em `HypothesisCardView` com fundo + borda animados (150ms easeInOut)
+- Animação de refresh: `isSpinning: Bool` + `.onChange(of: store.isLoading)` — padrão correto sem acumulação de estado
+- `.keyboardShortcut("r", modifiers: .command)` no botão refresh
+- Transição `.opacity.combined(with: .scale(0.95))` nos cards do grid
+
+### Impacto
+- **Breaking:** Não
+
+### Arquivos-chave
+- `Sources/Core/Models/HypothesisModel.swift` — `title` humaniza slug
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — hover effect
+- `Sources/OneManSquadOS/Views/PortfolioView.swift` — animação refresh + ⌘R + grid transitions
+
+---
+
 ## [feat] Cockpit Model — feature-plans/ como source of truth — 2026-03-08
 
 **Tipo:** feat

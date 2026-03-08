@@ -4,6 +4,30 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-08 — polish — UX polish: hover, títulos humanizados, animações, ⌘R
+
+**O que foi feito:**
+Polish geral da UI do cockpit. `FeaturePlanInfo.title` agora humaniza o slug (kebab-case → Title Case) no modelo em vez da view, garantindo consistência em qualquer view futura. Cards têm hover effect com fundo + borda animados (150ms easeInOut). Animação de refresh corrigida: usa `isSpinning: Bool` + `.onChange(of: store.isLoading)` em vez do padrão `withAnimation + refreshRotation += 360` que acumulava estado indefinidamente. ⌘R atalho no botão refresh. Cards aparecem com `.opacity + .scale(0.95)` ao carregar o grid.
+
+**Decisões tomadas:**
+- `humanizedTitle` movido de `HypothesisCardView` para `FeaturePlanInfo.title` (sugerido pelo simplify review)
+- Sort por `lastArtifactDate` removido do `PortfolioStore.reload()` — `listFeaturePlans` já retorna ordenado por status priority + data; o double sort destruía a ordem
+- Animação de spin implementada como `@State private var isSpinning: Bool` com único `.animation` modifier, sem imperative `withAnimation` no button action
+
+**Armadilhas encontradas:**
+- Double sort: `listFeaturePlans` já ordena por `statusOrder` + `lastArtifactDate`; adicionar `.sorted` no `reload()` destruía a ordering de status priority
+- `withAnimation(.repeatForever)` no button action + `.animation(..., value: isLoading)` no modifier cria dois drivers concorrentes; SwiftUI resolve para o segundo, causando jump
+
+**Próximos passos:**
+- M3 concluído — próximo milestone é M4 (project-hierarchy-view, milestone-kanban, artifact-reader, agent-tasks-view)
+
+**Arquivos-chave:**
+- `Sources/Core/Models/HypothesisModel.swift` — `title` humaniza slug
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — hover effect
+- `Sources/OneManSquadOS/Views/PortfolioView.swift` — animação refresh + ⌘R + grid transitions
+
+---
+
 ## 2026-03-08 — cockpit-model — feature-plans/ como source of truth
 
 **O que foi feito:**

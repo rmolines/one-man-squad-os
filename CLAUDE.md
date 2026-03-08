@@ -92,6 +92,8 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 | `xcodegen generate` antes do rebase | `xcodegen` atualiza `Package.resolved` como side effect — rebase falha com "unstaged changes" | `git stash` antes do rebase, `git stash pop` depois; ou commitar `Package.resolved` antes de rebaser |
 | activationPolicy `.accessory` parece crash | Dock icon desaparece quando `applicationDidFinishLaunching` chama `setActivationPolicy(.accessory)` — parece crash silencioso | É comportamento esperado — o ícone migra para a menu bar; verificar canto superior direito (pode estar atrás de `>>`) |
 | SwiftUI `.frame()` — overloads exclusivos | `frame(width: 380, minHeight: 200)` → "Extra argument 'width' in call" — não há overload misto | Usar o overload completo: `.frame(minWidth: 380, maxWidth: 380, minHeight: 200, maxHeight: 560)` |
+| Double sort em `PortfolioStore.reload()` | `listFeaturePlans` já retorna ordenado por `statusOrder` + `lastArtifactDate`; aplicar `.sorted` depois destrói a priority ordering | Não re-sortear o resultado de `listFeaturePlans` — confiar no sort do scanner |
+| SwiftUI spin animation com dois drivers | `withAnimation(.repeatForever)` no button action + `.animation(.repeatForever, value:)` no modifier criam dois drivers concorrentes; SwiftUI abandona o primeiro mid-frame com jump visível | Usar um único `@State private var isSpinning: Bool` + único `.animation` modifier + `.onChange(of: isLoading)` para sincronizar |
 
 ## Worktree convention
 

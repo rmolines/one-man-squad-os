@@ -4,6 +4,23 @@ Gotchas, limitations, and non-obvious behaviors discovered while working on this
 
 ---
 
+## 2026-03-08 — SwiftUI spin animation: dois drivers concorrentes causam jump visível
+
+`withAnimation(.linear.repeatForever) { rotation += 360 }` no button action +
+`.animation(.linear.repeatForever, value: isLoading)` no modifier criam dois drivers
+independentes na mesma propriedade. SwiftUI resolve para o segundo quando `isLoading` muda,
+abandonando o primeiro mid-frame com um jump visível.
+
+Padrão correto: um único `@State private var isSpinning: Bool`, um único `.animation` modifier,
+e `.onChange(of: store.isLoading) { isSpinning = $0 }` para sincronizar. Sem `withAnimation` imperativo.
+
+## 2026-03-08 — Double sort destroça ordering do FeaturePlanScanner
+
+`listFeaturePlans` já retorna ordenado por `statusOrder` (pendingDecision → building → ... → killed)
+com `lastArtifactDate` como tiebreaker. Aplicar `.sorted { by: lastArtifactDate }` no `PortfolioStore.reload()`
+depois destrói a ordering de status priority — um item `killed` modificado hoje aparece antes de um
+`pendingDecision` modificado ontem. Regra: não re-sortear o resultado de `listFeaturePlans`.
+
 ## 2026-03-08 — SwiftData: dois VersionedSchema apontando para o mesmo tipo causam fatalError
 
 `CockpitSchemaV1` e `CockpitSchemaV2` com `models: [BacklogHypothesis.self, ...]` (mesmo tipo)
