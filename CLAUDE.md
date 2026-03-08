@@ -41,9 +41,11 @@ Superpowers skills that are **additive** (use freely, no conflict):
 
 - `systematic-debugging` — before `/debug`, as the HOW methodology
 - `test-driven-development` — during Phase C execution
-- `verification-before-completion` — before any `/validate` or `/ship-feature`
+- `verification-before-completion` — before any `/ship-feature`
 - `requesting-code-review` / `receiving-code-review` — alongside PR workflow
 - `subagent-driven-development` — for parallel tasks during Phase C
+- `swiftui-expert-skill` — durante Fase C quando plan.md toca Views; durante ship-feature quando diff contém Views (substitui `swiftui-pro`)
+- `swift-concurrency` — quando Fase C ou /fix envolve actor, async, Task, @MainActor
 
 ## Feature workflow — complete cycle
 
@@ -52,9 +54,8 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 1. `/start-milestone` — decompose milestone from roadmap.md into scoped features → generates `sprint.md`
 2. `/start-feature` — intake + research (Phase A) → `/clear` → planning (Phase B) → `/clear` → worktree + execution (Phase C)
 3. Build and iterate in the worktree
-4. `/validate` — direction check: verify implementation still solves the original problem
-5. `/ship-feature` — commit + rebase + PR + CI + smoke test
-6. `/close-feature` — documentation (HANDOVER, MEMORY, LEARNINGS, CLAUDE.md) + cleanup
+4. `/ship-feature` — commit + rebase + PR + CI + smoke test
+5. `/close-feature` — documentation (HANDOVER, MEMORY, LEARNINGS, CLAUDE.md) + cleanup
 
 **Orientation (any time):** `/project-compass` — "where are we?", "what's left?", "next feature?"
 

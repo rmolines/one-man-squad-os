@@ -59,21 +59,23 @@ O checklist de infra (secrets, scripts de setup) não será verificado.
 Continuando com base apenas no CLAUDE.md.
 ```
 
-### 0.3. Validate rodado?
-
-Se `.claude/feature-plans/<nome>/validation-report.md` não existir:
-
-> ⚠️  /validate não foi rodado para esta feature.
-> Recomendado antes do PR — rode /validate agora ou continue assim mesmo?
-
-Aguardar resposta. Se "continuar": prosseguir normalmente (não é bloqueante).
-
 ### 0.4. Simplify automático
 
 Rodar o skill `simplify` agora — sem pedir confirmação ao usuário.
 
 O simplify revisa o diff atual para reuse, qualidade e eficiência, e corrige problemas encontrados diretamente.
 Aguardar a conclusão antes de avançar. Se não houver problemas, continuar normalmente.
+
+Após o simplify, verificar se o diff toca código Swift:
+
+```bash
+git diff origin/main...HEAD --name-only | grep "\.swift$"
+```
+
+- Se há arquivos `.swift` com views (nome termina em `View.swift` ou diff contém `some View`) → invocar `swiftui-expert-skill` para um review pass [porque a skill detecta anti-patterns de SwiftUI que o simplify genérico não cobre]
+- Se há arquivos `.swift` com código concorrente (diff contém `actor `, `async `, `@MainActor`, `Task {`) → invocar `swift-concurrency` para um review pass [porque data races e isolamento incorreto não aparecem em build — só em runtime]
+
+Se nenhuma condição se aplicar: continuar normalmente.
 
 ### 0.5. Verificação local (HARD GATE)
 

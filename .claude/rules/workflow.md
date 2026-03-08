@@ -20,7 +20,7 @@ ESTRATÉGICO (uma vez por projeto/milestone)
 
 TÁTICO (por feature)
 ──────────────────────────────────────────
-  /start-feature [--deep] → [implementar] → /validate → /ship-feature → /close-feature
+  /start-feature [--deep] → [implementar] → /ship-feature → /close-feature
 
 ORIENTAÇÃO (qualquer momento)
 ──────────────────────────────────────────
@@ -50,11 +50,10 @@ AD-HOC (feature sem roadmap)
 | `/start-project` | Criar repositório do zero | Brief aprovado | Repo + skills especializadas | `/plan-roadmap` |
 | `/plan-roadmap` | Definir milestones e features | Projeto existente | `roadmap.md` atualizado | `/start-milestone` |
 | `/start-milestone` | Começar um novo milestone | `roadmap.md` ou `backlog.json` | `<M>/sprint.md` com features | `/start-feature` |
-| `/start-feature` | Começar implementação (default: fast, sem pesquisa) | Nome da feature | Worktree + `plan.md` | `/validate`, `/ship-feature` |
-| `/start-feature --deep` | Feature complexa que precisa de pesquisa técnica | Nome da feature | `research.md` + `plan.md` + worktree | `/validate`, `/ship-feature` |
+| `/start-feature` | Começar implementação (default: fast, sem pesquisa) | Nome da feature | Worktree + `plan.md` | `/ship-feature` |
+| `/start-feature --deep` | Feature complexa que precisa de pesquisa técnica | Nome da feature | `research.md` + `plan.md` + worktree | `/ship-feature` |
 | `/start-feature --discover` | Explorar um problema antes de fazer o bet | Nome/ideia | `discovery.md` + `research.md` (para sem worktree) | `/start-feature <nome>` |
 | `/debug` | Investigar erro sem modificar nada | Descrição do problema | Relatório de causa raiz + fix sugerido | `/fix` (opcional) |
-| `/validate` | Verificar alinhamento antes de fazer PR | Branch com código | Relatório drift/cobertura | `/ship-feature` ou correção |
 | `/ship-feature` | Abrir PR após implementação | Código pronto | PR aberto no GitHub | `/close-feature` |
 | `/close-feature` | Limpar após PR merged | PR merged | Worktree removido + docs + `backlog.json` atualizados | `/project-compass` |
 | `/project-compass` | "Onde estou? O que fazer agora?" | Nenhum (lê git + `backlog.json` + sprint.md) | Relatório de estado + próxima ação | Varia |

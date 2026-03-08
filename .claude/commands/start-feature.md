@@ -371,7 +371,7 @@ Salvar em `.claude/feature-plans/<nome>/plan.md`:
 # Plan: <nome>
 
 ## Problema
-<Descrição do problema — usada pelo /validate para verificar alinhamento.>
+<Descrição do problema resolvido por esta feature.>
 
 ## Assunções
 <!-- status: [assumed] = não verificada | [verified] = confirmada | [invalidated] = refutada -->
@@ -468,6 +468,11 @@ Próximo comando: /start-feature <nome>
 ### Passo C.1 — Ler o plano
 
 Ler `.claude/feature-plans/<nome>/plan.md` integralmente.
+
+**Detecção de contexto Swift:**
+Após ler o plan.md, verificar arquivos que serão tocados:
+- Se algum arquivo tem sufixo `View.swift` ou o plano menciona componentes SwiftUI (`body`, `View`, `@State`, `@Observable`) → invocar `swiftui-expert-skill` [porque a skill carrega boas práticas de composição, state management e performance antes da escrita começar]
+- Se algum arquivo ou passo menciona `actor`, `async`, `await`, `@MainActor`, `Task`, `Sendable` → invocar `swift-concurrency` [porque a skill define os padrões corretos de isolamento antes de qualquer código concorrente ser escrito]
 
 **Se não existir plan.md (Fase C fast):**
 1. Ler CLAUDE.md + arquivos mais relevantes (sem subagentes — leitura direta)
