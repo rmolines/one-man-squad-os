@@ -51,7 +51,7 @@ struct FeatureDocumentsView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            StatusChipView(status: hypothesis.status)
+            StatusChip(status: hypothesis.status)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -105,17 +105,3 @@ struct FeatureDocumentsView: View {
     }
 }
 
-private struct StatusChipView: View {
-    let status: HypothesisStatus
-
-    var body: some View {
-        Text(status.label)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(status.color.opacity(0.15))
-            .foregroundStyle(status.color)
-            .clipShape(Capsule())
-    }
-}
