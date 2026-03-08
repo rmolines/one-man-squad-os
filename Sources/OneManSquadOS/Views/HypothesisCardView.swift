@@ -3,8 +3,8 @@ import Core
 
 struct HypothesisCardView: View {
     let hypothesis: FeaturePlanInfo
+    var onSelect: () -> Void = {}
     @State private var showingDetail = false
-    @State private var showingDocuments = false
     @State private var isHovered = false
 
     private var pendingBrief: SBARBrief? {
@@ -41,10 +41,7 @@ struct HypothesisCardView: View {
         .animation(.easeInOut(duration: 0.15), value: isHovered)
         .onHover { isHovered = $0 }
         .contentShape(Rectangle())
-        .onTapGesture { showingDocuments = true }
-        .popover(isPresented: $showingDocuments, arrowEdge: .bottom) {
-            FeatureDocumentsView(hypothesis: hypothesis)
-        }
+        .onTapGesture { onSelect() }
     }
 }
 
