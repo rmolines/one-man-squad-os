@@ -14,8 +14,11 @@ public func listFeaturePlans(repoPath: String) -> [FeaturePlanInfo] {
     // Worktrees for JOIN — failures silently produce empty list (git not found, etc.)
     let worktrees = (try? listWorktrees(repoPath: repoPath)) ?? []
 
+    // Directories that are organisational containers, not hypotheses.
+    let excluded: Set<String> = ["archived"]
+
     let plans: [FeaturePlanInfo] = slugs
-        .filter { !$0.hasPrefix(".") }
+        .filter { !$0.hasPrefix(".") && !excluded.contains($0) }
         .compactMap { slug -> FeaturePlanInfo? in
             let planPath = featurePlansRoot.appendingPathComponent(slug)
             var isDir: ObjCBool = false

@@ -1,4 +1,5 @@
 import CoreServices
+import Dispatch
 import Foundation
 
 /// Thin wrapper around FSEventStreamRef.
@@ -27,7 +28,7 @@ final class RepoWatcher {
         let callback: FSEventStreamCallback = { _, info, _, _, _, _ in
             guard let info else { return }
             let b = Unmanaged<CallbackBox>.fromOpaque(info).takeUnretainedValue()
-            // Already on main thread (scheduled on CFRunLoopGetMain).
+            // Already on main thread (dispatched via DispatchQueue.main).
             b.fire()
         }
 
@@ -42,7 +43,7 @@ final class RepoWatcher {
         )
 
         guard let stream else { return }
-        FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
+        FSEventStreamSetDispatchQueue(stream, DispatchQueue.main)
         FSEventStreamStart(stream)
     }
 
