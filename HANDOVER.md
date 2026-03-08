@@ -4,6 +4,27 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-08 — status-inference — WorktreeStatus inferido de artefatos
+
+**O que foi feito:**
+`ArtifactSet.inferredStatus` adicionado com prioridade: `pendingDecision` (brief SBAR válido presente) > `building` (sprint.md ou plan.md) > `exploring` (explore.md) > `idle`. `WorktreeInfo.status` deixou de retornar `.idle` hardcoded e passa a chamar `readArtifacts(worktreePath:).inferredStatus`. UI não mudou — `StatusChip` já renderizava todos os casos.
+
+**Decisões:**
+- Inferência colocada em `ArtifactSet` (Core), não na view — lógica de domínio, não de apresentação.
+- Arquivos tocados: `ArtifactReader.swift`, `HypothesisModel.swift` (2 arquivos, sem migration SwiftData).
+
+**Armadilha encontrada:**
+Nenhuma nova — fluxo direto.
+
+**Contexto importante para próxima sessão:**
+Após esta feature foi feito um `/explore` que identificou um erro de categoria no modelo do app: worktree ≠ hipótese. Worktree é execution context; a aposta vive em `.claude/feature-plans/`. O explore está em `.claude/feature-plans/cockpit-model/explore.md` e o intent é um **roadmap resteer** antes de continuar M3. Próximo passo: `/clear` → `/start-feature --discover cockpit-model`.
+
+**Arquivos-chave:**
+- `Sources/Core/ArtifactReader.swift` — `inferredStatus` em `ArtifactSet`
+- `Sources/Core/Models/HypothesisModel.swift` — `WorktreeInfo.status`
+
+---
+
 ## 2026-03-08 — sbar-detail-view — Popover SBAR ao clicar no badge
 
 **What was done:**

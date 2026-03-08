@@ -1,5 +1,27 @@
 # Changelog
 
+## [feat] Status Inference — chips dos cards mostram status real do worktree — 2026-03-08
+
+**Tipo:** feat
+**Tags:** status-inference, hypothesis-cards, portfolio, core
+**PR:** [#10](https://github.com/rmolines/one-man-squad-os/pull/10) · **Complexidade:** simples
+
+### O que mudou
+Cards do portfolio agora mostram status inferido automaticamente: "Exploring" se há `explore.md`, "Building" se há `plan.md`/`sprint.md`, "Decision" se há brief SBAR válido, "Idle" se nenhum artefato. Antes todos os cards mostravam "Idle" hardcoded.
+
+### Detalhes técnicos
+- `ArtifactSet.inferredStatus: HypothesisStatus` — nova propriedade computada com prioridade `pendingDecision > building > exploring > idle`
+- `WorktreeInfo.status` deixou de retornar `.idle` hardcoded; agora usa `readArtifacts(worktreePath:).inferredStatus`
+
+### Impacto
+- **Breaking:** Não
+
+### Arquivos-chave
+- `Sources/Core/ArtifactReader.swift` — `inferredStatus` em `ArtifactSet`
+- `Sources/Core/Models/HypothesisModel.swift` — `WorktreeInfo.status`
+
+---
+
 ## [feat] SBAR Detail View — clicar no badge abre painel com o brief completo — 2026-03-08
 
 **Tipo:** feat
