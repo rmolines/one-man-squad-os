@@ -143,7 +143,7 @@ git -C "$REPO_ROOT" push origin main
 
 #### 1d. LEARNINGS.md (se houver novidades)
 
-Verificar se `$REPO_ROOT/LEARNINGS.md` existe no projeto.
+Verificar se `$REPO_ROOT/{{LEARNINGS_PATH}}` existe no projeto.
 
 **Você** decide se algo desta sessão vale registrar — não pergunte ao usuário.
 Critério: algo não documentado que causou surpresa, ou que seria útil em situações futuras.

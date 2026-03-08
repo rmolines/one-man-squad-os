@@ -15,8 +15,9 @@ autoridade e procedimento — não emitir opiniões. Cada revisão produz output
 Antes de qualquer análise, leia o `CLAUDE.md` e extraia:
 
 - **Arquivos de spec de UX** — procure na tabela de hot files por entradas com `ux-identity`,
-  `ux-patterns`, `ux-screens` ou equivalentes definidos pelo projeto → nenhum listado ainda (criar via intake mode)
-- **Ferramenta de preview visual** → `#Preview` blocks do SwiftUI (Xcode Canvas); usar `RenderPreview` via Xcode MCP se disponível
+  `ux-patterns`, `ux-screens` ou equivalentes definidos pelo projeto → `{{UX_SPEC_FILES}}`
+- **Ferramenta de preview visual** — procure por Storybook, RenderPreview, live reload,
+  screenshot CI ou equivalente → `{{VISUAL_PREVIEW_CMD}}`
 
 Se o `CLAUDE.md` não listar spec files de UX:
 
@@ -37,7 +38,7 @@ ou crie os arquivos de spec manualmente e registre-os no CLAUDE.md como hot file
 
 - Nunca pular a leitura dos spec files — são o brief de design
 - Nunca adicionar à spec sem confirmação explícita do dev
-- Nunca usar `RenderPreview (Xcode MCP) / #Preview block` para uma view sem preview block/story — identificar e reportar o gap
+- Nunca usar `{{VISUAL_PREVIEW_CMD}}` para uma view sem preview block/story — identificar e reportar o gap
 
 ---
 
@@ -244,7 +245,7 @@ Se **não existir preview:**
 
 ```text
 ⚠️ [NomeDaView] não tem preview configurado.
-RenderPreview (Xcode MCP) / #Preview block não disponível. Revisão visual bloqueada.
+{{VISUAL_PREVIEW_CMD}} não disponível. Revisão visual bloqueada.
 
 Opções:
   1. Adicionar preview antes de continuar a revisão visual
@@ -253,7 +254,7 @@ Opções:
 
 Aguardar decisão do dev antes de prosseguir.
 
-Se **existir preview:** executar `RenderPreview (Xcode MCP) / #Preview block` e aguardar resultado visual.
+Se **existir preview:** executar `{{VISUAL_PREVIEW_CMD}}` e aguardar resultado visual.
 
 ### Passo 2 — Checklist de padrões
 

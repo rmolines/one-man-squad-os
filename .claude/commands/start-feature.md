@@ -172,6 +172,26 @@ _Gerado em: <data>_
 
 ## Riscos identificados
 [da pesquisa dos subagentes — Passo 0.1]
+
+## Handoff
+
+next_skill: /start-feature --deep <nome>
+
+carry_forward:
+- [problema real]: <uma frase — minimal sufficient statistic do problema>
+- [escopo dentro]: <itens principais que estão no escopo>
+- [escopo fora]: <exclusões explícitas>
+- [critério de sucesso]: <comportamento observável>
+- [decisões já tomadas]: <o que não precisa ser re-pesquisado na próxima fase>
+
+excluded:
+- [alternativas descartadas e por quê — previne re-descoberta]
+
+invalidated:
+- [o que ficaria stale se task_definition mudar substancialmente]
+
+gate: não
+<!-- gate: sim = pre-bet decision permanece humano; não = próxima skill lê ## Handoff automaticamente por path convention -->
 ````
 
 Ao final:
@@ -194,26 +214,13 @@ Próximo comando: /start-feature --deep <nome>
 
 ---
 
-## Hot files do projeto (One Man Squad OS)
-
-Sempre ler antes de editar qualquer um destes arquivos:
-
-- `Sources/Core/HypothesisModel.swift` — enums de status, protocolo HypothesisCard
-- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — @Observable @MainActor; ponto central de estado
-- `Sources/OneManSquadOS/App/CockpitApp.swift` — configuração de scenes, activationPolicy pattern
-- `Sources/OneManSquadOS/Models/BacklogHypothesis.swift` — SwiftData @Model; schema V1
-- `Package.swift` — targets e dependências SPM
-- `CLAUDE.md`
-- `.github/workflows/ci.yml`
-- `.github/workflows/release.yml`
-
----
-
 ## FASE A — Pesquisa (`--deep`)
 
 ### Passo A.1 — Coletar contexto
 
-Se `discovery.md` existir: lê-lo integralmente. As seções "Problema real", "Escopo" e "Critério de sucesso" suprimem as perguntas padrão.
+Se `discovery.md` existir: ler o `## Handoff` section.
+Se `## Handoff` não existir: ler o arquivo inteiro e emitir `⚠️ discovery.md sem Handoff block — lendo artefato completo`.
+Os campos `carry_forward` do Handoff block suprimem as perguntas padrão.
 
 Se não existir ou faltar contexto:
 - O que a feature faz?
@@ -297,6 +304,22 @@ Criar `.claude/feature-plans/<nome>/research.md`:
 
 ## Fontes consultadas
 <URLs do WebSearch, se usadas>
+
+## Handoff
+
+next_skill: /start-feature <nome>
+
+carry_forward:
+- [arquitetura decidida]: <abordagem escolhida e por quê>
+- [hot files]: <arquivos que serão tocados>
+- [constraints técnicos]: <o que é irredutível — não pode mudar>
+- [decisão arquitetural principal]: <a escolha mais importante desta fase>
+
+excluded:
+- [abordagens técnicas pesquisadas mas descartadas — previne re-pesquisa]
+
+invalidated:
+- [o que ficaria stale se o escopo ou stack mudar]
 ````
 
 Ao final:
@@ -335,17 +358,6 @@ Para cada mudança: arquivo exato, o que fazer (específico), ordem de execuçã
 - [ ] CI/CD: <não muda / o que muda>
 - [ ] Config principal: <não muda / o que muda>
 - [ ] Novas dependências: <não / quais>
-
-### Passo B.3b — Checklist de arquitetura Swift (One Man Squad OS)
-
-Verificar antes de criar o plan.md:
-
-- [ ] **SwiftData migration?** — Se a feature adiciona/remove campos em `@Model`, é obrigatório criar `CockpitSchemaV2` com migration stage. Nunca editar `BacklogHypothesis` (V1) diretamente.
-- [ ] **FSEvents path injection?** — Se a feature toca watch de diretórios, verificar que o path vem de `NSOpenPanel` + `UserDefaults` (não hardcoded). App não-sandboxed, sem Security-Scoped Bookmarks.
-- [ ] **PTY/socket IPC scope creep?** — Se a feature menciona "lançar Claude Code", "abrir terminal", "executar comando", "socket", "pipe" ou "IPC": **PARAR**. Isso é backlog v2 explícito. Registrar como issue, não implementar.
-- [ ] **Actor isolation (Swift 6)?** — `PortfolioStore` é `@Observable @MainActor`. Qualquer acesso a seus dados fora de `@MainActor` requer `await MainActor.run { }`.
-- [ ] **git subprocess?** — Sempre array de argumentos (`[String]`). Nunca interpolar path em string de comando shell.
-- [ ] **MenuBarExtra + WindowGroup?** — Se a feature toca scenes ou activation policy, ver `CockpitApp.swift` primeiro.
 
 ### Passo B.4 — Validar contra LEARNINGS.md (se existir)
 
@@ -541,8 +553,8 @@ Regras:
 
 Lançar em background (`run_in_background=true`):
 
-- Build: `swift build`
-- Suite de testes: `swift test --filter CoreTests`
+- Build (comando definido no CLAUDE.md — ex: `swift build`, `make check`, `npm run build`)
+- Suite de testes automatizados se disponível (ex: `swift test`, `make test`, `npm test`)
 
 Enquanto aguarda: exibir resumo (arquivos criados/editados, decisões tomadas).
 
