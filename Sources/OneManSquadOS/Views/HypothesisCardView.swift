@@ -10,11 +10,6 @@ struct HypothesisCardView: View {
         hypothesis.artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
     }
 
-    private var tasks: [TaskItem] {
-        guard let planMd = hypothesis.artifacts.planMd else { return [] }
-        return parseTaskItems(planMd)
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(hypothesis.title)
@@ -34,8 +29,8 @@ struct HypothesisCardView: View {
                 }
             }
 
-            if !tasks.isEmpty {
-                TaskSummaryView(tasks: tasks)
+            if !hypothesis.artifacts.taskItems.isEmpty {
+                TaskSummaryView(tasks: hypothesis.artifacts.taskItems)
             }
         }
         .padding(12)
