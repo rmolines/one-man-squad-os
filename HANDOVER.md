@@ -4,6 +4,32 @@ Newest entries at the top.
 
 ---
 
+## project-hierarchy-view — 2026-03-08
+
+**O que foi feito:** Implementado painel de documentos navegáveis que abre ao clicar em um hypothesis card. `FeatureDocumentsView.swift` é um overlay sheet com tab picker (Explore / Discovery / Research / Plan) e `MarkdownView` para renderizar o conteúdo. `HypothesisCardView.swift` recebeu callback `onSelect` delegando a apresentação ao pai. `PortfolioView.swift` passou a gerenciar `selectedHypothesis: FeaturePlanInfo?` em estado local com ZStack overlay, backdrop escuro e light-dismiss ao clicar fora. `HypothesisStatus+UI.swift` consolidou o `StatusChip` que estava duplicado em dois arquivos.
+
+**Decisões tomadas:**
+- ZStack overlay com backdrop `Color.black.opacity(0.25)` — `.sheet` não fecha com clique fora no macOS; `.popover` ancora com seta indesejada; overlay ZStack + tap-to-dismiss foi a solução limpa
+- `.windowBackgroundColor` no painel em vez de `.regularMaterial` — `.regularMaterial` gerava cinza fosco não desejado; `windowBackgroundColor` entrega o branco/escuro do sistema corretamente
+- `onSelect` callback em `HypothesisCardView` — delegação ao pai mantém o card sem estado de apresentação; PortfolioView é o coordenador de navegação
+- `import Core` necessário em `PortfolioView.swift` — `FeaturePlanInfo` vive no módulo Core; sem o import o compilador não encontra o tipo
+
+**Armadilhas encontradas:**
+- `.sheet` no macOS não fecha ao clicar fora da sheet — comportamento diferente do iOS; requer dismiss explícito ou solução alternativa
+- `.popover` ancora com seta visual que não é adequada para painel de documentos grandes
+- `Color.black.opacity(0.001)` como backdrop transparente captura taps mas não bloqueia visualmente o fundo — opacidade mínima necessária para hit-testing; usar `0.25` para feedback visual de "modal"
+
+**Próximos passos:**
+- `agent-tasks-view` — próxima feature do M4 (deps: markdown-renderer já disponível)
+
+**Arquivos-chave:**
+- `Sources/OneManSquadOS/Views/FeatureDocumentsView.swift` — novo; tab picker + MarkdownView para artefatos da feature
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — callback `onSelect` adicionado; apresentação delegada ao pai
+- `Sources/OneManSquadOS/Views/PortfolioView.swift` — ZStack overlay + `selectedHypothesis` state + backdrop com light-dismiss
+- `Sources/OneManSquadOS/Views/HypothesisStatus+UI.swift` — `StatusChip` consolidado (era duplicado em 2 arquivos)
+
+---
+
 ## milestone-kanban — 2026-03-08
 
 **PR:** #17

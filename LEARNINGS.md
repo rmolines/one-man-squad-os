@@ -235,6 +235,51 @@ Fix: arquivo dedicado `TypeName+UI.swift` com extensão internal (default) — v
 
 ---
 
+## 2026-03-08 — SwiftUI macOS: `.sheet` não fecha com clique fora; `.popover` ancora com seta
+
+`.sheet` em macOS não tem light-dismiss por clique fora da modal — comportamento nativo, não bug.
+`.popover` tem light-dismiss, mas ancora visualmente ao elemento que o ativou com uma seta, o que
+piora a UI quando o trigger é um card de tamanho arbitrário.
+
+Padrão correto para overlay com dismiss por clique fora em SwiftUI macOS: `ZStack` no nível da
+view raiz (ex: `PortfolioView`) com um `Color.clear` (ou `Color.black.opacity(0.25)` para backdrop
+escurecido) como camada inferior com `.onTapGesture { dismiss() }`, e o painel flutuante como
+camada superior posicionado com `.offset` ou `.frame`.
+
+```swift
+ZStack {
+    if showDetail {
+        Color.black.opacity(0.25)
+            .ignoresSafeArea()
+            .onTapGesture { showDetail = false }
+        DetailPanel(item: selected)
+            .frame(width: 420)
+            .transition(.move(edge: .trailing))
+    }
+}
+```
+
+Isso simula o comportamento de light-dismiss sem as limitações de `.sheet` ou a âncora visual de `.popover`.
+
+---
+
+## 2026-03-08 — `.regularMaterial` dá cinza fosco indesejado em painéis de detalhe
+
+`.background(.regularMaterial)` em SwiftUI macOS aplica o efeito vitreous/frosted glass nativo —
+útil em sidebars e toolbars, mas produz um cinza fosco em painéis flutuantes onde o objetivo é
+um fundo branco limpo (padrão inspector/detail).
+
+Fix: usar `Color(nsColor: .windowBackgroundColor)` para obter o branco do tema atual (adapta a
+light/dark mode automaticamente):
+
+```swift
+.background(Color(nsColor: .windowBackgroundColor))
+.clipShape(RoundedRectangle(cornerRadius: 12))
+.shadow(radius: 8)
+```
+
+---
+
 ## markdownlint
 
 - Use `npx --yes markdownlint-cli2` to avoid requiring global install

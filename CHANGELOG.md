@@ -1,5 +1,13 @@
 # Changelog
 
+## project-hierarchy-view — PR #18 — 2026-03-08
+
+**Tipo:** feat
+**Commit:** `git show 4323862` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#project-hierarchy-view
+
+---
+
 ## milestone-kanban — PR #17 — 2026-03-08
 
 **Tipo:** feat
