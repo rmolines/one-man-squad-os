@@ -52,7 +52,7 @@ public func parseSBAR(from markdown: String) -> SBARBrief? {
     )
 }
 
-private func stripFrontmatter(_ markdown: String) -> String {
+public func stripFrontmatter(_ markdown: String) -> String {
     guard markdown.hasPrefix("---") else { return markdown }
     let lines = markdown.components(separatedBy: "\n")
     var closingIndex: Int?
