@@ -18,6 +18,7 @@
 		590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */; };
 		6E63928C19DAA8FEE6ABFED3 /* RepoWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */; };
 		76CC42A865BC8A726AD304BD /* MilestoneKanbanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC1674BE1E80346C94DA7DA /* MilestoneKanbanView.swift */; };
+		8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */; };
 		AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */; };
 		AF25E5AF8B64B21880FF9E74 /* PortfolioStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */; };
 		B5020528F36DECB11F955BE2 /* HypothesisStatus+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */; };
@@ -29,8 +30,10 @@
 /* Begin PBXFileReference section */
 		0909C4101C19A4B7CE6CE364 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1483A931688AE22C1D96D562 /* BacklogHypothesis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BacklogHypothesis.swift; sourceTree = "<group>"; };
+		32F5C945D46A1669F37727C6 /* one-man-squad-os */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "one-man-squad-os"; path = .; sourceTree = SOURCE_ROOT; };
 		331C12E183DB75C77F1A47D0 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStore.swift; sourceTree = "<group>"; };
+		3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDocumentsView.swift; sourceTree = "<group>"; };
 		427386EC072DEB795578999B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		43C785ABB6B014BC20DFB59F /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		54B1921F5959B03F46508A79 /* CockpitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitApp.swift; sourceTree = "<group>"; };
@@ -42,7 +45,6 @@
 		9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HypothesisStatus+UI.swift"; sourceTree = "<group>"; };
 		BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSchema.swift; sourceTree = "<group>"; };
 		BC755B6EEA537DC414827C48 /* OneManSquadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneManSquadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E0F7B4FEE152EA538931DAB7 /* milestone-kanban */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "milestone-kanban"; path = .; sourceTree = SOURCE_ROOT; };
 		F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBARDetailView.swift; sourceTree = "<group>"; };
 		FA7EA0064D2C8541D466558C /* CockpitSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 		8A833A80AE8368E1AD857143 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */,
 				74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */,
 				9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */,
 				94A0512F95BAE21582D3781E /* MarkdownView.swift */,
@@ -114,7 +117,7 @@
 		D0B56D9EA0EBA8E20DF1AD93 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				E0F7B4FEE152EA538931DAB7 /* milestone-kanban */,
+				32F5C945D46A1669F37727C6 /* one-man-squad-os */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				24053830E786618821046253 /* CockpitApp.swift in Sources */,
 				590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */,
 				02B725E77F574A135B3125B3 /* CockpitSettings.swift in Sources */,
+				8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */,
 				AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */,
 				B5020528F36DECB11F955BE2 /* HypothesisStatus+UI.swift in Sources */,
 				DE723B2CE17B258A2A796B4A /* MarkdownView.swift in Sources */,
