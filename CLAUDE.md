@@ -68,6 +68,7 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 | `xcodegen` + worktrees | xcodeproj commitado tem package cache paths da máquina original — Xcode abre com "Missing package product" | Rodar `xcodegen generate` dentro da worktree antes de abrir no Xcode |
 | `xcodegen generate` antes do rebase | `xcodegen` atualiza `Package.resolved` como side effect — rebase falha com "unstaged changes" | `git stash` antes do rebase, `git stash pop` depois; ou commitar `Package.resolved` antes de rebaser |
 | activationPolicy `.accessory` parece crash | Dock icon desaparece quando `applicationDidFinishLaunching` chama `setActivationPolicy(.accessory)` — parece crash silencioso | É comportamento esperado — o ícone migra para a menu bar; verificar canto superior direito (pode estar atrás de `>>`) |
+| SwiftUI `.frame()` — overloads exclusivos | `frame(width: 380, minHeight: 200)` → "Extra argument 'width' in call" — não há overload misto | Usar o overload completo: `.frame(minWidth: 380, maxWidth: 380, minHeight: 200, maxHeight: 560)` |
 
 ## Worktree convention
 

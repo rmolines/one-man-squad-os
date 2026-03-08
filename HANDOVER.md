@@ -4,6 +4,31 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-08 — sbar-detail-view — Popover SBAR ao clicar no badge
+
+**What was done:**
+`PendingBriefBadge` virou `Button` com `.popover(arrowEdge: .bottom)` — clicar no badge abre `SBARDetailView`, um painel com as 4 seções SBAR em ScrollView. Recommendation é visualmente destacada (fundo accent color). Fecha o loop de valor do M2: vê badge → clica → lê → decide em <60s.
+
+**Key decisions:**
+- `pendingBrief: SBARBrief?` é computed var no card — chama `readArtifacts` + `parseSBAR` diretamente, sem mudar o protocolo `HypothesisCard`. Simples e suficiente para V1.
+- `.popover` com `arrowEdge: .bottom` testado em `LazyVGrid` — âncora limpa sem corte pela borda da janela (ao menos com 1 card na grid).
+- `.frame(minWidth:maxWidth:minHeight:maxHeight:)` — overload completo obrigatório; `width:` e `idealHeight:` sozinhos não compilam em SwiftUI.
+
+**Pitfalls encountered:**
+- `.frame(width: 380, idealHeight: 460)` → erro "Extra argument 'idealHeight' in call" — `idealHeight` não existe no overload `(width:height:alignment:)`.
+- `.frame(width: 380, minHeight: 200, maxHeight: 560)` → erro "Extra argument 'width' in call" — SwiftUI tem dois overloads mutuamente exclusivos; não há mix. Usar `(minWidth:maxWidth:minHeight:maxHeight:)`.
+
+**Key files:**
+- `Sources/OneManSquadOS/Views/SBARDetailView.swift` — novo; layout das 4 seções SBAR
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — badge vira Button com popover
+
+**Next steps (M3):**
+- UI polish do popover (tipografia, espaçamento, dark mode)
+- `status-inference` — status real via presença de `explore.md`, `plan.md`, `sprint.md`
+- `settings-view` — painel de preferências para trocar repo root sem toolbar
+
+---
+
 ## 2026-03-07 — fsevents-watch — RepoWatcher + reactive PortfolioStore
 
 **What was done:**

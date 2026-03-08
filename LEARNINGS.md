@@ -4,6 +4,19 @@ Gotchas, limitations, and non-obvious behaviors discovered while working on this
 
 ---
 
+## 2026-03-08 — SwiftUI `.frame()` tem dois overloads mutuamente exclusivos
+
+`.frame()` em SwiftUI tem exatamente dois overloads: `(width:height:alignment:)` e
+`(minWidth:idealWidth:maxWidth:minHeight:idealHeight:maxHeight:alignment:)`.
+Não há forma mista — `frame(width: 380, minHeight: 200)` não compila ("Extra argument 'width' in call").
+Use o overload completo quando precisar de dimensões mínimas/máximas:
+
+```swift
+.frame(minWidth: 380, maxWidth: 380, minHeight: 200, maxHeight: 560)
+```
+
+---
+
 ## 2026-03-08 — xcodegen modifica Package.resolved e bloqueia rebase
 
 `xcodegen generate` atualiza `Package.resolved` como side effect. Se rodado antes do `/ship-feature`,

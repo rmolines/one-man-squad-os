@@ -1,5 +1,31 @@
 # Changelog
 
+## [feat] SBAR Detail View — clicar no badge abre painel com o brief completo — 2026-03-08
+
+**Tipo:** feat
+**Tags:** sbar, hypothesis-cards, decision-brief, portfolio
+**PR:** [#9](https://github.com/rmolines/one-man-squad-os/pull/9) · **Complexidade:** simples
+
+### O que mudou
+
+Badge vermelho (!) no card agora é clicável: abre um popover com as 4 seções do SBAR (Situation, Background, Assessment, Recommendation). Fecha o loop de valor do M2 — decisão processável em <60s sem sair do app.
+
+### Detalhes técnicos
+
+- `SBARDetailView`: ScrollView com 4 `SBARSection`; Recommendation destacada com fundo accent color
+- `HypothesisCardView`: `pendingBrief: SBARBrief?` computed via `readArtifacts` + `parseSBAR`; badge vira `Button` com `.popover(arrowEdge: .bottom)`
+
+### Impacto
+
+- **Breaking:** Não
+
+### Arquivos-chave
+
+- `Sources/OneManSquadOS/Views/SBARDetailView.swift` — novo
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — badge clicável
+
+---
+
 ## [feat] FSEvents Watch — portfolio auto-recarrega ao detectar mudanças no filesystem — 2026-03-07
 
 **Tipo:** feat
