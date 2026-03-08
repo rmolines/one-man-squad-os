@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import SettingsAccess
+import Core
 
 private enum ViewMode: String {
     case grid, kanban
@@ -12,6 +13,7 @@ struct PortfolioView: View {
     @Environment(\.openSettings) private var openSettings
     @State private var store = PortfolioStore()
     @State private var isRefreshSpinning = false
+    @State private var selectedHypothesis: FeaturePlanInfo? = nil
     @AppStorage("portfolioViewMode") private var viewMode: ViewMode = .grid
 
     private var settings: CockpitSettings {
@@ -64,40 +66,59 @@ struct PortfolioView: View {
     // MARK: - Portfolio
 
     private var portfolioContent: some View {
-        VStack(spacing: 0) {
-            toolbar
-            Divider()
-            Group {
-                if store.isLoading {
-                    ScrollView {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(40)
-                    }
-                } else if store.hypotheses.isEmpty {
-                    ScrollView {
-                        ContentUnavailableView(
-                            "No feature plans found",
-                            systemImage: "square.stack.3d.up.slash",
-                            description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
-                        )
-                    }
-                } else if viewMode == .kanban {
-                    MilestoneKanbanView(store: store)
-                } else {
-                    ScrollView {
-                        LazyVGrid(columns: columns, spacing: 12) {
-                            ForEach(store.hypotheses) { hypothesis in
-                                HypothesisCardView(hypothesis: hypothesis)
-                                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                            }
+        ZStack {
+            VStack(spacing: 0) {
+                toolbar
+                Divider()
+                Group {
+                    if store.isLoading {
+                        ScrollView {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding(40)
                         }
-                        .animation(.easeOut(duration: 0.2), value: store.hypotheses.map(\.id))
-                        .padding(16)
+                    } else if store.hypotheses.isEmpty {
+                        ScrollView {
+                            ContentUnavailableView(
+                                "No feature plans found",
+                                systemImage: "square.stack.3d.up.slash",
+                                description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
+                            )
+                        }
+                    } else if viewMode == .kanban {
+                        MilestoneKanbanView(store: store)
+                    } else {
+                        ScrollView {
+                            LazyVGrid(columns: columns, spacing: 12) {
+                                ForEach(store.hypotheses) { hypothesis in
+                                    HypothesisCardView(hypothesis: hypothesis) {
+                                        selectedHypothesis = hypothesis
+                                    }
+                                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                                }
+                            }
+                            .animation(.easeOut(duration: 0.2), value: store.hypotheses.map(\.id))
+                            .padding(16)
+                        }
                     }
                 }
             }
+
+            if let hypothesis = selectedHypothesis {
+                Color.black.opacity(0.001)
+                    .ignoresSafeArea()
+                    .onTapGesture { selectedHypothesis = nil }
+
+                FeatureDocumentsView(hypothesis: hypothesis)
+                    .background(Color(nsColor: .windowBackgroundColor))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(color: .black.opacity(0.2), radius: 24, x: 0, y: 8)
+                    .padding(40)
+                    .onTapGesture {}
+                    .transition(.opacity.combined(with: .scale(scale: 0.97)))
+            }
         }
+        .animation(.easeOut(duration: 0.18), value: selectedHypothesis?.id)
     }
 
     private var toolbar: some View {
