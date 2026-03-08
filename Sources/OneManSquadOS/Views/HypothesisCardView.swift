@@ -42,7 +42,7 @@ struct HypothesisCardView: View {
         .onHover { isHovered = $0 }
         .contentShape(Rectangle())
         .onTapGesture { showingDocuments = true }
-        .sheet(isPresented: $showingDocuments) {
+        .popover(isPresented: $showingDocuments, arrowEdge: .bottom) {
             FeatureDocumentsView(hypothesis: hypothesis)
         }
     }
