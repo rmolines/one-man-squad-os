@@ -14,7 +14,7 @@ struct SBARDetailView: View {
             }
             .padding(16)
         }
-        .frame(width: 380, idealHeight: 460)
+        .frame(minWidth: 380, maxWidth: 380, minHeight: 200, maxHeight: 560)
     }
 }
 
