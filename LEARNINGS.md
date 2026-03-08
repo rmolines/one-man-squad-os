@@ -195,6 +195,28 @@ The inserted record persists automatically via SwiftData's auto-save.
 
 ---
 
+## 2026-03-08 — Parsing tabela markdown com `split(separator: "|")`: índices deslocados por pipe inicial
+
+Ao parsear uma tabela markdown do tipo `| # | Feature | Slug | ... |` com
+`String.split(separator: "|", omittingEmptySubsequences: false)`, o elemento `[0]` é
+sempre uma string vazia — o segmento antes do primeiro `|`. Isso desloca todos os índices
+em +1 em relação à posição visual da coluna.
+
+Exemplo para `| 1 | foo | my-slug | done |`:
+
+```swift
+columns[0] == ""        // antes do primeiro |
+columns[1] == " 1 "    // coluna 1 (#)
+columns[2] == " foo "  // coluna 2 (Feature)
+columns[3] == " my-slug " // coluna 3 (Slug) — índice 3, não 2
+```
+
+Usar `omittingEmptySubsequences: true` (default) oculta esse elemento vazio e torna os
+índices imprevisíveis quando células contêm conteúdo vazio. Usar `false` e documentar
+o offset é mais seguro.
+
+---
+
 ## markdownlint
 
 - Use `npx --yes markdownlint-cli2` to avoid requiring global install

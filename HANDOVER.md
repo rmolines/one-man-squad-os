@@ -4,6 +4,42 @@ Newest entries at the top.
 
 ---
 
+## milestone-scanner — 2026-03-08
+
+### O que foi feito
+
+- Adicionado filtro em `FeaturePlanScanner.swift` para excluir slugs que batem com `M\d+` (M1, M2, M3, M4…), impedindo que diretórios de milestone apareçam como hypothesis cards no portfolio grid.
+- Criado `Sources/Core/MilestoneScanner.swift` com `MilestoneInfo` struct e função `listMilestones(featurePlansPath:)` que varre os diretórios M* e parseia o `sprint.md` de cada um para extrair os feature slugs (coluna 3 da tabela, backtick-quoted).
+- Atualizado `PortfolioStore.swift` com propriedade `milestones: [MilestoneInfo]` e chamada a `listMilestones()` no `reload()`, expondo a lista de milestones para uso futuro pelo `milestone-kanban`.
+- Executado `xcodegen generate` para registrar `MilestoneScanner.swift` no xcodeproj.
+- Build `swift build` verde após todas as mudanças.
+
+### Decisões tomadas
+
+- Filtro de M* implementado em `FeaturePlanScanner.swift` via regex `M\d+` aplicado ao slug — mínima intrusão, sem mudar a assinatura de `listFeaturePlans`.
+- `MilestoneInfo` eager-loads `featureSlugs` na construção (stored property `let`) — evita o padrão de computed property com disk I/O que foi pitfall em `FeaturePlanInfo`.
+- Parser de `sprint.md` é line-level: detecta linhas de tabela (pipe-separated), extrai coluna 3 e faz unquoting de backticks — suficiente para o formato atual do sprint.md gerado por `/start-milestone`.
+- `MilestoneScanner` fica em `Sources/Core` (não em App) — lógica de domínio, segue a separação de camadas do projeto.
+
+### Armadilhas encontradas
+
+- Novo arquivo Swift criado fora do Xcode não é automaticamente incluído no xcodeproj — necessário rodar `xcodegen generate` após criar `MilestoneScanner.swift` (pitfall já documentado em CLAUDE.md).
+- `MilestoneInfo` como struct com computed properties que fazem disk I/O causaria O(N log N) reads no sort — resolvido com eager-load de `featureSlugs` na construção (mesma solução aplicada em `FeaturePlanInfo`).
+
+### Próximos passos
+
+- `milestone-kanban` (próxima feature do M4) pode consumir `PortfolioStore.milestones` diretamente para renderizar o kanban por milestone.
+- Parser de `sprint.md` assume formato de tabela com slug na coluna 3 — se o formato mudar, atualizar `MilestoneScanner.parseSprint`.
+- `listMilestones` não detecta status do milestone (active/done/pending) — considerar adicionar leitura de campo de status do sprint.md em iteração futura.
+
+### Arquivos-chave
+
+- `Sources/Core/FeaturePlanScanner.swift` — filtro de slugs M\d+ adicionado
+- `Sources/Core/MilestoneScanner.swift` — novo; `MilestoneInfo` struct + `listMilestones()` + parser sprint.md
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — `var milestones: [MilestoneInfo]` + chamada no `reload()`
+
+---
+
 ## markdown-renderer — 2026-03-08
 
 **O que foi feito:** Implementado componente de rendering de markdown para o app. `MarkdownRenderer.swift` (Core) expõe `parseMarkdown(_ raw: String) -> [MarkdownBlock]` com parser line-level suportando H1–H3, parágrafos, bullet lists, fenced code blocks, dividers e linhas vazias. `MarkdownView.swift` (App) é um componente SwiftUI reutilizável com subviews `MarkdownHeadingView` e `MarkdownCodeBlockView`; blocks parsed uma única vez no `init` e armazenados como `let`. `stripFrontmatter` em `SBARParser.swift` promovido de `private` para `public`. xcodeproj regenerado via xcodegen para incluir `MarkdownView.swift` no target. PR #15 merged 2026-03-08.

@@ -1,5 +1,13 @@
 # Changelog
 
+## milestone-scanner — PR #16 — 2026-03-08
+
+**Tipo:** feat
+**Commit:** `git show a35cb8d` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#milestone-scanner
+
+---
+
 ## markdown-renderer — PR #15 — 2026-03-08
 
 **Tipo:** feat
