@@ -18,7 +18,7 @@ public func listFeaturePlans(repoPath: String) -> [FeaturePlanInfo] {
     let organisationalContainers: Set<String> = ["archived"]
 
     let plans: [FeaturePlanInfo] = slugs
-        .filter { !$0.hasPrefix(".") && !organisationalContainers.contains($0) }
+        .filter { !$0.hasPrefix(".") && !organisationalContainers.contains($0) && !isMilestoneDir($0) }
         .compactMap { slug -> FeaturePlanInfo? in
             let planPath = featurePlansRoot.appendingPathComponent(slug)
             var isDir: ObjCBool = false
@@ -66,6 +66,12 @@ public func listFeaturePlans(repoPath: String) -> [FeaturePlanInfo] {
         case (.none, .none): return a.slug < b.slug
         }
     }
+}
+
+/// Returns true for milestone container directories like M1, M2, M3…
+func isMilestoneDir(_ slug: String) -> Bool {
+    guard slug.first == "M", slug.count > 1 else { return false }
+    return slug.dropFirst().allSatisfy(\.isNumber)
 }
 
 private func latestModificationDate(in dirURL: URL) -> Date? {

@@ -26,7 +26,6 @@
 
 /* Begin PBXFileReference section */
 		0909C4101C19A4B7CE6CE364 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		09609011E881165264DFB277 /* markdown-renderer */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "markdown-renderer"; path = .; sourceTree = SOURCE_ROOT; };
 		1483A931688AE22C1D96D562 /* BacklogHypothesis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BacklogHypothesis.swift; sourceTree = "<group>"; };
 		331C12E183DB75C77F1A47D0 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStore.swift; sourceTree = "<group>"; };
@@ -39,6 +38,7 @@
 		94A0512F95BAE21582D3781E /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSchema.swift; sourceTree = "<group>"; };
 		BC755B6EEA537DC414827C48 /* OneManSquadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneManSquadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE02538597295AC11FD97D5F /* milestone-scanner */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "milestone-scanner"; path = .; sourceTree = SOURCE_ROOT; };
 		F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBARDetailView.swift; sourceTree = "<group>"; };
 		FA7EA0064D2C8541D466558C /* CockpitSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,7 +108,7 @@
 		D0B56D9EA0EBA8E20DF1AD93 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				09609011E881165264DFB277 /* markdown-renderer */,
+				EE02538597295AC11FD97D5F /* milestone-scanner */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
