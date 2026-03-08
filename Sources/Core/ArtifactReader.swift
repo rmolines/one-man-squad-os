@@ -34,33 +34,6 @@ public struct ArtifactSet: Sendable {
     }
 }
 
-public func readArtifacts(worktreePath: String) -> ArtifactSet {
-    let claudeDir = URL(fileURLWithPath: worktreePath).appendingPathComponent(".claude")
-    let fm = FileManager.default
-
-    func read(_ name: String) -> String? {
-        let url = claudeDir.appendingPathComponent(name)
-        return try? String(contentsOf: url, encoding: .utf8)
-    }
-
-    let decisionsDir = claudeDir.appendingPathComponent("decisions")
-    var briefs: [String] = []
-    if let items = try? fm.contentsOfDirectory(atPath: decisionsDir.path) {
-        briefs = items
-            .filter { $0.hasSuffix(".md") }
-            .compactMap { read("decisions/\($0)") }
-    }
-
-    return ArtifactSet(
-        exploreMd: read("explore.md"),
-        discoveryMd: nil,
-        researchMd: nil,
-        planMd: read("plan.md"),
-        sprintMd: read("sprint.md"),
-        sbarBriefs: briefs
-    )
-}
-
 /// Reads artifacts from .claude/feature-plans/<slug>/ in the main repo.
 public func readArtifacts(featurePlansPath: String) -> ArtifactSet {
     let root = URL(fileURLWithPath: featurePlansPath)

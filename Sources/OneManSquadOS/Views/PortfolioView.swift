@@ -42,7 +42,7 @@ struct PortfolioView: View {
         ContentUnavailableView {
             Label("No Repo Selected", systemImage: "folder.badge.questionmark")
         } description: {
-            Text("Select the root folder of a git repository to scan for worktrees.")
+            Text("Select the root folder of a git repository to scan for feature plans.")
         } actions: {
             Button("Select Folder…") { pickFolder() }
                 .buttonStyle(.borderedProminent)
@@ -60,17 +60,11 @@ struct PortfolioView: View {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(40)
-                } else if let error = store.loadError {
-                    ContentUnavailableView(
-                        "Failed to load worktrees",
-                        systemImage: "exclamationmark.triangle",
-                        description: Text(error)
-                    )
                 } else if store.hypotheses.isEmpty {
                     ContentUnavailableView(
-                        "No worktrees found",
+                        "No feature plans found",
                         systemImage: "square.stack.3d.up.slash",
-                        description: Text("No feature worktrees in \(settings.rootRepoPath).")
+                        description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
                     )
                 } else {
                     LazyVGrid(columns: columns, spacing: 12) {

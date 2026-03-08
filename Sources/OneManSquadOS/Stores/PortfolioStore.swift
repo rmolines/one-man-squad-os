@@ -4,21 +4,25 @@ import Core
 
 @Observable @MainActor
 final class PortfolioStore {
-    var hypotheses: [WorktreeInfo] = []
+    var hypotheses: [FeaturePlanInfo] = []
     var isLoading: Bool = false
-    var loadError: String? = nil
 
-    private var watcher: RepoWatcher?
+    private var featurePlansWatcher: RepoWatcher?
+    private var worktreesWatcher: RepoWatcher?
     private var watchedPath: String = ""
 
-    /// Refreshes the worktree list and (re)starts the FSEvents watcher if the path changed.
+    /// Refreshes the feature-plan list and (re)starts the FSEvents watchers if the path changed.
     func refresh(repoPath: String) {
         guard !repoPath.isEmpty else { return }
 
         if repoPath != watchedPath {
             watchedPath = repoPath
-            watcher = RepoWatcher(path: repoPath) { [weak self] in
-                // Callback already arrives on main thread (scheduled on CFRunLoopGetMain).
+            let featurePlansPath = repoPath + "/.claude/feature-plans"
+            let worktreesPath = repoPath + "/.git/worktrees"
+            featurePlansWatcher = RepoWatcher(path: featurePlansPath) { [weak self] in
+                self?.reload()
+            }
+            worktreesWatcher = RepoWatcher(path: worktreesPath) { [weak self] in
                 self?.reload()
             }
         }
@@ -30,13 +34,7 @@ final class PortfolioStore {
 
     private func reload() {
         isLoading = true
-        loadError = nil
-        do {
-            let all = try listWorktrees(repoPath: watchedPath)
-            hypotheses = all.filter { !$0.isMain }
-        } catch {
-            loadError = error.localizedDescription
-        }
+        hypotheses = listFeaturePlans(repoPath: watchedPath)
         isLoading = false
     }
 }
