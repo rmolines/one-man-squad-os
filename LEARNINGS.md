@@ -4,6 +4,24 @@ Gotchas, limitations, and non-obvious behaviors discovered while working on this
 
 ---
 
+## 2026-03-08 — `gh pr create` em worktree multi-remote detecta repo errado
+
+Em worktrees com dois remotes (`origin` apontando para o projeto + `upstream` apontando para o template),
+`gh pr create` pode detectar o `upstream` em vez do `origin` e falhar com "Head sha can't be blank, Base sha can't be blank, No commits between main and branch".
+Fix: sempre passar `-R <owner>/<repo>` explicitamente em chamadas `gh` dentro de worktrees multi-remote.
+Reproduzido em: one-man-squad-os (origin = one-man-squad-os, upstream = claude-kickstart).
+
+---
+
+## 2026-03-08 — `URL.standardized` para path traversal prevention sem I/O de disco
+
+`URL.standardized` resolve componentes `..` e `.` lexicalmente sem acessar o filesystem.
+Útil para validar path traversal em novos arquivos (que ainda não existem em disco).
+Padrão: construir URL alvo → `.standardized` → verificar que path tem o prefixo permitido.
+Diferente de `resolvingSymlinksInPath()` que faz I/O real e falha se o arquivo não existe.
+
+---
+
 ## 2026-03-08 — SwiftUI `private var` computada em view chama parse de disco em todo hover event
 
 Qualquer `private var` (não `@State`) em uma SwiftUI view é recalculada a cada chamada de `body`, inclusive quando `isHovered` alterna em resposta a movimento do mouse. Uma `private var tasks` que chamava `parseTaskItems(planMd)` estava relendo e parseando `plan.md` do disco a cada hover event — O(N) parse num hot render path invisível.

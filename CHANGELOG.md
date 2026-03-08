@@ -1,5 +1,13 @@
 # Changelog
 
+## write-infrastructure — PR #20 — 2026-03-08
+
+**Tipo:** feat
+**Commit:** `git show 66d8808` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#write-infrastructure
+
+---
+
 ## agent-tasks-view — 2026-03-08
 
 **Tipo:** feat

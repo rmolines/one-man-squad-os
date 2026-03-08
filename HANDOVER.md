@@ -4,6 +4,41 @@ Newest entries at the top.
 
 ---
 
+## write-infrastructure — 2026-03-08
+
+**PR:** #20 — feat(core): FileWriter service — path traversal validation + atomic write
+**Commit:** 66d8808
+
+### O que foi feito
+
+- Criado `Sources/Core/FileWriter.swift` no target Core (Foundation puro, sem SwiftUI)
+- API pública: `previewWrite(content:to:rootRepoPath:) -> Result<WritePreview, FileWriterError>` e `commitWrite(_:) throws`
+- `previewWrite` valida: rejeita paths absolutos (com `/` no início), rejeita traversal `..` via `URL.standardized` + verificação de prefixo, escopo restrito a `.claude/feature-plans/`
+- `commitWrite`: escrita atômica via arquivo temporário + `FM.replaceItem` (arquivo existente) ou `FM.moveItem` (arquivo novo)
+- Criado `Tests/CoreTests/FileWriterTests.swift` com 8 testes: happy path novo arquivo, captura conteúdo existente, rejeita traversal `..`, rejeita path absoluto, rejeita traversal aninhado, cria dirs intermediários, sem temp files residuais, sobrescreve existente
+- Todos os 23 testes passam
+
+### Decisões tomadas
+
+- `FileWriterError` usa `@unchecked Sendable` porque wrapa `Error` (Swift 6 strict concurrency)
+- `WritePreview` é value type (struct) com `existingContent: String?` para dry-run display
+- `FM.replaceItem` para arquivos existentes (atomic swap) e `FM.moveItem` para arquivos novos
+
+### Armadilhas encontradas
+
+- `gh pr create` em worktree com remote `upstream` configurado detecta o repo errado (`claude-kickstart` em vez de `one-man-squad-os`) — corrigido com flag `-R rmolines/one-man-squad-os` explícita
+
+### Próximos passos
+
+- `artifact-editor`: editor markdown inline na UI que chama `FileWriter` + `PortfolioStore.reload()`
+
+### Arquivos-chave
+
+- `Sources/Core/FileWriter.swift`
+- `Tests/CoreTests/FileWriterTests.swift`
+
+---
+
 ## project-hierarchy-view — 2026-03-08
 
 **O que foi feito:** Implementado painel de documentos navegáveis que abre ao clicar em um hypothesis card. `FeatureDocumentsView.swift` é um overlay sheet com tab picker (Explore / Discovery / Research / Plan) e `MarkdownView` para renderizar o conteúdo. `HypothesisCardView.swift` recebeu callback `onSelect` delegando a apresentação ao pai. `PortfolioView.swift` passou a gerenciar `selectedHypothesis: FeaturePlanInfo?` em estado local com ZStack overlay, backdrop escuro e light-dismiss ao clicar fora. `HypothesisStatus+UI.swift` consolidou o `StatusChip` que estava duplicado em dois arquivos.
