@@ -1,10 +1,11 @@
 import SwiftUI
 import SwiftData
-import AppKit
+import SettingsAccess
 
 struct PortfolioView: View {
     @Query private var settingsList: [CockpitSettings]
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.openSettings) private var openSettings
     @State private var store = PortfolioStore()
 
     private var settings: CockpitSettings {
@@ -34,6 +35,11 @@ struct PortfolioView: View {
                 store.refresh(repoPath: settings.rootRepoPath)
             }
         }
+        .onChange(of: settings.rootRepoPath) { _, newPath in
+            if !newPath.isEmpty {
+                store.refresh(repoPath: newPath)
+            }
+        }
     }
 
     // MARK: - Onboarding
@@ -44,7 +50,7 @@ struct PortfolioView: View {
         } description: {
             Text("Select the root folder of a git repository to scan for feature plans.")
         } actions: {
-            Button("Select Folder…") { pickFolder() }
+            Button("Open Settings…") { openSettings() }
                 .buttonStyle(.borderedProminent)
         }
     }
@@ -90,9 +96,9 @@ struct PortfolioView: View {
             }
             Spacer()
             Button {
-                pickFolder()
+                openSettings()
             } label: {
-                Label("Change Folder", systemImage: "folder")
+                Label("Settings", systemImage: "gear")
             }
             .buttonStyle(.borderless)
 
@@ -108,17 +114,4 @@ struct PortfolioView: View {
         .padding(.vertical, 10)
     }
 
-    // MARK: - Folder Picker
-
-    private func pickFolder() {
-        let panel = NSOpenPanel()
-        panel.title = "Select Repo Root"
-        panel.canChooseDirectories = true
-        panel.canChooseFiles = false
-        panel.allowsMultipleSelection = false
-        panel.prompt = "Select"
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        settings.rootRepoPath = url.path
-        store.refresh(repoPath: url.path)
-    }
 }
