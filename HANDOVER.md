@@ -4,6 +4,35 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-08 — portfolio-view — listWorktrees() → PortfolioStore → hypothesis cards
+
+**What was done:**
+Connected `listWorktrees()` from Core to `PortfolioStore` and rendered worktrees as hypothesis cards in `PortfolioView`. Full walking skeleton: onboarding → folder picker → grid of cards.
+
+**Key decisions:**
+- `WorktreeInfo: HypothesisCard` conformance added via extension in `HypothesisModel.swift` (same Core target — no new file needed). `status = .idle` hardcoded for V1; real status via git parsing is M2.
+- `PortfolioStore.refresh()` is synchronous on MainActor — `git worktree list` is sub-100ms locally, acceptable for V1. Async dispatch deferred to M2.
+- `CockpitSettings.rootRepoPath` (already in SwiftData V1 schema) stores the user-selected repo root — no schema migration needed.
+- `NSOpenPanel` used directly without Security-Scoped Bookmarks (app is non-sandboxed per CLAUDE.md).
+- `settings` computed var in `PortfolioView` does a lazy `modelContext.insert(CockpitSettings())` on first access — avoids crash if SwiftData store is empty.
+- `isMain` worktrees are filtered out from the cards — only feature worktrees show.
+
+**Pitfalls encountered:**
+- None new. EnterWorktree created branch as `worktree-portfolio-view` — manually renamed to `feat/portfolio-view` to match CLAUDE.md convention.
+
+**Key files:**
+- `Sources/Core/Models/HypothesisModel.swift` — `WorktreeInfo: HypothesisCard` extension
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — `refresh(repoPath:)`, `hypotheses`, `loadError`
+- `Sources/OneManSquadOS/Views/PortfolioView.swift` — onboarding + grid + toolbar
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — card UI (new file)
+
+**Next steps (M2):**
+- FSEvents watch for auto-refresh without manual button
+- Real status detection via `git status` / branch state parsing
+- `hasPendingBrief` detection by reading `.claude/decisions/` SBAR files
+
+---
+
 ## 2026-03-07 — app-foundation — SwiftUI skeleton + SwiftData V1
 
 **What was done:**

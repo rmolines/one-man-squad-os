@@ -60,6 +60,41 @@ Candidates: `eonil/FileSystemEvents`, or roll a thin `FSEvents` C wrapper direct
 The committed `OneManSquadOS.xcodeproj` may have absolute paths from the original machine.
 After creating a worktree, run `xcodegen generate` inside it before opening in Xcode.
 
+### EnterWorktree creates branch as `worktree-<name>`, not `feat/<name>`
+
+`EnterWorktree name=<nome>` creates a branch named `worktree-<nome>`, not `feat/<nome>`.
+After entering the worktree, rename immediately to follow the project convention:
+
+```bash
+git branch -m worktree-<nome> feat/<nome>
+```
+
+Otherwise the PR title and remote branch will use the wrong prefix.
+
+---
+
+## SwiftData + SwiftUI — @Query patterns
+
+### Lazy insert for optional singleton records
+
+When a view uses `@Query` to fetch a settings record that may not exist yet (e.g., `CockpitSettings`),
+use a computed property with lazy insert to avoid crashes:
+
+```swift
+@Query private var settingsList: [CockpitSettings]
+@Environment(\.modelContext) private var modelContext
+
+private var settings: CockpitSettings {
+    if let existing = settingsList.first { return existing }
+    let fresh = CockpitSettings()
+    modelContext.insert(fresh)
+    return fresh
+}
+```
+
+This avoids force-unwrapping `settingsList.first!` and eliminates a crash on first launch.
+The inserted record persists automatically via SwiftData's auto-save.
+
 ---
 
 ## markdownlint
