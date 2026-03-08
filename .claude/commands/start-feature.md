@@ -562,16 +562,7 @@ Resultado:
 - ✅: prosseguir para C.7
 - ❌: exibir erro completo, corrigir, repetir C.6 — **nunca avançar para C.7 com build quebrado**
 
-### Passo C.7 — Abrir o app + checklist de testes para o usuário
-
-**Abrir o app automaticamente antes de apresentar o checklist:**
-
-Verificar se existe xcodeproj na worktree:
-```bash
-ls *.xcodeproj 2>/dev/null
-```
-- Se existir: rodar `xcodegen generate` e depois `open <NomeDoApp>.xcodeproj` para abrir no Xcode
-- Se não existir: procurar binário em `.build/` ou usar comando de `make run` se disponível
+### Passo C.7 — Checklist de testes para o usuário
 
 Classificar os comportamentos introduzidos ou modificados pela feature em duas categorias:
 
