@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: - Block types
 
-public enum MarkdownBlock: Sendable {
+public enum MarkdownBlock: Sendable, Hashable {
     case heading(level: Int, text: String)
     case paragraph(String)
     case bulletItem(String)

@@ -11,15 +11,17 @@ import Core
 /// ```
 struct MarkdownView: View {
     let text: String
+    private let blocks: [MarkdownBlock]
 
-    private var blocks: [MarkdownBlock] {
-        parseMarkdown(text)
+    init(text: String) {
+        self.text = text
+        self.blocks = parseMarkdown(text)
     }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                ForEach(Array(blocks.enumerated()), id: \.offset) { _, block in
+                ForEach(blocks, id: \.self) { block in
                     blockView(for: block)
                 }
             }
@@ -53,8 +55,8 @@ struct MarkdownView: View {
             }
             .padding(.vertical, 1)
 
-        case .codeBlock(let lines, _):
-            MarkdownCodeBlockView(lines: lines)
+        case .codeBlock(let lines, let language):
+            MarkdownCodeBlockView(lines: lines, language: language)
                 .padding(.vertical, 6)
 
         case .divider:
@@ -93,6 +95,7 @@ private struct MarkdownHeadingView: View {
 
 private struct MarkdownCodeBlockView: View {
     let lines: [String]
+    let language: String?
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
