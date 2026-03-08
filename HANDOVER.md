@@ -4,6 +4,36 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-08 — cockpit-model — feature-plans/ como source of truth
+
+**O que foi feito:**
+Trocou a unidade de identidade do cockpit de `worktree path` para `slug`. O `PortfolioStore` agora chama `listFeaturePlans(repoPath:)` que indexa `.claude/feature-plans/<slug>/` diretamente. Worktrees são attachadas como execution context via JOIN por naming convention (`feat/<slug>`). Status inference passou a ler do lugar certo (main repo, não worktree). Novo status `.discovered` adicionado (discovery.md ou research.md presente). `BacklogHypothesis` migrado para V2 com `slug` como `@Attribute(.unique)`.
+
+**Decisões tomadas:**
+- `ArtifactSet` cacheado em `FeaturePlanInfo` como stored property — elimina I/O O(N log N) no sort e disk I/O por frame no SwiftUI render
+- `reload()` usa `Task.detached` para não bloquear main thread (git subprocess `waitUntilExit` era chamado no main actor)
+- SwiftData migration V1→V2 feita por rename do store (`CockpitStoreV2`) em vez de `SchemaMigrationPlan` — ambos os schemas apontavam para o mesmo `BacklogHypothesis.self`, causando "current model reference == next model reference"
+- `FSEventStreamScheduleWithRunLoop` substituído por `FSEventStreamSetDispatchQueue` (deprecated macOS 13)
+- `archived` filtrado do scanner via `organisationalContainers: Set<String>`
+
+**Armadilhas encontradas:**
+- `CockpitSchemaV1` e `CockpitSchemaV2` com `models` apontando para o mesmo tipo causam fatalError em runtime; solução: rename do store ou classe V1 separada aninhada no enum do schema
+- `FeaturePlanInfo` como struct com computed properties que fazem disk I/O causa O(N log N) reads no sort — sempre eager-load `ArtifactSet` na construção
+
+**Próximos passos:**
+- `BacklogHypothesis` ainda não é usado na UI — gap conceitual entre SwiftData model e `FeaturePlanInfo` in-memory. Próximo milestone pode resolver.
+- Worktree JOIN com detached HEAD retorna `nil` branch — silently unattached. Issue conhecida.
+- `archived` como exclusion hardcoded — considerar marker file (`.noindex`) para ser data-driven.
+
+**Arquivos-chave:**
+- `Sources/Core/FeaturePlanScanner.swift` — novo; `listFeaturePlans`
+- `Sources/Core/Models/HypothesisModel.swift` — `FeaturePlanInfo` + `.discovered`
+- `Sources/Core/ArtifactReader.swift` — `readArtifacts(featurePlansPath:)`
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — dual watchers, async reload
+- `Sources/OneManSquadOS/Models/CockpitSchema.swift` — `CockpitSchemaV2`
+
+---
+
 ## 2026-03-08 — status-inference — WorktreeStatus inferido de artefatos
 
 **O que foi feito:**

@@ -4,6 +4,27 @@ Gotchas, limitations, and non-obvious behaviors discovered while working on this
 
 ---
 
+## 2026-03-08 — SwiftData: dois VersionedSchema apontando para o mesmo tipo causam fatalError
+
+`CockpitSchemaV1` e `CockpitSchemaV2` com `models: [BacklogHypothesis.self, ...]` (mesmo tipo)
+causam `fatalError: "The current model reference and the next model reference cannot be equal"` em runtime.
+SwiftData não consegue diferenciar V1 de V2 se a referência de tipo for idêntica.
+
+Para migration real: a classe V1 precisa ser aninhada como tipo separado dentro do enum do schema
+(ex: `CockpitSchemaV1.BacklogHypothesis` com as propriedades antigas). Para dados descartáveis
+(não usados na UI), o caminho pragmático é renomear o store (`ModelConfiguration("CockpitStoreV2", ...)`).
+
+## 2026-03-08 — FeaturePlanInfo: computed properties com disk I/O causam hot path O(N log N)
+
+Computed properties em structs Swift não têm cache. Se `status` e `lastArtifactDate` chamam
+`FileManager` internamente e o sort de `listFeaturePlans` acessa essas propriedades por comparação,
+o resultado é O(N log N) × número de arquivos lidos por chamada — tudo no main thread.
+
+Fix: eager-load `ArtifactSet` e `lastArtifactDate` na construção da struct e armazenar como
+`let` stored properties. Computed properties derivam de valores já em memória.
+
+---
+
 ## 2026-03-08 — SwiftUI `.frame()` tem dois overloads mutuamente exclusivos
 
 `.frame()` em SwiftUI tem exatamente dois overloads: `(width:height:alignment:)` e

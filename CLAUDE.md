@@ -26,6 +26,25 @@ está no backlog — não no código agora.
 - Never delete data without a dry-run step first
 - Never add PTY/socket IPC code in v1 — it is explicitly out of scope
 
+## Skill priority — superpowers vs project skills
+
+Project skills override superpowers skills when both could apply:
+
+| Superpowers skill | Overridden by | Reason |
+|---|---|---|
+| `brainstorming` | `/start-feature --discover` (Phase A) | Project skill has full discovery + research cycle |
+| `writing-plans` | `/start-feature` Phase B → `plan.md` | Project skill produces plan scoped to sprint + hot files |
+| `using-git-worktrees` | Worktree convention below | Project has fixed naming convention |
+| `finishing-a-development-branch` | `/ship-feature` + `/close-feature` | Project skills include CI, notarization, docs |
+
+Superpowers skills that are **additive** (use freely, no conflict):
+
+- `systematic-debugging` — before `/debug`, as the HOW methodology
+- `test-driven-development` — during Phase C execution
+- `verification-before-completion` — before any `/validate` or `/ship-feature`
+- `requesting-code-review` / `receiving-code-review` — alongside PR workflow
+- `subagent-driven-development` — for parallel tasks during Phase C
+
 ## Feature workflow — complete cycle
 
 Use the skills below for any non-trivial feature (>2-3 files or with architectural decisions):
@@ -44,7 +63,8 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 - `Sources/Core/HypothesisModel.swift` — enums de status, protocolo HypothesisCard
 - `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — @Observable @MainActor; ponto central de estado
 - `Sources/OneManSquadOS/App/CockpitApp.swift` — configuração de scenes, activationPolicy pattern
-- `Sources/OneManSquadOS/Models/BacklogHypothesis.swift` — SwiftData @Model; schema V1
+- `Sources/OneManSquadOS/Models/BacklogHypothesis.swift` — SwiftData @Model; schema V2 (slug identifier)
+- `Sources/Core/FeaturePlanScanner.swift` — listFeaturePlans; source of truth para hipóteses
 - `Package.swift` — targets e dependências SPM
 - `CLAUDE.md`
 - `.github/workflows/ci.yml`
@@ -56,7 +76,9 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 |---|---|---|
 | `MenuBarExtra` + `WindowGroup` + `activationPolicy` | Ao alternar janela principal / menu bar | Gerenciar `NSApp.setActivationPolicy` manualmente; ver CockpitApp.swift |
 | `openSettings` dentro de MenuBarExtra | Qualquer SettingsLink no menu | Usar `orchetect/SettingsAccess`; não chamar `openSettings` direto |
-| SwiftData sem VersionedSchema | Adicionar campo novo a @Model | SEMPRE via CockpitSchemaV2 com migration stage; nunca editar V1 direto |
+| SwiftData sem VersionedSchema | Adicionar campo novo a @Model | SEMPRE via CockpitSchemaV3 (próximo) com migration stage; nunca editar V2 direto |
+| SwiftData `VersionedSchema` com tipo repetido | Dois schemas com `models: [MesmoTipo.self]` causam `fatalError: "current model reference == next model reference"` em runtime | Classe V1 deve ser aninhada como tipo separado dentro do enum `CockpitSchemaV1`; ou renomear o store se dados V1 não têm valor |
+| `FeaturePlanInfo` computed properties com disk I/O | `status`/`hasPendingBrief` como computed → O(N log N) reads no sort, I/O por frame no render SwiftUI | Eager-load `ArtifactSet` na construção e armazenar como `let` stored property |
 | FSEvents fora do container | Watch de paths fora do ~/Documents | App não-sandboxed; sem Security-Scoped Bookmarks; `NSOpenPanel` + `UserDefaults` |
 | Subprocess git com string concatenada | Qualquer chamada a git | SEMPRE array de argumentos; NUNCA interpolar path em string de comando |
 | Path traversal em writes `.claude/decisions/` | Ao gravar decisão | Validar que path final tem como prefixo o worktree aprovado pelo usuário |

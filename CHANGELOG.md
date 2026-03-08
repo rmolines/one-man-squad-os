@@ -1,5 +1,33 @@
 # Changelog
 
+## [feat] Cockpit Model — feature-plans/ como source of truth — 2026-03-08
+
+**Tipo:** feat
+**Tags:** cockpit-model, hypothesis-cards, portfolio, core, swiftdata
+**PR:** [#11](https://github.com/rmolines/one-man-squad-os/pull/11) · **Complexidade:** alta
+
+### O que mudou
+O cockpit agora indexa `.claude/feature-plans/<slug>/` como source of truth para hipóteses, em vez de worktrees. Cards mostram slugs reais com status correto (`discovered` para features em pesquisa, `building` para features com plan). Reload do portfolio roda off-main-thread.
+
+### Detalhes técnicos
+- `FeaturePlanInfo` substitui `WorktreeInfo` como `HypothesisCard`; `ArtifactSet` cacheado na construção (zero disk I/O no sort e no render)
+- `listFeaturePlans(repoPath:)` indexa slugs de `feature-plans/` com JOIN a worktrees por naming convention
+- `PortfolioStore`: dual watchers FSEvents (`feature-plans/` + `.git/worktrees/`); `reload()` usa `Task.detached`
+- `HypothesisStatus.discovered` adicionado para discovery.md/research.md presentes
+- `BacklogHypothesis` migrado para V2 com `slug: String` como `@Attribute(.unique)`; store renomeado para `CockpitStoreV2`
+- `FSEventStreamScheduleWithRunLoop` → `FSEventStreamSetDispatchQueue` (deprecated macOS 13)
+
+### Impacto
+- **Breaking:** Não — dados V1 de `BacklogHypothesis` não eram usados na UI; store resetado harmoniosamente
+
+### Arquivos-chave
+- `Sources/Core/FeaturePlanScanner.swift` — novo
+- `Sources/Core/Models/HypothesisModel.swift` — `FeaturePlanInfo` + `.discovered`
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — dual watchers, async reload
+- `Sources/OneManSquadOS/Models/CockpitSchema.swift` — `CockpitSchemaV2`
+
+---
+
 ## [feat] Status Inference — chips dos cards mostram status real do worktree — 2026-03-08
 
 **Tipo:** feat
