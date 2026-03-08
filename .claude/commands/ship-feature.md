@@ -118,14 +118,14 @@ Rode /close-feature para documentação e cleanup.
 1. Perguntar o nome da feature se não foi informado
 2. Detectar flag `--review`: se o argumento contém `--review`, forçar standard path com CI blocking gate (ignorar detecção automática de caminho)
 3. Obter branch atual: `git branch --show-current`
-3. Verificar se a branch existe no remote:
+4. Verificar se a branch existe no remote:
    ```bash
    git ls-remote --heads origin <branch>
    ```
    - **Retornou output** → **Modo PR** (primeira execução ou iteração antes do merge)
    - **Retornou vazio** → **Modo direto** (branch já foi mergeada; esta é uma iteração)
 
-4. Verificar se há algo para entregar:
+5. Verificar se há algo para entregar:
    ```bash
    git status --short
    git log origin/main..HEAD --oneline
@@ -163,8 +163,10 @@ Após o simplify, verificar se o diff toca código Swift:
 git diff origin/main...HEAD --name-only | grep "\.swift$"
 ```
 
-- Se há arquivos `.swift` com views (nome termina em `View.swift` ou diff contém `some View`) → invocar `swiftui-expert-skill` para um review pass [porque a skill detecta anti-patterns de SwiftUI que o simplify genérico não cobre]
-- Se há arquivos `.swift` com código concorrente (diff contém `actor `, `async `, `@MainActor`, `Task {`) → invocar `swift-concurrency` para um review pass [porque data races e isolamento incorreto não aparecem em build — só em runtime]
+- Se há arquivos `.swift` com views (nome termina em `View.swift` ou diff contém `some View`) → invocar `swiftui-expert-skill` para um review pass
+  [porque a skill detecta anti-patterns de SwiftUI que o simplify genérico não cobre]
+- Se há arquivos `.swift` com código concorrente (diff contém `actor`, `async`, `@MainActor`, `Task {`) → invocar `swift-concurrency` para um review pass
+  [porque data races e isolamento incorreto não aparecem em build — só em runtime]
 
 Se nenhuma condição se aplicar: continuar normalmente.
 
