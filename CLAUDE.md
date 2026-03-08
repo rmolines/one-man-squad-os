@@ -103,6 +103,7 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 | `.popover` para painéis grandes | `.popover` tem light-dismiss mas renderiza âncora com seta apontando para o elemento filho — visualmente errado para painéis ≥300pt | Reservar `.popover` para tooltips pequenos; para detail panels usar ZStack overlay com backdrop clicável (ver pitfall acima) |
 | `.regularMaterial` — fundo cinza fosco | `.regularMaterial` aplica blur + tint cinza (vibrancy) — adequado para HUDs flutuantes, mas entrega fundo cinza escuro em vez de branco limpo para painéis de conteúdo | Usar `Color(nsColor: .windowBackgroundColor)` para fundo branco que combina com janelas macOS padrão |
 | `import Core` em arquivo do target `OneManSquadOS` | Outros arquivos do mesmo target já importam `Core` indiretamente, mas um arquivo novo criado via Write tool pode falhar a build com "cannot find type X in scope" sem `import Core` explícito | Sempre adicionar `import Core` no topo de qualquer arquivo `OneManSquadOS` que use tipos do target Core, mesmo que pareça redundante |
+| `TaskItem.id` — Int sequencial | `id: Int` sequencial é seguro para lists estáticas (plan.md não muda durante a sessão), mas em V2 com tasks dinâmicas (add/remove/reorder) causa identity bugs no SwiftUI ForEach — rows erradas são animadas/destacadas | Para V2: usar `id: String` derivado do conteúdo (hash da linha) ou `UUID()` na construção; nunca usar índice de array como Identifiable.id em listas mutáveis |
 
 ## Worktree convention
 

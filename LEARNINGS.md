@@ -4,6 +4,12 @@ Gotchas, limitations, and non-obvious behaviors discovered while working on this
 
 ---
 
+## 2026-03-08 — SwiftUI `private var` computada em view chama parse de disco em todo hover event
+
+Qualquer `private var` (não `@State`) em uma SwiftUI view é recalculada a cada chamada de `body`, inclusive quando `isHovered` alterna em resposta a movimento do mouse. Uma `private var tasks` que chamava `parseTaskItems(planMd)` estava relendo e parseando `plan.md` do disco a cada hover event — O(N) parse num hot render path invisível.
+
+O fix correto é mover o cálculo para a camada de modelo como `let` stored property computada uma única vez na construção (ex: `ArtifactSet`). Isso é exatamente o padrão documentado no pitfall "FeaturePlanInfo computed properties com disk I/O" no CLAUDE.md. Regra geral: se a computação envolve I/O ou parse não-trivial, nunca coloque em `private var` de view — empurre para o modelo.
+
 ## 2026-03-08 — SwiftUI spin animation: dois drivers concorrentes causam jump visível
 
 `withAnimation(.linear.repeatForever) { rotation += 360 }` no button action +

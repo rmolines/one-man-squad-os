@@ -581,16 +581,37 @@ Classificar os comportamentos introduzidos ou modificados pela feature em duas c
 
 Gerar apenas os checks relevantes para **esta feature específica** — não uma lista genérica.
 
-Formato obrigatório:
+**Se a feature tem testes visuais/UI (app macOS/iOS com worktree ativa):**
+
+Antes de apresentar o checklist, abrir nova aba no iTerm2 com Claude Code dentro da worktree:
+
+```bash
+WORKTREE_PATH=$(git worktree list | grep worktree-<nome> | awk '{print $1}')
+osascript << EOF
+tell application "iTerm2"
+    tell current window
+        create tab with default profile
+        tell current session
+            write text "cd '$WORKTREE_PATH' && claude"
+        end tell
+    end tell
+end tell
+EOF
+```
+
+Isso garante que o MCP do Xcode nasce apontando para o `.xcodeproj` correto da worktree.
+
+Formato obrigatório do checklist:
 
 ```text
 ## Testes automáticos — OK ✅
 - Build: verde
 - <suite de testes>: X/X passed
 
-## Testes manuais — necessários antes do /ship-feature
+## Testes manuais — nova aba iTerm2 aberta com Claude Code na worktree ✅
 
-Como rodar o app: <comando concreto ou "abrir no Xcode → Run target X">
+Na nova aba: peça "build e screenshot do app" para verificar visualmente.
+Me repasse o resultado aqui para eu validar antes do /ship-feature.
 
 - [ ] <ação concreta> → <resultado esperado>
 - [ ] <ação concreta> → <resultado esperado>

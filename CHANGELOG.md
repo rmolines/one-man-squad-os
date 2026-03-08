@@ -1,5 +1,13 @@
 # Changelog
 
+## agent-tasks-view — 2026-03-08
+
+**Tipo:** feat
+**Commit:** `git show 5cd537c` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#agent-tasks-view
+
+---
+
 ## project-hierarchy-view — PR #18 — 2026-03-08
 
 **Tipo:** feat

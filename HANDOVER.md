@@ -371,3 +371,36 @@ Connected `listWorktrees()` from Core to `PortfolioStore` and rendered worktrees
 - Demo GIF/video for README (identified as high-risk if not done before launch)
 - CONTRIBUTING.md for community contributors
 - Mark repo as Template in GitHub Settings (done via API in bootstrap sequence)
+
+---
+
+## 2026-03-08 — agent-tasks-view
+
+**What was done:**
+
+- Added `TaskItem` struct (`Sendable`, `Identifiable` with sequential `Int` id) to `Sources/Core/MarkdownRenderer.swift`
+- Added `parseTaskItems(_ raw: String) -> [TaskItem]` to `MarkdownRenderer.swift` — strips frontmatter, then extracts `- [x]` / `- [ ]` lines into `TaskItem` values
+- Added `taskItems: [TaskItem]` as `let` stored property to `ArtifactSet` in `Sources/Core/ArtifactReader.swift` — computed once at construction via `planMd.map { parseTaskItems($0) } ?? []`
+- Added `TaskSummaryView` + `TaskRowView` private structs to `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — shows up to 3 tasks + "X/Y done" counter + "+N more" overflow label
+- Refactored: initially implemented `tasks` as a computed var in `HypothesisCardView` (re-parsed plan.md on every SwiftUI render including hover); moved to `ArtifactSet.taskItems` as eager-loaded stored property
+
+**Architectural decisions:**
+
+- Task parsing lives in Core (not UI) — `ArtifactSet` is the single owner; follows the same eager-load pattern established for `inferredStatus` and `hasPendingBrief`
+- Sequential `Int` IDs for `TaskItem.id` — safe for static plan.md lists; documented as unsafe if list changes dynamically (V2 concern)
+- No PR — direct push to main (fast path); commits: 40e45eb (feat), f3203aa (docs plan.md), 5cd537c (refactor: move parseTaskItems to ArtifactSet)
+
+**Pitfalls hit:**
+
+- Computed `var tasks` in `HypothesisCardView.init` re-parsed plan.md on every hover event — high-frequency SwiftUI renders make disk I/O on this path expensive; fixed by moving parsing to `ArtifactSet` at construction time (same pitfall documented in CLAUDE.md under `FeaturePlanInfo computed properties with disk I/O`)
+
+**Files created/modified:**
+
+- `Sources/Core/MarkdownRenderer.swift` — `TaskItem` struct + `parseTaskItems` function added
+- `Sources/Core/ArtifactReader.swift` — `ArtifactSet.taskItems` eager-loaded stored property added
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — `TaskSummaryView` + `TaskRowView` private structs added
+
+**Open threads:**
+
+- V2: dynamic task IDs (content-hash or UUID) when tasks can be added or removed at runtime
+- Consider surfacing task completion count in milestone overview row headers (kanban)
