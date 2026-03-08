@@ -1,5 +1,32 @@
 # Changelog
 
+## [feat] SBAR Detection — card acende quando há Decision Brief pendente — 2026-03-08
+
+**Tipo:** feat
+**Tags:** sbar, hypothesis-cards, decision-brief, portfolio
+**PR:** [#8](https://github.com/rmolines/one-man-squad-os/pull/8) · **Complexidade:** simples
+
+### O que mudou
+
+Cards de hipótese agora mostram um badge vermelho (!) quando a worktree tem um arquivo SBAR válido em `.claude/decisions/`. Sem briefs, sem badge — sem ruído.
+
+### Detalhes técnicos
+
+- `hasPendingBrief`: chama `readArtifacts()` + `parseSBAR()` — verdadeiro quando ≥1 arquivo em `.claude/decisions/*.md` tem as 4 seções SBAR
+- `lastArtifactDate`: retorna `max(mtime)` dos arquivos de brief via `FileManager`
+- `PendingBriefBadge`: ícone `exclamationmark.circle.fill` com tooltip "Pending decision brief"
+
+### Impacto
+
+- **Breaking:** Não
+
+### Arquivos-chave
+
+- `Sources/Core/Models/HypothesisModel.swift` — `hasPendingBrief` + `lastArtifactDate`
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — `PendingBriefBadge`
+
+---
+
 ## [feat] Portfolio View — worktrees exibidos como hypothesis cards — 2026-03-08
 
 **Tipo:** feat

@@ -4,6 +4,14 @@ Gotchas, limitations, and non-obvious behaviors discovered while working on this
 
 ---
 
+## 2026-03-08 — xcodegen modifica Package.resolved e bloqueia rebase
+
+`xcodegen generate` atualiza `Package.resolved` como side effect. Se rodado antes do `/ship-feature`,
+o rebase falha com "You have unstaged changes". Fix: `git stash` antes do rebase, `git stash pop` depois.
+Alternativa: commitar o `Package.resolved` modificado antes de fazer rebase.
+
+---
+
 ## GitHub Actions
 
 ### `bootstrap.yml`: `run_number == 1` guard

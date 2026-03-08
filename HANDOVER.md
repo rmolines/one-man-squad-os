@@ -4,6 +4,31 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-08 — sbar-detection — hasPendingBrief + lastArtifactDate + PendingBriefBadge
+
+**What was done:**
+Implemented `hasPendingBrief` and `lastArtifactDate` in the `WorktreeInfo: HypothesisCard` extension. The two protocol stubs were hardcoded `false`/`nil` — now they call `readArtifacts()` + `parseSBAR()` (both already in Core) on demand. Added `PendingBriefBadge` in `HypothesisCardView` — a red `exclamationmark.circle.fill` icon with tooltip "Pending decision brief" that renders when `hasPendingBrief == true`.
+
+**Key decisions:**
+- `hasPendingBrief` is a computed property on the extension — reads `.claude/decisions/*.md` on every access. Acceptable for V1 (called when card renders, not in a tight loop).
+- "Pending" = ≥1 file in `.claude/decisions/` that parses as valid SBAR (has all 4 sections). No "resolved" state in V1.
+- `lastArtifactDate` uses `FileManager` directly (not `readArtifacts` which only returns content) to get `contentModificationDate` of the brief files.
+- Badge is `iconOnly` label style — compact, tooltip carries the semantic meaning.
+
+**Pitfalls encountered:**
+- `git ls-remote` showed empty because branch was never pushed to remote yet — the stale `origin/feat/portfolio-view` reference was from a previous push that the `--force-with-lease` failed on. Resolved by fetching first.
+- `Package.resolved` was modified by `xcodegen generate` — caused rebase to refuse. Stash before rebase.
+
+**Key files:**
+- `Sources/Core/Models/HypothesisModel.swift` — `hasPendingBrief` + `lastArtifactDate` implementation
+- `Sources/OneManSquadOS/Views/HypothesisCardView.swift` — `PendingBriefBadge` component
+
+**Next steps (M2):**
+- FSEvents watch so `hasPendingBrief` refreshes automatically when a new brief is dropped in `.claude/decisions/`
+- `status` inference from git log / presence of plan.md / sprint.md
+
+---
+
 ## 2026-03-08 — portfolio-view — listWorktrees() → PortfolioStore → hypothesis cards
 
 **What was done:**

@@ -66,6 +66,7 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 | bootstrap.yml | Only fires on first push (run_number == 1) | Don't re-run manually |
 | `EonilFSEvents` (`eonil/FSEvents`) | Repo removido do GitHub — `xcodebuild -resolvePackageDependencies` falha com "Repository not found" | Removido de `project.yml`; FSEvents é M2 — encontrar alternativa antes de M2 (`eonil/FileSystemEvents` é candidato) |
 | `xcodegen` + worktrees | xcodeproj commitado tem package cache paths da máquina original — Xcode abre com "Missing package product" | Rodar `xcodegen generate` dentro da worktree antes de abrir no Xcode |
+| `xcodegen generate` antes do rebase | `xcodegen` atualiza `Package.resolved` como side effect — rebase falha com "unstaged changes" | `git stash` antes do rebase, `git stash pop` depois; ou commitar `Package.resolved` antes de rebaser |
 | activationPolicy `.accessory` parece crash | Dock icon desaparece quando `applicationDidFinishLaunching` chama `setActivationPolicy(.accessory)` — parece crash silencioso | É comportamento esperado — o ícone migra para a menu bar; verificar canto superior direito (pode estar atrás de `>>`) |
 
 ## Worktree convention
