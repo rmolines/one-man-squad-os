@@ -18,6 +18,9 @@ struct HypothesisCardView: View {
             HStack {
                 StatusChip(status: hypothesis.status)
                 Spacer()
+                if hypothesis.hasPendingBrief {
+                    PendingBriefBadge()
+                }
             }
         }
         .padding(12)
@@ -28,6 +31,17 @@ struct HypothesisCardView: View {
             RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
         )
+    }
+}
+
+private struct PendingBriefBadge: View {
+    var body: some View {
+        Label("Brief", systemImage: "exclamationmark.circle.fill")
+            .font(.caption2)
+            .fontWeight(.medium)
+            .foregroundStyle(.red)
+            .labelStyle(.iconOnly)
+            .help("Pending decision brief")
     }
 }
 
