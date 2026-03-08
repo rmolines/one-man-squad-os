@@ -1,5 +1,31 @@
 # Changelog
 
+## [feat] FSEvents Watch — portfolio auto-recarrega ao detectar mudanças no filesystem — 2026-03-07
+
+**Tipo:** feat
+**Tags:** fsevents, portfolio, reactive, worktree
+**Commit:** [7961883](https://github.com/rmolines/one-man-squad-os/commit/7961883) · **Complexidade:** simples
+
+### O que mudou
+
+PortfolioView agora atualiza automaticamente quando worktrees são criadas ou removidas — sem precisar de refresh manual. O watcher usa FSEvents nativo do macOS e dispara no máximo uma vez por segundo para coalescer bursts.
+
+### Detalhes técnicos
+
+- `RepoWatcher.swift`: wrapper `FSEventStreamRef` com latência 1 s, callback na main thread via `CFRunLoopGetMain`
+- `PortfolioStore`: extrai `reload()` como método privado; watcher criado/reutilizado em `refresh(repoPath:)` somente quando o path muda
+
+### Impacto
+
+- **Breaking:** Não
+
+### Arquivos-chave
+
+- `Sources/OneManSquadOS/Stores/RepoWatcher.swift` — novo; wrapper FSEvents
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — integração do watcher + extração de reload()
+
+---
+
 ## [feat] SBAR Detection — card acende quando há Decision Brief pendente — 2026-03-08
 
 **Tipo:** feat

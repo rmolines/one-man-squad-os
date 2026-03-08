@@ -4,6 +4,31 @@ Newest entries at the top.
 
 ---
 
+## 2026-03-07 — fsevents-watch — RepoWatcher + reactive PortfolioStore
+
+**What was done:**
+Created `RepoWatcher.swift` — a thin `FSEventStreamRef` wrapper that watches a repo root recursively and fires an `onChange` closure on the main thread (scheduled on `CFRunLoopGetMain`). Updated `PortfolioStore` to hold a `watcher: RepoWatcher?` and `watchedPath: String`, extracted `reload()` as a private method, and wired `refresh(repoPath:)` to create/reuse the watcher when the path changes. Portfolio now auto-refreshes whenever the filesystem under the repo root changes — no manual pull-to-refresh required.
+
+**Key decisions:**
+- `RepoWatcher` owns the `FSEventStreamRef` and stops/invalidates/releases it in `deinit` — no manual lifecycle management needed at call site.
+- Latency defaults to 1.0 s to coalesce rapid bursts (e.g. worktree creation creates multiple events).
+- `CallbackBox` bridges the Swift closure through the C API via opaque pointer + `Unmanaged` — avoids unsafe casts.
+- Watcher is recreated only when `repoPath` changes, so rapid `refresh()` calls don't spawn multiple streams.
+- Strict concurrency: `RepoWatcher` is `final class` (not `Sendable`) but lives entirely in the `@MainActor` context via the callback being delivered on the main thread.
+
+**Pitfalls encountered:**
+- None new beyond those already documented (FSEvents.framework available without extra SPM deps — confirmed).
+
+**Key files:**
+- `Sources/OneManSquadOS/Stores/RepoWatcher.swift` — new; FSEvents wrapper
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — watcher integration + reload() extraction
+
+**Next steps (M2):**
+- Use the same FSEvents infra to invalidate `hasPendingBrief` caches when `.claude/decisions/` changes (currently computed on every card render)
+- Add `kFSEventStreamCreateFlagNoDefer` flag if 1 s latency feels sluggish in practice
+
+---
+
 ## 2026-03-08 — sbar-detection — hasPendingBrief + lastArtifactDate + PendingBriefBadge
 
 **What was done:**
