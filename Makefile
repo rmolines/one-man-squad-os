@@ -1,4 +1,4 @@
-.PHONY: help check lint validate sync-skills clean setup
+.PHONY: help check lint validate sync-skills clean setup xcode
 
 # Default target
 help: ## Show this help
@@ -8,6 +8,16 @@ help: ## Show this help
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 	@echo "Quick start: make check"
+
+xcode: ## Generate xcodeproj, resolve SPM dependencies, and open in Xcode
+	@echo "→ Closing any open Xcode projects to avoid package conflicts..."
+	@osascript -e 'tell application "Xcode" to close every workspace document' 2>/dev/null || true
+	@echo "→ Generating xcodeproj..."
+	@xcodegen generate
+	@echo "→ Resolving SPM dependencies..."
+	@xcodebuild -resolvePackageDependencies -project OneManSquadOS.xcodeproj
+	@echo "→ Opening in Xcode..."
+	@open OneManSquadOS.xcodeproj
 
 check: lint validate ## Run all checks (lint + validate)
 

@@ -88,7 +88,7 @@ Use the skills below for any non-trivial feature (>2-3 files or with architectur
 | template-sync.yml | Runs on template repo itself → no-op | Guard: `!github.event.repository.is_template` |
 | bootstrap.yml | Only fires on first push (run_number == 1) | Don't re-run manually |
 | `EonilFSEvents` (`eonil/FSEvents`) | Repo removido do GitHub — `xcodebuild -resolvePackageDependencies` falha com "Repository not found" | Removido de `project.yml`; FSEvents é M2 — encontrar alternativa antes de M2 (`eonil/FileSystemEvents` é candidato) |
-| `xcodegen` + worktrees | xcodeproj commitado tem package cache paths da máquina original — Xcode abre com "Missing package product" | Rodar `xcodegen generate` dentro da worktree antes de abrir no Xcode |
+| `xcodegen` + worktrees | xcodeproj commitado tem package cache paths da máquina original — Xcode abre com "Missing package product" | Usar `make xcode` (gera xcodeproj + resolve deps SPM + abre). Manual: `xcodegen generate && xcodebuild -resolvePackageDependencies -project OneManSquadOS.xcodeproj && open OneManSquadOS.xcodeproj` |
 | `MarkdownView` / new Swift files fora do Xcode | Arquivo criado via Write tool não aparece no target do Xcode — Preview falha com "Active scheme does not build this file" | Rodar `xcodegen generate` no repo root para regenerar o xcodeproj |
 | `xcodegen generate` antes do rebase | `xcodegen` atualiza `Package.resolved` como side effect — rebase falha com "unstaged changes" | `git stash` antes do rebase, `git stash pop` depois; ou commitar `Package.resolved` antes de rebaser |
 | activationPolicy `.accessory` parece crash | Dock icon desaparece quando `applicationDidFinishLaunching` chama `setActivationPolicy(.accessory)` — parece crash silencioso | É comportamento esperado — o ícone migra para a menu bar; verificar canto superior direito (pode estar atrás de `>>`) |
@@ -119,6 +119,7 @@ swift build          # Build Core + App
 swift test           # Run CoreTests
 make help            # List all available commands
 make check           # Run lint + validate
+make xcode           # Generate xcodeproj + resolve SPM deps + open Xcode
 ```
 
 ## Secrets
