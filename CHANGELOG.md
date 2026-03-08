@@ -1,5 +1,13 @@
 # Changelog
 
+## markdown-renderer — PR #15 — 2026-03-08
+
+**Tipo:** feat
+**Commit:** `git show <SHA>` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#markdown-renderer
+
+---
+
 ## [improvement] Polish — hover, títulos humanizados, animações, ⌘R — 2026-03-08
 
 **Tipo:** improvement

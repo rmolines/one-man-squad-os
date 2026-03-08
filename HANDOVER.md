@@ -4,6 +4,24 @@ Newest entries at the top.
 
 ---
 
+## markdown-renderer — 2026-03-08
+
+**O que foi feito:** Implementado componente de rendering de markdown para o app. `MarkdownRenderer.swift` (Core) expõe `parseMarkdown(_ raw: String) -> [MarkdownBlock]` com parser line-level suportando H1–H3, parágrafos, bullet lists, fenced code blocks, dividers e linhas vazias. `MarkdownView.swift` (App) é um componente SwiftUI reutilizável com subviews `MarkdownHeadingView` e `MarkdownCodeBlockView`; blocks parsed uma única vez no `init` e armazenados como `let`. `stripFrontmatter` em `SBARParser.swift` promovido de `private` para `public`. xcodeproj regenerado via xcodegen para incluir `MarkdownView.swift` no target. PR #15 merged 2026-03-08.
+
+**Decisões tomadas:**
+- Parser line-level (não AST completo) — suficiente para os artefatos do projeto (plan.md, explore.md, discovery.md); evita dependência externa de swift-markdown
+- Parsing em Core, rendering em App — separação de camadas mantida
+- `MarkdownBlock: Hashable` permite `ForEach(id: \.self)` com identidade estável no SwiftUI
+
+**Arquivos-chave:**
+- `Sources/Core/MarkdownRenderer.swift` — novo; `parseMarkdown`, enum `MarkdownBlock: Sendable, Hashable`
+- `Sources/OneManSquadOS/Views/MarkdownView.swift` — novo; `MarkdownView`, `MarkdownHeadingView`, `MarkdownCodeBlockView`
+- `Sources/Core/SBARParser.swift` — `stripFrontmatter` promovido a `public`
+
+**Próximos passos:** As 3 outras features do M4 (project-hierarchy-view, milestone-kanban, artifact-reader, agent-tasks-view) dependem deste componente — `MarkdownView` pode ser usado diretamente para renderizar artefatos em qualquer nova view.
+
+---
+
 ## 2026-03-08 — polish — UX polish: hover, títulos humanizados, animações, ⌘R
 
 **O que foi feito:**

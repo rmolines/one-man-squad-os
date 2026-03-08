@@ -61,6 +61,45 @@ Use o overload completo quando precisar de dimensões mínimas/máximas:
 o rebase falha com "You have unstaged changes". Fix: `git stash` antes do rebase, `git stash pop` depois.
 Alternativa: commitar o `Package.resolved` modificado antes de fazer rebase.
 
+Sinal diagnóstico: se o Xcode Preview de um arquivo novo falha com "Active scheme does not build this file",
+isso indica que o arquivo não está no xcodeproj — rodar `xcodegen generate` resolve.
+
+## 2026-03-08 — SwiftUI body: computed property cara re-executa em todo render
+
+SwiftUI chama `body` em toda mudança de estado relevante. Qualquer computed property chamada dentro de
+`body` (ou `init` de uma sub-view) re-executa a cada ciclo. Para markdown parsing, JSON decoding, ou
+qualquer trabalho não-trivial: inicializar em `init` e armazenar como `let` stored property.
+
+```swift
+// Ruim — re-parseia a cada render
+var blocks: [MarkdownBlock] { MarkdownRenderer.parseMarkdown(content) }
+
+// Correto — parseia uma vez
+let blocks: [MarkdownBlock]
+init(content: String) { self.blocks = MarkdownRenderer.parseMarkdown(content) }
+```
+
+O padrão disk I/O em `FeaturePlanInfo` (já documentado) é um caso especial desta regra geral.
+
+## 2026-03-08 — ForEach com id: \.offset causa instabilidade de identidade
+
+`ForEach(Array(items.enumerated()), id: \.offset)` usa a posição no array como identidade. Ao inserir,
+remover ou reordenar itens, SwiftUI perde o tracking correto e pode reutilizar views erradas ou
+produzir animações incorretas.
+
+Fix: garantir conformância `Hashable` nos elementos e usar `id: \.self`:
+
+```swift
+// Ruim — identidade por posição
+ForEach(Array(blocks.enumerated()), id: \.offset) { _, block in ... }
+
+// Correto — identidade pelo valor
+ForEach(blocks, id: \.self) { block in ... }
+```
+
+Requer que o tipo implemente `Hashable`. Para tipos com campos não-hashable (ex: closures),
+extrair um `id` estável explícito ou usar um `UUID` gerado na construção.
+
 ---
 
 ## GitHub Actions
