@@ -3,6 +3,12 @@ import Core
 
 struct HypothesisCardView: View {
     let hypothesis: WorktreeInfo
+    @State private var showingDetail = false
+
+    private var pendingBrief: SBARBrief? {
+        let artifacts = readArtifacts(worktreePath: hypothesis.path)
+        return artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -18,8 +24,8 @@ struct HypothesisCardView: View {
             HStack {
                 StatusChip(status: hypothesis.status)
                 Spacer()
-                if hypothesis.hasPendingBrief {
-                    PendingBriefBadge()
+                if let brief = pendingBrief {
+                    PendingBriefBadge(showingDetail: $showingDetail, brief: brief)
                 }
             }
         }
@@ -35,13 +41,24 @@ struct HypothesisCardView: View {
 }
 
 private struct PendingBriefBadge: View {
+    @Binding var showingDetail: Bool
+    let brief: SBARBrief
+
     var body: some View {
-        Label("Brief", systemImage: "exclamationmark.circle.fill")
-            .font(.caption2)
-            .fontWeight(.medium)
-            .foregroundStyle(.red)
-            .labelStyle(.iconOnly)
-            .help("Pending decision brief")
+        Button {
+            showingDetail.toggle()
+        } label: {
+            Label("Brief", systemImage: "exclamationmark.circle.fill")
+                .font(.caption2)
+                .fontWeight(.medium)
+                .foregroundStyle(.red)
+                .labelStyle(.iconOnly)
+        }
+        .buttonStyle(.plain)
+        .help("Pending decision brief — click to read")
+        .popover(isPresented: $showingDetail, arrowEdge: .bottom) {
+            SBARDetailView(brief: brief)
+        }
     }
 }
 
