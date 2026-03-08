@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import SettingsAccess
 
 @main
 struct CockpitApp: App {
@@ -16,5 +17,11 @@ struct CockpitApp: App {
         }
         .modelContainer(CockpitSchema.container)
         .defaultSize(width: 900, height: 600)
+
+        Settings {
+            SettingsView()
+                .openSettingsAccess()
+        }
+        .modelContainer(CockpitSchema.container)
     }
 }
