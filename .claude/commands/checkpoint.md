@@ -155,7 +155,7 @@ Assunções atualizadas no plan.md:
 
 checkpoints.md atualizado em .claude/feature-plans/<nome>/checkpoints.md
 
-Próximo: Deliverable <N+1> — <nome do próximo deliverable, ou "feature concluída — rode /validate">
+Próximo: Deliverable <N+1> — <nome do próximo deliverable, ou "feature concluída — rode /ship-feature">
 ```
 
 ---

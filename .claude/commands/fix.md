@@ -55,6 +55,8 @@ Perguntar ao usuário (se não veio nos argumentos):
 - Onde está o problema? (arquivo, função, rota, tela — qualquer pista)
 - Existe algum log de erro, stack trace ou mensagem relevante?
 
+Se o bug envolve concorrência (data race, acesso em thread errada, actor isolation, `@MainActor`, `Task`, `async/await`) → invocar `swift-concurrency` antes de formular hipóteses [porque a skill tem patterns de diagnóstico específicos para esses casos e evita re-diagnosticar erros conhecidos de isolamento]
+
 Se `--investigate` **não** foi passado: ir para Passo 1.2 (diagnóstico manual).
 Se `--investigate` foi passado: ir para Passo 1.2i (diagnóstico via subagente).
 
