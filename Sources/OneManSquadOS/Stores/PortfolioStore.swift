@@ -17,13 +17,14 @@ final class PortfolioStore {
 
         if repoPath != watchedPath {
             watchedPath = repoPath
-            let featurePlansPath = repoPath + "/.claude/feature-plans"
-            let worktreesPath = repoPath + "/.git/worktrees"
+            let base = URL(fileURLWithPath: repoPath)
+            let featurePlansPath = base.appendingPathComponent(".claude/feature-plans").path
+            let worktreesPath = base.appendingPathComponent(".git/worktrees").path
             featurePlansWatcher = RepoWatcher(path: featurePlansPath) { [weak self] in
-                self?.reload()
+                Task { @MainActor [weak self] in self?.reload() }
             }
             worktreesWatcher = RepoWatcher(path: worktreesPath) { [weak self] in
-                self?.reload()
+                Task { @MainActor [weak self] in self?.reload() }
             }
         }
 
@@ -34,7 +35,13 @@ final class PortfolioStore {
 
     private func reload() {
         isLoading = true
-        hypotheses = listFeaturePlans(repoPath: watchedPath)
-        isLoading = false
+        let path = watchedPath
+        Task {
+            let result = await Task.detached(priority: .userInitiated) {
+                listFeaturePlans(repoPath: path)
+            }.value
+            self.hypotheses = result
+            self.isLoading = false
+        }
     }
 }

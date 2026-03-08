@@ -28,35 +28,32 @@ public struct FeaturePlanInfo: Sendable {
     public let slug: String
     public let featurePlansPath: String
     public let attachedWorktree: WorktreeInfo?
+    /// Eagerly loaded at scan time — never triggers disk I/O after construction.
+    public let artifacts: ArtifactSet
+    public let lastArtifactDate: Date?
 
-    public init(slug: String, featurePlansPath: String, attachedWorktree: WorktreeInfo?) {
+    public init(
+        slug: String,
+        featurePlansPath: String,
+        attachedWorktree: WorktreeInfo?,
+        artifacts: ArtifactSet,
+        lastArtifactDate: Date?
+    ) {
         self.slug = slug
         self.featurePlansPath = featurePlansPath
         self.attachedWorktree = attachedWorktree
+        self.artifacts = artifacts
+        self.lastArtifactDate = lastArtifactDate
     }
 }
 
 extension FeaturePlanInfo: HypothesisCard {
     public var id: String { slug }
     public var title: String { slug }
-    public var status: HypothesisStatus { readArtifacts(featurePlansPath: featurePlansPath).inferredStatus }
+    public var status: HypothesisStatus { artifacts.inferredStatus }
 
     public var hasPendingBrief: Bool {
-        readArtifacts(featurePlansPath: featurePlansPath)
-            .sbarBriefs.contains { parseSBAR(from: $0) != nil }
-    }
-
-    public var lastArtifactDate: Date? {
-        let fm = FileManager.default
-        guard let items = try? fm.contentsOfDirectory(
-            at: URL(fileURLWithPath: featurePlansPath),
-            includingPropertiesForKeys: [.contentModificationDateKey],
-            options: .skipsHiddenFiles
-        ) else { return nil }
-        return items
-            .filter { $0.pathExtension == "md" }
-            .compactMap { try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate }
-            .max()
+        artifacts.sbarBriefs.contains { parseSBAR(from: $0) != nil }
     }
 }
 

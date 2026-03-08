@@ -15,10 +15,10 @@ public func listFeaturePlans(repoPath: String) -> [FeaturePlanInfo] {
     let worktrees = (try? listWorktrees(repoPath: repoPath)) ?? []
 
     // Directories that are organisational containers, not hypotheses.
-    let excluded: Set<String> = ["archived"]
+    let organisationalContainers: Set<String> = ["archived"]
 
     let plans: [FeaturePlanInfo] = slugs
-        .filter { !$0.hasPrefix(".") && !excluded.contains($0) }
+        .filter { !$0.hasPrefix(".") && !organisationalContainers.contains($0) }
         .compactMap { slug -> FeaturePlanInfo? in
             let planPath = featurePlansRoot.appendingPathComponent(slug)
             var isDir: ObjCBool = false
@@ -31,10 +31,20 @@ public func listFeaturePlans(repoPath: String) -> [FeaturePlanInfo] {
                     || $0.branch == "feat/\(slug)"
                     || $0.branch == "worktree-\(slug)"
             }
-            return FeaturePlanInfo(slug: slug, featurePlansPath: planPath.path, attachedWorktree: attached)
+            // Read artifacts and modification date once per slug — stored on FeaturePlanInfo.
+            let artifacts = readArtifacts(featurePlansPath: planPath.path)
+            let lastDate = latestModificationDate(in: planPath)
+            return FeaturePlanInfo(
+                slug: slug,
+                featurePlansPath: planPath.path,
+                attachedWorktree: attached,
+                artifacts: artifacts,
+                lastArtifactDate: lastDate
+            )
         }
 
-    // Sort: pendingDecision first, then building, then by lastArtifactDate desc
+    // Sort: pendingDecision first, then building, then by lastArtifactDate desc.
+    // Keys are already stored — no I/O during comparison.
     return plans.sorted { a, b in
         let statusOrder: (HypothesisStatus) -> Int = {
             switch $0 {
@@ -56,4 +66,17 @@ public func listFeaturePlans(repoPath: String) -> [FeaturePlanInfo] {
         case (.none, .none): return a.slug < b.slug
         }
     }
+}
+
+private func latestModificationDate(in dirURL: URL) -> Date? {
+    let fm = FileManager.default
+    guard let items = try? fm.contentsOfDirectory(
+        at: dirURL,
+        includingPropertiesForKeys: [.contentModificationDateKey],
+        options: .skipsHiddenFiles
+    ) else { return nil }
+    return items
+        .filter { $0.pathExtension == "md" }
+        .compactMap { try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate }
+        .max()
 }

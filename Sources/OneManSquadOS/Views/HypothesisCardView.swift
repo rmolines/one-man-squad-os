@@ -6,8 +6,7 @@ struct HypothesisCardView: View {
     @State private var showingDetail = false
 
     private var pendingBrief: SBARBrief? {
-        let artifacts = readArtifacts(featurePlansPath: hypothesis.featurePlansPath)
-        return artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
+        hypothesis.artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
     }
 
     var body: some View {
