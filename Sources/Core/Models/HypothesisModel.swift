@@ -5,6 +5,7 @@ import Foundation
 public enum HypothesisStatus: String, Sendable, CaseIterable {
     case idle
     case exploring
+    case discovered
     case building
     case validating
     case pendingDecision
@@ -21,29 +22,38 @@ public protocol HypothesisCard: Identifiable, Sendable {
     var lastArtifactDate: Date? { get }
 }
 
-// MARK: - WorktreeInfo + HypothesisCard
+// MARK: - FeaturePlanInfo
 
-extension WorktreeInfo: HypothesisCard {
-    public var id: String { path }
-    public var title: String { branch ?? URL(fileURLWithPath: path).lastPathComponent }
-    public var status: HypothesisStatus { readArtifacts(worktreePath: path).inferredStatus }
+public struct FeaturePlanInfo: Sendable {
+    public let slug: String
+    public let featurePlansPath: String
+    public let attachedWorktree: WorktreeInfo?
+    /// Eagerly loaded at scan time — never triggers disk I/O after construction.
+    public let artifacts: ArtifactSet
+    public let lastArtifactDate: Date?
 
-    public var hasPendingBrief: Bool {
-        let artifacts = readArtifacts(worktreePath: path)
-        return artifacts.sbarBriefs.contains { parseSBAR(from: $0) != nil }
-    }
-
-    public var lastArtifactDate: Date? {
-        let decisionsURL = URL(fileURLWithPath: path).appendingPathComponent(".claude/decisions")
-        let fm = FileManager.default
-        guard let items = try? fm.contentsOfDirectory(
-            at: decisionsURL,
-            includingPropertiesForKeys: [.contentModificationDateKey],
-            options: .skipsHiddenFiles
-        ) else { return nil }
-        return items
-            .filter { $0.pathExtension == "md" }
-            .compactMap { try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate }
-            .max()
+    public init(
+        slug: String,
+        featurePlansPath: String,
+        attachedWorktree: WorktreeInfo?,
+        artifacts: ArtifactSet,
+        lastArtifactDate: Date?
+    ) {
+        self.slug = slug
+        self.featurePlansPath = featurePlansPath
+        self.attachedWorktree = attachedWorktree
+        self.artifacts = artifacts
+        self.lastArtifactDate = lastArtifactDate
     }
 }
+
+extension FeaturePlanInfo: HypothesisCard {
+    public var id: String { slug }
+    public var title: String { slug }
+    public var status: HypothesisStatus { artifacts.inferredStatus }
+
+    public var hasPendingBrief: Bool {
+        artifacts.sbarBriefs.contains { parseSBAR(from: $0) != nil }
+    }
+}
+

@@ -2,12 +2,11 @@ import SwiftUI
 import Core
 
 struct HypothesisCardView: View {
-    let hypothesis: WorktreeInfo
+    let hypothesis: FeaturePlanInfo
     @State private var showingDetail = false
 
     private var pendingBrief: SBARBrief? {
-        let artifacts = readArtifacts(worktreePath: hypothesis.path)
-        return artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
+        hypothesis.artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
     }
 
     var body: some View {
@@ -16,7 +15,7 @@ struct HypothesisCardView: View {
                 .font(.headline)
                 .lineLimit(1)
 
-            Text(hypothesis.path)
+            Text(hypothesis.featurePlansPath)
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -82,6 +81,7 @@ private extension HypothesisStatus {
         switch self {
         case .idle:            return "Idle"
         case .exploring:       return "Exploring"
+        case .discovered:      return "Discovered"
         case .building:        return "Building"
         case .validating:      return "Validating"
         case .pendingDecision: return "Decision"
@@ -93,6 +93,7 @@ private extension HypothesisStatus {
         switch self {
         case .idle:            return .secondary
         case .exploring:       return .blue
+        case .discovered:      return .teal
         case .building:        return .orange
         case .validating:      return .purple
         case .pendingDecision: return .red
