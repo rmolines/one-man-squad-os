@@ -49,7 +49,9 @@ public struct FeaturePlanInfo: Sendable {
 
 extension FeaturePlanInfo: HypothesisCard {
     public var id: String { slug }
-    public var title: String { slug }
+    public var title: String {
+        slug.split(separator: "-").map { $0.capitalized }.joined(separator: " ")
+    }
     public var status: HypothesisStatus { artifacts.inferredStatus }
 
     public var hasPendingBrief: Bool {
