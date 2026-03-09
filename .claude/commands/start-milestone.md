@@ -146,7 +146,14 @@ Se `.claude/backlog.json` existir:
      `"path": null, "dependencies": [<deps>], "branch": null, "prNumber": null, "startedAt": null, "completedAt": null, "createdAt": "<ISO-8601>"}`
 3. Validar: `python3 -m json.tool .claude/backlog.json > /dev/null`
 
-Se backlog.json não existir: pular (não criar automaticamente).
+Se `.claude/backlog.json` não existir: criar com estrutura mínima antes de prosseguir:
+
+```bash
+echo '{"version":"1","milestones":[],"features":[],"pitches":[],"chores":[]}' \
+  > "$REPO_ROOT/.claude/backlog.json"
+```
+
+Continuar com a lógica existente de add/update.
 
 > **Nota de arquitetura:**
 > `sprint.md` é um artefato de **planejamento** — define a decomposição e ordem de execução.

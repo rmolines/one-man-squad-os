@@ -97,6 +97,10 @@ Para cada milestone (M1, M2, M3, ...):
 
 Se todos os milestones estão 100% done: reportar conclusão do projeto.
 
+### 2.5 Detectar drift
+
+Para cada feature marcada `pending` no sprint.md: verificar se há PR merged com slug correspondente ou backlog.json com `status: "done"`. Se detectar mismatch, registrar para exibir no relatório antes da seção "Próxima ação".
+
 ---
 
 ## Fase 3 — Gerar relatório
@@ -161,6 +165,18 @@ _(Omitir esta seção se não houver pitches no backlog.json)_
 | <YYYY-MM-DD> | #N | K itens | merged / open |
 
 _(Omitir esta seção se `chores[]` estiver vazio ou ausente no backlog.json)_
+
+---
+
+### ⚠️ Drift detectado (se houver)
+
+| Feature | sprint.md | Evidência |
+|---------|-----------|-----------|
+| `<slug>` | pending | PR #N merged YYYY-MM-DD |
+
+Ação: `/close-feature <slug>` para sincronizar.
+
+_(Omitir esta seção se não houver drift detectado na Fase 2.5)_
 
 ---
 
