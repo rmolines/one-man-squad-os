@@ -36,7 +36,7 @@ final class PortfolioStore {
     private func reload() {
         isLoading = true
         let path = watchedPath
-        Task {
+        Task { @MainActor in
             let tree = await Task.detached(priority: .userInitiated) {
                 buildProjectTree(repoPath: path)
             }.value

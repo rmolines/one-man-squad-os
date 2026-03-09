@@ -35,7 +35,7 @@ struct FeatureDocumentsView: View {
             }
         }
         .onAppear { selectDefaultDoc() }
-        .onChange(of: feature.id) { selectDefaultDoc() }
+        .onChange(of: feature.id) { _, _ in selectDefaultDoc() }
     }
 
     // MARK: - Subviews
