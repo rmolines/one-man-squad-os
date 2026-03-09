@@ -46,7 +46,7 @@ struct HypothesisCardView: View {
 
 // MARK: - PhaseChip
 
-private struct PhaseChip: View {
+struct PhaseChip: View {
     let phase: Phase
 
     var body: some View {
@@ -63,7 +63,7 @@ private struct PhaseChip: View {
 
 // MARK: - StatusChip
 
-private struct StatusChip: View {
+struct StatusChip: View {
     let status: HypothesisStatus
 
     var body: some View {

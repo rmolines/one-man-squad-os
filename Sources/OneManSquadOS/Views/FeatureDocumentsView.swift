@@ -51,22 +51,8 @@ struct FeatureDocumentsView: View {
             }
             Spacer()
             HStack(spacing: 6) {
-                Text(feature.phase.label)
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(feature.phase.color.opacity(0.15))
-                    .foregroundStyle(feature.phase.color)
-                    .clipShape(Capsule())
-                Text(feature.info.status.label)
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(feature.info.status.color.opacity(0.15))
-                    .foregroundStyle(feature.info.status.color)
-                    .clipShape(Capsule())
+                PhaseChip(phase: feature.phase)
+                StatusChip(status: feature.info.status)
             }
         }
         .padding(.horizontal, 16)

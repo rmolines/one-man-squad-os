@@ -5,7 +5,12 @@ import Core
 struct ExploreDetailView: View {
     let raw: String
 
-    private var sections: [SectionBlock] { parseSections(from: raw) }
+    private let sections: [MarkdownH2Section]
+
+    init(raw: String) {
+        self.raw = raw
+        self.sections = parseMarkdownH2Sections(from: raw)
+    }
 
     var body: some View {
         ScrollView {
@@ -39,39 +44,4 @@ struct ExploreDetailView: View {
             .padding(16)
         }
     }
-}
-
-// MARK: - Helpers
-
-private struct SectionBlock: Identifiable {
-    let id: String  // title used as stable id
-    let title: String
-    let body: String
-}
-
-private func parseSections(from markdown: String) -> [SectionBlock] {
-    var result: [SectionBlock] = []
-    var currentTitle: String? = nil
-    var currentLines: [String] = []
-
-    func flush() {
-        if let title = currentTitle {
-            let body = currentLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
-            if !body.isEmpty {
-                result.append(SectionBlock(id: title, title: title, body: body))
-            }
-        }
-    }
-
-    for line in markdown.components(separatedBy: .newlines) {
-        if line.hasPrefix("## ") {
-            flush()
-            currentTitle = String(line.dropFirst(3)).trimmingCharacters(in: .whitespaces)
-            currentLines = []
-        } else if currentTitle != nil {
-            currentLines.append(line)
-        }
-    }
-    flush()
-    return result
 }

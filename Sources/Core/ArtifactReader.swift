@@ -45,10 +45,9 @@ public struct ArtifactSet: Sendable {
         self.inferredPhase = phase
 
         // Derive Hill Chart position — prefer confiança field from most advanced artifact
-        let taskItems = planMd.map { parseTaskItems($0) } ?? []
-        let taskRatio: CGFloat = taskItems.isEmpty
+        let taskRatio: CGFloat = self.taskItems.isEmpty
             ? 0
-            : CGFloat(taskItems.filter(\.completed).count) / CGFloat(taskItems.count)
+            : CGFloat(self.taskItems.filter(\.completed).count) / CGFloat(self.taskItems.count)
 
         if let raw = exploreMd.flatMap({ extractConfianca(from: $0) }) {
             self.confidenceT = confidenceToT(raw)
