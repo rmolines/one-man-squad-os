@@ -5,6 +5,8 @@ import Core
 /// `FeatureNode.info.artifacts` — no disk I/O here.
 struct FeatureDocumentsView: View {
     let feature: FeatureNode
+    let rootRepoPath: String
+    let onSave: () -> Void
 
     private enum Doc: String, CaseIterable {
         case clarify   = "Clarify"
@@ -15,11 +17,20 @@ struct FeatureDocumentsView: View {
     }
 
     @State private var selectedDoc: Doc = .clarify
+    @State private var isEditing = false
+    @State private var editingText = ""
+    @State private var showSaveConfirm = false
+    @State private var saveError: String? = nil
 
     private var artifacts: ArtifactSet { feature.info.artifacts }
 
     private var availableDocs: [Doc] {
         Doc.allCases.filter { content(for: $0) != nil }
+    }
+
+    /// Docs that support inline editing (those rendered via MarkdownView).
+    private var isEditableDoc: Bool {
+        selectedDoc != .clarify && selectedDoc != .explore
     }
 
     var body: some View {
@@ -31,11 +42,35 @@ struct FeatureDocumentsView: View {
             } else {
                 docPicker
                 Divider()
-                docContent
+                if isEditing {
+                    editorContent
+                } else {
+                    docContent
+                }
             }
         }
         .onAppear { selectDefaultDoc() }
-        .onChange(of: feature.id) { _, _ in selectDefaultDoc() }
+        .onChange(of: feature.id) { _, _ in
+            isEditing = false
+            selectDefaultDoc()
+        }
+        .onChange(of: selectedDoc) { _, _ in
+            isEditing = false
+        }
+        .alert("Save changes?", isPresented: $showSaveConfirm) {
+            Button("Save", role: .destructive) { performSave() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will overwrite \(filename(for: selectedDoc)) on disk.")
+        }
+        .alert("Save failed", isPresented: Binding(
+            get: { saveError != nil },
+            set: { if !$0 { saveError = nil } }
+        )) {
+            Button("OK", role: .cancel) { saveError = nil }
+        } message: {
+            Text(saveError ?? "")
+        }
     }
 
     // MARK: - Subviews
@@ -51,8 +86,33 @@ struct FeatureDocumentsView: View {
             }
             Spacer()
             HStack(spacing: 6) {
-                PhaseChip(phase: feature.phase)
-                StatusChip(status: feature.info.status)
+                if isEditing {
+                    Button("Cancel") {
+                        isEditing = false
+                    }
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(.secondary)
+
+                    Button("Save") {
+                        showSaveConfirm = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                } else {
+                    if isEditableDoc && content(for: selectedDoc) != nil {
+                        Button {
+                            editingText = content(for: selectedDoc) ?? ""
+                            isEditing = true
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .buttonStyle(.borderless)
+                        .foregroundStyle(.secondary)
+                        .controlSize(.small)
+                    }
+                    PhaseChip(phase: feature.phase)
+                    StatusChip(status: feature.info.status)
+                }
             }
         }
         .padding(.horizontal, 16)
@@ -102,6 +162,12 @@ struct FeatureDocumentsView: View {
         }
     }
 
+    private var editorContent: some View {
+        TextEditor(text: $editingText)
+            .font(.system(.body, design: .monospaced))
+            .padding(12)
+    }
+
     private var emptyState: some View {
         ContentUnavailableView(
             "No documents",
@@ -122,6 +188,16 @@ struct FeatureDocumentsView: View {
         }
     }
 
+    private func filename(for doc: Doc) -> String {
+        switch doc {
+        case .clarify:   return "clarify.md"
+        case .explore:   return "explore.md"
+        case .discovery: return "discovery.md"
+        case .research:  return "research.md"
+        case .plan:      return "plan.md"
+        }
+    }
+
     private func selectDefaultDoc() {
         // For Discovery phase, prefer clarify; otherwise prefer the most advanced artifact
         switch feature.phase {
@@ -131,6 +207,32 @@ struct FeatureDocumentsView: View {
             selectedDoc = availableDocs.first { $0 == .discovery || $0 == .research } ?? availableDocs.first ?? .discovery
         case .delivery:
             selectedDoc = availableDocs.first { $0 == .plan } ?? availableDocs.first ?? .plan
+        }
+    }
+
+    private func performSave() {
+        let slug = feature.info.slug
+        let relativePath = "\(slug)/\(filename(for: selectedDoc))"
+
+        let result = previewWrite(content: editingText, to: relativePath, rootRepoPath: rootRepoPath)
+        switch result {
+        case .success(let preview):
+            do {
+                try commitWrite(preview)
+                isEditing = false
+                onSave()
+            } catch {
+                saveError = error.localizedDescription
+            }
+        case .failure(let error):
+            switch error {
+            case .pathTraversal(let path):
+                saveError = "Path traversal rejected: \(path)"
+            case .outsideFeaturePlans(let path):
+                saveError = "Path outside feature-plans: \(path)"
+            case .ioError(let underlying):
+                saveError = underlying.localizedDescription
+            }
         }
     }
 }

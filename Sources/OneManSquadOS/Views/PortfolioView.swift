@@ -137,7 +137,11 @@ struct PortfolioView: View {
     @ViewBuilder
     private var detailColumn: some View {
         if let feature = selectedFeature {
-            FeatureDocumentsView(feature: feature)
+            FeatureDocumentsView(
+                feature: feature,
+                rootRepoPath: settings.rootRepoPath,
+                onSave: { store.refresh(repoPath: settings.rootRepoPath) }
+            )
         } else {
             ContentUnavailableView(
                 "Select a feature",
