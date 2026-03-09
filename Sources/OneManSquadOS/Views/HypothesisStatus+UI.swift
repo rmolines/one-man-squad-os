@@ -1,6 +1,28 @@
 import SwiftUI
 import Core
 
+// MARK: - Phase UI
+
+extension Phase {
+    var label: String {
+        switch self {
+        case .discovery: return "Discovery"
+        case .planning:  return "Planning"
+        case .delivery:  return "Delivery"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .discovery: return .blue
+        case .planning:  return .orange
+        case .delivery:  return .green
+        }
+    }
+}
+
+// MARK: - HypothesisStatus UI
+
 extension HypothesisStatus {
     var label: String {
         switch self {

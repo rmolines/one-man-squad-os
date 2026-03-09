@@ -1,0 +1,33 @@
+{
+  "": {
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/master.swiftdeps"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/checkouts/frontmatter/Sources/frontmatter/Error.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Error.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Error.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Error~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Error.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Error.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/checkouts/frontmatter/Sources/frontmatter/Frontmatter+Read.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Read.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Read.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Read~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Read.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Read.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/checkouts/frontmatter/Sources/frontmatter/Frontmatter+Write.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Write.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Write.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Write~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Write.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/Frontmatter+Write.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/checkouts/frontmatter/Sources/frontmatter/String+Utils.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/String+Utils.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/String+Utils.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/String+Utils~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/String+Utils.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Frontmatter.build/String+Utils.dia"
+  }
+}

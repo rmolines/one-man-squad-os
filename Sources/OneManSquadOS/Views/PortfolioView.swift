@@ -3,23 +3,17 @@ import SwiftData
 import SettingsAccess
 import Core
 
-private enum ViewMode: String {
-    case grid, kanban
-}
-
 struct PortfolioView: View {
     @Query private var settingsList: [CockpitSettings]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.openSettings) private var openSettings
     @State private var store = PortfolioStore()
     @State private var isRefreshSpinning = false
-    @State private var selectedHypothesis: FeaturePlanInfo? = nil
-    @AppStorage("portfolioViewMode") private var viewMode: ViewMode = .grid
+    @State private var selectedGroupId: String? = nil
+    @State private var selectedFeatureId: String? = nil
 
     private var settings: CockpitSettings {
-        if let existing = settingsList.first {
-            return existing
-        }
+        if let existing = settingsList.first { return existing }
         let fresh = CockpitSettings()
         modelContext.insert(fresh)
         return fresh
@@ -27,6 +21,14 @@ struct PortfolioView: View {
 
     private var columns: [GridItem] {
         [GridItem(.adaptive(minimum: 240, maximum: 320), spacing: 12)]
+    }
+
+    private var selectedGroup: GroupNode? {
+        store.repoTree?.groups.first { $0.id == selectedGroupId }
+    }
+
+    private var selectedFeature: FeatureNode? {
+        selectedGroup?.features.first { $0.id == selectedFeatureId }
     }
 
     var body: some View {
@@ -37,7 +39,7 @@ struct PortfolioView: View {
                 portfolioContent
             }
         }
-        .frame(minWidth: 600, minHeight: 400)
+        .frame(minWidth: 900, minHeight: 500)
         .onAppear {
             if !settings.rootRepoPath.isEmpty {
                 store.refresh(repoPath: settings.rootRepoPath)
@@ -66,109 +68,115 @@ struct PortfolioView: View {
     // MARK: - Portfolio
 
     private var portfolioContent: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                toolbar
-                Divider()
-                Group {
-                    if store.isLoading {
-                        ScrollView {
-                            ProgressView()
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .padding(40)
-                        }
-                    } else if store.hypotheses.isEmpty {
-                        ScrollView {
-                            ContentUnavailableView(
-                                "No feature plans found",
-                                systemImage: "square.stack.3d.up.slash",
-                                description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
-                            )
-                        }
-                    } else if viewMode == .kanban {
-                        MilestoneKanbanView(store: store)
-                    } else {
-                        ScrollView {
-                            LazyVGrid(columns: columns, spacing: 12) {
-                                ForEach(store.hypotheses) { hypothesis in
-                                    HypothesisCardView(hypothesis: hypothesis) {
-                                        selectedHypothesis = hypothesis
-                                    }
-                                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                                }
-                            }
-                            .animation(.easeOut(duration: 0.2), value: store.hypotheses.map(\.id))
-                            .padding(16)
-                        }
+        NavigationSplitView {
+            PortfolioSidebarView(groups: store.repoTree?.groups ?? [], selection: $selectedGroupId)
+                .navigationSplitViewColumnWidth(min: 160, ideal: 220, max: 280)
+                .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        refreshButton
+                    }
+                    ToolbarItem(placement: .automatic) {
+                        settingsButton
                     }
                 }
-            }
-
-            if let hypothesis = selectedHypothesis {
-                Color.black.opacity(0.001)
-                    .ignoresSafeArea()
-                    .onTapGesture { selectedHypothesis = nil }
-
-                FeatureDocumentsView(hypothesis: hypothesis)
-                    .background(Color(nsColor: .windowBackgroundColor))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(color: .black.opacity(0.2), radius: 24, x: 0, y: 8)
-                    .padding(40)
-                    .onTapGesture {}
-                    .transition(.opacity.combined(with: .scale(scale: 0.97)))
-            }
+        } content: {
+            contentColumn
+                .navigationSplitViewColumnWidth(min: 280, ideal: 380)
+        } detail: {
+            detailColumn
         }
-        .animation(.easeOut(duration: 0.18), value: selectedHypothesis?.id)
+        .navigationSplitViewStyle(.prominentDetail)
+        .onChange(of: selectedGroupId) { selectedFeatureId = nil }
     }
 
-    private var toolbar: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Portfolio")
-                    .font(.headline)
-                Text(settings.rootRepoPath)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-            Spacer()
+    // MARK: - Content column (center)
 
-            Picker("", selection: $viewMode) {
-                Label("Grid", systemImage: "square.grid.2x2").tag(ViewMode.grid)
-                Label("Kanban", systemImage: "rectangle.split.3x1").tag(ViewMode.kanban)
+    @ViewBuilder
+    private var contentColumn: some View {
+        if store.isLoading {
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else if let group = selectedGroup {
+            if group.features.isEmpty {
+                ContentUnavailableView(
+                    "No features",
+                    systemImage: "square.stack.3d.up.slash",
+                    description: Text("No feature plans in this group yet.")
+                )
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 12) {
+                        ForEach(group.features) { feature in
+                            HypothesisCardView(feature: feature) {
+                                selectedFeatureId = feature.id
+                            }
+                            .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                        }
+                    }
+                    .animation(.easeOut(duration: 0.2), value: group.features.map(\.id))
+                    .padding(16)
+                }
             }
-            .pickerStyle(.segmented)
-            .frame(width: 100)
-
-            Button {
-                openSettings()
-            } label: {
-                Label("Settings", systemImage: "gear")
-            }
-            .buttonStyle(.borderless)
-
-            Button {
-                store.refresh(repoPath: settings.rootRepoPath)
-            } label: {
-                Image(systemName: "arrow.clockwise")
-                    .rotationEffect(.degrees(isRefreshSpinning ? 360 : 0))
-                    .animation(
-                        isRefreshSpinning
-                            ? .linear(duration: 0.6).repeatForever(autoreverses: false)
-                            : .easeOut(duration: 0.3),
-                        value: isRefreshSpinning
-                    )
-                    .accessibilityLabel("Refresh")
-            }
-            .buttonStyle(.borderless)
-            .disabled(store.isLoading)
-            .keyboardShortcut("r", modifiers: .command)
-            .onChange(of: store.isLoading) { _, loading in
-                isRefreshSpinning = loading
-            }
+        } else if store.repoTree != nil {
+            ContentUnavailableView(
+                "Select a group",
+                systemImage: "sidebar.left",
+                description: Text("Choose a milestone or Discovery from the sidebar.")
+            )
+        } else {
+            ContentUnavailableView(
+                "No feature plans found",
+                systemImage: "square.stack.3d.up.slash",
+                description: Text("No feature plans in \(settings.rootRepoPath)/.claude/feature-plans/")
+            )
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 10)
     }
 
+    // MARK: - Detail column
+
+    @ViewBuilder
+    private var detailColumn: some View {
+        if let feature = selectedFeature {
+            FeatureDocumentsView(feature: feature)
+        } else {
+            ContentUnavailableView(
+                "Select a feature",
+                systemImage: "doc.text",
+                description: Text("Choose a feature plan to view its artifacts.")
+            )
+        }
+    }
+
+    // MARK: - Toolbar items
+
+    private var refreshButton: some View {
+        Button {
+            store.refresh(repoPath: settings.rootRepoPath)
+        } label: {
+            Image(systemName: "arrow.clockwise")
+                .rotationEffect(.degrees(isRefreshSpinning ? 360 : 0))
+                .animation(
+                    isRefreshSpinning
+                        ? .linear(duration: 0.6).repeatForever(autoreverses: false)
+                        : .easeOut(duration: 0.3),
+                    value: isRefreshSpinning
+                )
+                .accessibilityLabel("Refresh")
+        }
+        .buttonStyle(.borderless)
+        .disabled(store.isLoading)
+        .keyboardShortcut("r", modifiers: .command)
+        .onChange(of: store.isLoading) { _, loading in
+            isRefreshSpinning = loading
+        }
+    }
+
+    private var settingsButton: some View {
+        Button {
+            openSettings()
+        } label: {
+            Label("Settings", systemImage: "gear")
+        }
+        .buttonStyle(.borderless)
+    }
 }

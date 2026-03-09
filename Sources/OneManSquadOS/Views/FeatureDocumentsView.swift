@@ -1,19 +1,22 @@
 import SwiftUI
 import Core
 
-/// Shows the artifact documents (explore, discovery, research, plan) for a feature plan.
-/// Documents are already loaded in `FeaturePlanInfo.artifacts` — no disk I/O here.
+/// Shows the artifact documents for a feature. Documents are already loaded in
+/// `FeatureNode.info.artifacts` — no disk I/O here.
 struct FeatureDocumentsView: View {
-    let hypothesis: FeaturePlanInfo
+    let feature: FeatureNode
 
     private enum Doc: String, CaseIterable {
-        case explore = "Explore"
+        case clarify   = "Clarify"
+        case explore   = "Explore"
         case discovery = "Discovery"
-        case research = "Research"
-        case plan = "Plan"
+        case research  = "Research"
+        case plan      = "Plan"
     }
 
-    @State private var selectedDoc: Doc = .explore
+    @State private var selectedDoc: Doc = .clarify
+
+    private var artifacts: ArtifactSet { feature.info.artifacts }
 
     private var availableDocs: [Doc] {
         Doc.allCases.filter { content(for: $0) != nil }
@@ -28,15 +31,11 @@ struct FeatureDocumentsView: View {
             } else {
                 docPicker
                 Divider()
-                MarkdownView(text: content(for: selectedDoc) ?? "")
+                docContent
             }
         }
-        .frame(minWidth: 640, maxWidth: 640, minHeight: 480, maxHeight: 720)
-        .onAppear {
-            if let first = availableDocs.first {
-                selectedDoc = first
-            }
-        }
+        .onAppear { selectDefaultDoc() }
+        .onChange(of: feature.id) { selectDefaultDoc() }
     }
 
     // MARK: - Subviews
@@ -44,14 +43,31 @@ struct FeatureDocumentsView: View {
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(hypothesis.title)
+                Text(feature.info.title)
                     .font(.headline)
-                Text(hypothesis.slug)
+                Text(feature.info.slug)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            StatusChipView(status: hypothesis.status)
+            HStack(spacing: 6) {
+                Text(feature.phase.label)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(feature.phase.color.opacity(0.15))
+                    .foregroundStyle(feature.phase.color)
+                    .clipShape(Capsule())
+                Text(feature.info.status.label)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(feature.info.status.color.opacity(0.15))
+                    .foregroundStyle(feature.info.status.color)
+                    .clipShape(Capsule())
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -85,11 +101,26 @@ struct FeatureDocumentsView: View {
         .padding(.horizontal, 4)
     }
 
+    @ViewBuilder
+    private var docContent: some View {
+        switch selectedDoc {
+        case .clarify:
+            ClarifyDetailView(raw: artifacts.clarifyMd ?? "")
+        case .explore:
+            ExploreDetailView(raw: artifacts.exploreMd ?? "")
+        default:
+            ScrollView {
+                MarkdownView(text: content(for: selectedDoc) ?? "")
+                    .padding(16)
+            }
+        }
+    }
+
     private var emptyState: some View {
         ContentUnavailableView(
             "No documents",
             systemImage: "doc.text.slash",
-            description: Text("No artifacts found for \(hypothesis.slug)")
+            description: Text("No artifacts found for \(feature.info.slug)")
         )
     }
 
@@ -97,25 +128,23 @@ struct FeatureDocumentsView: View {
 
     private func content(for doc: Doc) -> String? {
         switch doc {
-        case .explore:   return hypothesis.artifacts.exploreMd
-        case .discovery: return hypothesis.artifacts.discoveryMd
-        case .research:  return hypothesis.artifacts.researchMd
-        case .plan:      return hypothesis.artifacts.planMd
+        case .clarify:   return artifacts.clarifyMd
+        case .explore:   return artifacts.exploreMd
+        case .discovery: return artifacts.discoveryMd
+        case .research:  return artifacts.researchMd
+        case .plan:      return artifacts.planMd
         }
     }
-}
 
-private struct StatusChipView: View {
-    let status: HypothesisStatus
-
-    var body: some View {
-        Text(status.label)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(status.color.opacity(0.15))
-            .foregroundStyle(status.color)
-            .clipShape(Capsule())
+    private func selectDefaultDoc() {
+        // For Discovery phase, prefer clarify; otherwise prefer the most advanced artifact
+        switch feature.phase {
+        case .discovery:
+            selectedDoc = availableDocs.first { $0 == .clarify || $0 == .explore } ?? availableDocs.first ?? .clarify
+        case .planning:
+            selectedDoc = availableDocs.first { $0 == .discovery || $0 == .research } ?? availableDocs.first ?? .discovery
+        case .delivery:
+            selectedDoc = availableDocs.first { $0 == .plan } ?? availableDocs.first ?? .plan
+        }
     }
 }

@@ -4,15 +4,14 @@ import Core
 
 @Observable @MainActor
 final class PortfolioStore {
-    var hypotheses: [FeaturePlanInfo] = []
-    var milestones: [MilestoneInfo] = []
+    var repoTree: RepoNode?
     var isLoading: Bool = false
 
     private var featurePlansWatcher: RepoWatcher?
     private var worktreesWatcher: RepoWatcher?
     private var watchedPath: String = ""
 
-    /// Refreshes the feature-plan list and (re)starts the FSEvents watchers if the path changed.
+    /// Refreshes the project tree and (re)starts FSEvents watchers if the path changed.
     func refresh(repoPath: String) {
         guard !repoPath.isEmpty else { return }
 
@@ -38,14 +37,10 @@ final class PortfolioStore {
         isLoading = true
         let path = watchedPath
         Task {
-            async let plans = Task.detached(priority: .userInitiated) {
-                listFeaturePlans(repoPath: path)
+            let tree = await Task.detached(priority: .userInitiated) {
+                buildProjectTree(repoPath: path)
             }.value
-            async let milestoneList = Task.detached(priority: .userInitiated) {
-                listMilestones(repoPath: path)
-            }.value
-            self.hypotheses = await plans
-            self.milestones = await milestoneList
+            self.repoTree = tree
             self.isLoading = false
         }
     }

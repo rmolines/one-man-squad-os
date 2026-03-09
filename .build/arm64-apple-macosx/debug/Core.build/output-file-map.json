@@ -1,0 +1,89 @@
+{
+  "": {
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/master.swiftdeps"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/ArtifactReader.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ArtifactReader.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ArtifactReader.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ArtifactReader~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ArtifactReader.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ArtifactReader.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/ConfidenceParser.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ConfidenceParser.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ConfidenceParser.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ConfidenceParser~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ConfidenceParser.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ConfidenceParser.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/FeaturePlanScanner.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FeaturePlanScanner.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FeaturePlanScanner.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FeaturePlanScanner~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FeaturePlanScanner.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FeaturePlanScanner.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/FileWriter.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FileWriter.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FileWriter.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FileWriter~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FileWriter.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/FileWriter.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/GateEvaluator.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/GateEvaluator.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/GateEvaluator.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/GateEvaluator~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/GateEvaluator.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/GateEvaluator.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/MarkdownRenderer.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MarkdownRenderer.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MarkdownRenderer.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MarkdownRenderer~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MarkdownRenderer.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MarkdownRenderer.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/MilestoneScanner.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MilestoneScanner.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MilestoneScanner.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MilestoneScanner~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MilestoneScanner.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/MilestoneScanner.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/Models/HypothesisModel.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/HypothesisModel.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/HypothesisModel.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/HypothesisModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/HypothesisModel.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/HypothesisModel.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/Phase.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/Phase.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/Phase.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/Phase~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/Phase.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/Phase.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/ProjectNode.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ProjectNode.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ProjectNode.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ProjectNode~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ProjectNode.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/ProjectNode.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/SBARParser.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/SBARParser.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/SBARParser.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/SBARParser~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/SBARParser.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/SBARParser.dia"
+  },
+  "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/Sources/Core/WorktreeScanner.swift": {
+    "dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/WorktreeScanner.d",
+    "object": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/WorktreeScanner.swift.o",
+    "swiftmodule": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/WorktreeScanner~partial.swiftmodule",
+    "swift-dependencies": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/WorktreeScanner.swiftdeps",
+    "diagnostics": "/Users/rmolines/git/one-man-squad-os/.claude/worktrees/philosophy-driven-ux/.build/arm64-apple-macosx/debug/Core.build/WorktreeScanner.dia"
+  }
+}
