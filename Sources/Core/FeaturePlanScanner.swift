@@ -74,6 +74,63 @@ func isMilestoneDir(_ slug: String) -> Bool {
     return slug.dropFirst().allSatisfy(\.isNumber)
 }
 
+// MARK: - Project Tree
+
+/// Builds a typed project tree from the repository's feature-plans directory.
+/// Groups features into a virtual "Discovery" group (unclaimed by any milestone)
+/// and named milestone groups (M1, M2, …).
+public func buildProjectTree(repoPath: String) -> RepoNode {
+    let allFeatures = listFeaturePlans(repoPath: repoPath)
+    let allMilestones = listMilestones(repoPath: repoPath)
+
+    func makeFeatureNode(_ info: FeaturePlanInfo) -> FeatureNode {
+        let phase = info.artifacts.inferredPhase
+        return FeatureNode(
+            id: info.slug,
+            info: info,
+            phase: phase,
+            confidenceT: info.artifacts.confidenceT,
+            gate: evaluateGate(for: info, phase: phase)
+        )
+    }
+
+    // Slugs claimed by at least one milestone's sprint.md
+    let claimedSlugs = Set(allMilestones.flatMap(\.featureSlugs))
+
+    // Milestone groups — preserve scanner sort order within each group
+    let milestoneGroups: [GroupNode] = allMilestones.map { milestone in
+        let features = milestone.featureSlugs
+            .compactMap { slug in allFeatures.first { $0.slug == slug } }
+            .map(makeFeatureNode)
+        return GroupNode(
+            id: milestone.id,
+            title: milestone.title,
+            milestone: milestone,
+            features: features
+        )
+    }
+
+    // Discovery group: features not claimed by any milestone
+    let discoveryFeatures = allFeatures
+        .filter { !claimedSlugs.contains($0.slug) }
+        .map(makeFeatureNode)
+
+    var groups: [GroupNode] = []
+    if !discoveryFeatures.isEmpty {
+        groups.append(GroupNode(
+            id: "discovery",
+            title: "Discovery",
+            milestone: nil,
+            features: discoveryFeatures
+        ))
+    }
+    groups.append(contentsOf: milestoneGroups)
+
+    return RepoNode(repoPath: repoPath, groups: groups)
+}
+
+// MARK: - Private helpers
+
 private func latestModificationDate(in dirURL: URL) -> Date? {
     let fm = FileManager.default
     guard let items = try? fm.contentsOfDirectory(

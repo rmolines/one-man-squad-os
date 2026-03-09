@@ -30,7 +30,6 @@
 /* Begin PBXFileReference section */
 		0909C4101C19A4B7CE6CE364 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1483A931688AE22C1D96D562 /* BacklogHypothesis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BacklogHypothesis.swift; sourceTree = "<group>"; };
-		32F5C945D46A1669F37727C6 /* one-man-squad-os */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "one-man-squad-os"; path = .; sourceTree = SOURCE_ROOT; };
 		331C12E183DB75C77F1A47D0 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStore.swift; sourceTree = "<group>"; };
 		3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDocumentsView.swift; sourceTree = "<group>"; };
@@ -45,6 +44,7 @@
 		9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HypothesisStatus+UI.swift"; sourceTree = "<group>"; };
 		BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSchema.swift; sourceTree = "<group>"; };
 		BC755B6EEA537DC414827C48 /* OneManSquadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneManSquadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD81564D7A1C925DEAA5D65C /* philosophy-driven-ux */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "philosophy-driven-ux"; path = .; sourceTree = SOURCE_ROOT; };
 		F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBARDetailView.swift; sourceTree = "<group>"; };
 		FA7EA0064D2C8541D466558C /* CockpitSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,7 +117,7 @@
 		D0B56D9EA0EBA8E20DF1AD93 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				32F5C945D46A1669F37727C6 /* one-man-squad-os */,
+				DD81564D7A1C925DEAA5D65C /* philosophy-driven-ux */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
