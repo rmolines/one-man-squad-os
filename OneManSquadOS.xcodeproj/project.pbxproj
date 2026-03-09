@@ -10,34 +10,39 @@
 		0201980EF6B1CF376CE8CB91 /* SBARDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */; };
 		02B725E77F574A135B3125B3 /* CockpitSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7EA0064D2C8541D466558C /* CockpitSettings.swift */; };
 		043AC30A625E196AE0399350 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = E14C633AE8BECFA5FA2A038D /* Core */; };
+		188D0A322B55ABDAE4FEF7F4 /* GateIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22A5A1974CBF4A912EB37BA /* GateIndicatorView.swift */; };
 		215BB882FC5892B76FEBC514 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0909C4101C19A4B7CE6CE364 /* SettingsView.swift */; };
 		24053830E786618821046253 /* CockpitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B1921F5959B03F46508A79 /* CockpitApp.swift */; };
 		247ABA78C6FE2BC434DDBE4B /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 37F20202C24E86CDD84045E9 /* SettingsAccess */; };
 		346F7415782F1F419D116751 /* BacklogHypothesis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1483A931688AE22C1D96D562 /* BacklogHypothesis.swift */; };
+		3C274CBEF2C719377A89C3FC /* ClarifyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CBDDCDA49C7998B7ED7458 /* ClarifyDetailView.swift */; };
 		43D962F1531C5D593E701917 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87498EAEC2A6A785DF5A83F1 /* AppDelegate.swift */; };
+		51CBD603ABEAB2B5EAD0A09A /* ExploreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF56484DFBC58E2C148F348 /* ExploreDetailView.swift */; };
 		590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */; };
 		6E63928C19DAA8FEE6ABFED3 /* RepoWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */; };
-		76CC42A865BC8A726AD304BD /* MilestoneKanbanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC1674BE1E80346C94DA7DA /* MilestoneKanbanView.swift */; };
+		886CD4702255647F4E9D7496 /* HillChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C702B92B7E4080AC76282 /* HillChartView.swift */; };
 		8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */; };
+		AA57B54C3A3AD9009D50E3AB /* PortfolioSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */; };
 		AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */; };
 		AF25E5AF8B64B21880FF9E74 /* PortfolioStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */; };
 		B5020528F36DECB11F955BE2 /* HypothesisStatus+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */; };
 		D0930F70B63C113406E85476 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C12E183DB75C77F1A47D0 /* PortfolioView.swift */; };
 		DE723B2CE17B258A2A796B4A /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A0512F95BAE21582D3781E /* MarkdownView.swift */; };
+		F83EEA1F43FB0B34E5B0481A /* HealthBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85B7E3050376B87D2C1B7E3 /* HealthBadgeView.swift */; };
 		FB78D19E7F8559CEDB548E39 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C785ABB6B014BC20DFB59F /* MenuBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0909C4101C19A4B7CE6CE364 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1483A931688AE22C1D96D562 /* BacklogHypothesis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BacklogHypothesis.swift; sourceTree = "<group>"; };
-		32F5C945D46A1669F37727C6 /* one-man-squad-os */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "one-man-squad-os"; path = .; sourceTree = SOURCE_ROOT; };
 		331C12E183DB75C77F1A47D0 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStore.swift; sourceTree = "<group>"; };
 		3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureDocumentsView.swift; sourceTree = "<group>"; };
 		427386EC072DEB795578999B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		43C785ABB6B014BC20DFB59F /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSidebarView.swift; sourceTree = "<group>"; };
 		54B1921F5959B03F46508A79 /* CockpitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitApp.swift; sourceTree = "<group>"; };
-		5AC1674BE1E80346C94DA7DA /* MilestoneKanbanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneKanbanView.swift; sourceTree = "<group>"; };
+		6B9C702B92B7E4080AC76282 /* HillChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HillChartView.swift; sourceTree = "<group>"; };
 		74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypothesisCardView.swift; sourceTree = "<group>"; };
 		87498EAEC2A6A785DF5A83F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoWatcher.swift; sourceTree = "<group>"; };
@@ -45,6 +50,11 @@
 		9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HypothesisStatus+UI.swift"; sourceTree = "<group>"; };
 		BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSchema.swift; sourceTree = "<group>"; };
 		BC755B6EEA537DC414827C48 /* OneManSquadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneManSquadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D22A5A1974CBF4A912EB37BA /* GateIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GateIndicatorView.swift; sourceTree = "<group>"; };
+		D5CBDDCDA49C7998B7ED7458 /* ClarifyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarifyDetailView.swift; sourceTree = "<group>"; };
+		DD81564D7A1C925DEAA5D65C /* philosophy-driven-ux */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "philosophy-driven-ux"; path = .; sourceTree = SOURCE_ROOT; };
+		E85B7E3050376B87D2C1B7E3 /* HealthBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBadgeView.swift; sourceTree = "<group>"; };
+		EBF56484DFBC58E2C148F348 /* ExploreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDetailView.swift; sourceTree = "<group>"; };
 		F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBARDetailView.swift; sourceTree = "<group>"; };
 		FA7EA0064D2C8541D466558C /* CockpitSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,12 +84,17 @@
 		8A833A80AE8368E1AD857143 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D5CBDDCDA49C7998B7ED7458 /* ClarifyDetailView.swift */,
+				EBF56484DFBC58E2C148F348 /* ExploreDetailView.swift */,
 				3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */,
+				D22A5A1974CBF4A912EB37BA /* GateIndicatorView.swift */,
+				E85B7E3050376B87D2C1B7E3 /* HealthBadgeView.swift */,
+				6B9C702B92B7E4080AC76282 /* HillChartView.swift */,
 				74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */,
 				9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */,
 				94A0512F95BAE21582D3781E /* MarkdownView.swift */,
 				43C785ABB6B014BC20DFB59F /* MenuBarView.swift */,
-				5AC1674BE1E80346C94DA7DA /* MilestoneKanbanView.swift */,
+				4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */,
 				331C12E183DB75C77F1A47D0 /* PortfolioView.swift */,
 				F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */,
 				0909C4101C19A4B7CE6CE364 /* SettingsView.swift */,
@@ -117,7 +132,7 @@
 		D0B56D9EA0EBA8E20DF1AD93 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				32F5C945D46A1669F37727C6 /* one-man-squad-os */,
+				DD81564D7A1C925DEAA5D65C /* philosophy-driven-ux */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -219,15 +234,20 @@
 			files = (
 				43D962F1531C5D593E701917 /* AppDelegate.swift in Sources */,
 				346F7415782F1F419D116751 /* BacklogHypothesis.swift in Sources */,
+				3C274CBEF2C719377A89C3FC /* ClarifyDetailView.swift in Sources */,
 				24053830E786618821046253 /* CockpitApp.swift in Sources */,
 				590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */,
 				02B725E77F574A135B3125B3 /* CockpitSettings.swift in Sources */,
+				51CBD603ABEAB2B5EAD0A09A /* ExploreDetailView.swift in Sources */,
 				8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */,
+				188D0A322B55ABDAE4FEF7F4 /* GateIndicatorView.swift in Sources */,
+				F83EEA1F43FB0B34E5B0481A /* HealthBadgeView.swift in Sources */,
+				886CD4702255647F4E9D7496 /* HillChartView.swift in Sources */,
 				AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */,
 				B5020528F36DECB11F955BE2 /* HypothesisStatus+UI.swift in Sources */,
 				DE723B2CE17B258A2A796B4A /* MarkdownView.swift in Sources */,
 				FB78D19E7F8559CEDB548E39 /* MenuBarView.swift in Sources */,
-				76CC42A865BC8A726AD304BD /* MilestoneKanbanView.swift in Sources */,
+				AA57B54C3A3AD9009D50E3AB /* PortfolioSidebarView.swift in Sources */,
 				AF25E5AF8B64B21880FF9E74 /* PortfolioStore.swift in Sources */,
 				D0930F70B63C113406E85476 /* PortfolioView.swift in Sources */,
 				6E63928C19DAA8FEE6ABFED3 /* RepoWatcher.swift in Sources */,

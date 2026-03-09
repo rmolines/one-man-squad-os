@@ -2,36 +2,31 @@ import SwiftUI
 import Core
 
 struct HypothesisCardView: View {
-    let hypothesis: FeaturePlanInfo
+    let feature: FeatureNode
     var onSelect: () -> Void = {}
-    @State private var showingDetail = false
     @State private var isHovered = false
-
-    private var pendingBrief: SBARBrief? {
-        hypothesis.artifacts.sbarBriefs.compactMap { parseSBAR(from: $0) }.first
-    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(hypothesis.title)
-                .font(.headline)
-                .lineLimit(1)
-
-            Text(hypothesis.featurePlansPath)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-
-            HStack {
-                StatusChip(status: hypothesis.status)
+            HStack(alignment: .top) {
+                Text(feature.info.title)
+                    .font(.headline)
+                    .lineLimit(1)
                 Spacer()
-                if let brief = pendingBrief {
-                    PendingBriefBadge(showingDetail: $showingDetail, brief: brief)
-                }
+                HealthBadgeView(date: feature.info.lastArtifactDate)
             }
 
-            if !hypothesis.artifacts.taskItems.isEmpty {
-                TaskSummaryView(tasks: hypothesis.artifacts.taskItems)
+            HStack(spacing: 6) {
+                PhaseChip(phase: feature.phase)
+                StatusChip(status: feature.info.status)
+            }
+
+            if !feature.gate.canAdvance {
+                GateIndicatorView(gate: feature.gate)
+            }
+
+            if !feature.info.artifacts.taskItems.isEmpty {
+                TaskSummaryView(tasks: feature.info.artifacts.taskItems)
             }
         }
         .padding(12)
@@ -49,27 +44,41 @@ struct HypothesisCardView: View {
     }
 }
 
-private struct PendingBriefBadge: View {
-    @Binding var showingDetail: Bool
-    let brief: SBARBrief
+// MARK: - PhaseChip
+
+struct PhaseChip: View {
+    let phase: Phase
 
     var body: some View {
-        Button {
-            showingDetail.toggle()
-        } label: {
-            Label("Brief", systemImage: "exclamationmark.circle.fill")
-                .font(.caption2)
-                .fontWeight(.medium)
-                .foregroundStyle(.red)
-                .labelStyle(.iconOnly)
-        }
-        .buttonStyle(.plain)
-        .help("Pending decision brief — click to read")
-        .popover(isPresented: $showingDetail, arrowEdge: .bottom) {
-            SBARDetailView(brief: brief)
-        }
+        Text(phase.label)
+            .font(.caption2)
+            .fontWeight(.medium)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(phase.color.opacity(0.15))
+            .foregroundStyle(phase.color)
+            .clipShape(Capsule())
     }
 }
+
+// MARK: - StatusChip
+
+struct StatusChip: View {
+    let status: HypothesisStatus
+
+    var body: some View {
+        Text(status.label)
+            .font(.caption2)
+            .fontWeight(.medium)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(status.color.opacity(0.15))
+            .foregroundStyle(status.color)
+            .clipShape(Capsule())
+    }
+}
+
+// MARK: - TaskSummaryView
 
 private struct TaskSummaryView: View {
     let tasks: [TaskItem]
@@ -119,19 +128,3 @@ private struct TaskRowView: View {
         }
     }
 }
-
-private struct StatusChip: View {
-    let status: HypothesisStatus
-
-    var body: some View {
-        Text(status.label)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(status.color.opacity(0.15))
-            .foregroundStyle(status.color)
-            .clipShape(Capsule())
-    }
-}
-
