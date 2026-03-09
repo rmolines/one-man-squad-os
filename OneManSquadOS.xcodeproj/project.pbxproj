@@ -20,6 +20,7 @@
 		51CBD603ABEAB2B5EAD0A09A /* ExploreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF56484DFBC58E2C148F348 /* ExploreDetailView.swift */; };
 		590C5A7840E85C35EAD7A07A /* CockpitSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF6837DB9535CB1C0FBC52B /* CockpitSchema.swift */; };
 		6E63928C19DAA8FEE6ABFED3 /* RepoWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */; };
+		886CD4702255647F4E9D7496 /* HillChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C702B92B7E4080AC76282 /* HillChartView.swift */; };
 		8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */; };
 		AA57B54C3A3AD9009D50E3AB /* PortfolioSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */; };
 		AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */; };
@@ -41,6 +42,7 @@
 		43C785ABB6B014BC20DFB59F /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSidebarView.swift; sourceTree = "<group>"; };
 		54B1921F5959B03F46508A79 /* CockpitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitApp.swift; sourceTree = "<group>"; };
+		6B9C702B92B7E4080AC76282 /* HillChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HillChartView.swift; sourceTree = "<group>"; };
 		74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypothesisCardView.swift; sourceTree = "<group>"; };
 		87498EAEC2A6A785DF5A83F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoWatcher.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */,
 				D22A5A1974CBF4A912EB37BA /* GateIndicatorView.swift */,
 				E85B7E3050376B87D2C1B7E3 /* HealthBadgeView.swift */,
+				6B9C702B92B7E4080AC76282 /* HillChartView.swift */,
 				74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */,
 				9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */,
 				94A0512F95BAE21582D3781E /* MarkdownView.swift */,
@@ -239,6 +242,7 @@
 				8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */,
 				188D0A322B55ABDAE4FEF7F4 /* GateIndicatorView.swift in Sources */,
 				F83EEA1F43FB0B34E5B0481A /* HealthBadgeView.swift in Sources */,
+				886CD4702255647F4E9D7496 /* HillChartView.swift in Sources */,
 				AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */,
 				B5020528F36DECB11F955BE2 /* HypothesisStatus+UI.swift in Sources */,
 				DE723B2CE17B258A2A796B4A /* MarkdownView.swift in Sources */,
