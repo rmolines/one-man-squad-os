@@ -101,7 +101,8 @@ struct FeatureDocumentsView: View {
                 } else {
                     if isEditableDoc && content(for: selectedDoc) != nil {
                         Button {
-                            editingText = content(for: selectedDoc) ?? ""
+                            guard let text = content(for: selectedDoc) else { return }
+                            editingText = text
                             isEditing = true
                         } label: {
                             Label("Edit", systemImage: "pencil")
@@ -235,4 +236,61 @@ struct FeatureDocumentsView: View {
             }
         }
     }
+}
+
+// MARK: - Preview
+
+#Preview("artifact-editor — delivery phase") {
+    let planMd = """
+    # Plan: artifact-editor
+
+    ## Problema
+    O app renderiza artefatos markdown mas não permite edição inline.
+
+    ## Deliverables
+
+    ### Deliverable 1 — Editor inline funcional
+    **O que faz:** Botão Edit → TextEditor monospace → Save/Cancel.
+    **Critério de done:** Usuário edita plan.md no app e vê mudança re-renderizada.
+
+    ## Arquivos a modificar
+    - `FeatureDocumentsView.swift` — adicionar modo edição
+    - `PortfolioView.swift` — passar rootRepoPath + onSave
+
+    ## Rollback
+    `git checkout -- Sources/`
+    """
+
+    let artifacts = ArtifactSet(
+        clarifyMd: nil,
+        exploreMd: nil,
+        discoveryMd: "# Discovery: artifact-editor\n\n## Problema real\nFundador precisa corrigir artefatos sem sair do app.",
+        researchMd: "# Research: artifact-editor\n\n## Arquivos relevantes\n- `FileWriter.swift` — já tem previewWrite + commitWrite\n- `FeatureDocumentsView.swift` — ponto de extensão natural",
+        planMd: planMd,
+        sprintMd: nil,
+        sbarBriefs: []
+    )
+
+    let info = FeaturePlanInfo(
+        slug: "artifact-editor",
+        featurePlansPath: "/tmp/mock/.claude/feature-plans/artifact-editor",
+        attachedWorktree: nil,
+        artifacts: artifacts,
+        lastArtifactDate: Date()
+    )
+
+    let feature = FeatureNode(
+        id: "artifact-editor",
+        info: info,
+        phase: .delivery,
+        confidenceT: 0.6,
+        gate: Gate(missing: [], nextPhase: nil)
+    )
+
+    FeatureDocumentsView(
+        feature: feature,
+        rootRepoPath: "/tmp/mock",
+        onSave: { print("onSave called — would trigger PortfolioStore.reload()") }
+    )
+    .frame(width: 600, height: 500)
 }

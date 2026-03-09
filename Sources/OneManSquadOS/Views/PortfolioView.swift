@@ -140,7 +140,7 @@ struct PortfolioView: View {
             FeatureDocumentsView(
                 feature: feature,
                 rootRepoPath: settings.rootRepoPath,
-                onSave: { store.refresh(repoPath: settings.rootRepoPath) }
+                onSave: { store.reloadNow() }
             )
         } else {
             ContentUnavailableView(
