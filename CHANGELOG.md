@@ -1,5 +1,13 @@
 # Changelog
 
+## artifact-editor — PR #24 — 2026-03-09
+
+**Tipo:** feat
+**Commit:** `git show 9667339` para diff completo
+**Decisões e armadilhas:** ver LEARNINGS.md#artifact-editor
+
+---
+
 ## philosophy-driven-ux — PR #22 + #23 — 2026-03-09
 
 **Tipo:** feat

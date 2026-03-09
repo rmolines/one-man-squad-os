@@ -1,0 +1,271 @@
+{
+  "version": "1",
+  "milestones": [
+    {
+      "id": "M1",
+      "name": "Leitor de portfolio",
+      "objective": "App funcional, worktrees visíveis, briefs detectados",
+      "status": "done",
+      "completedAt": "2026-03-07"
+    },
+    {
+      "id": "M2",
+      "name": "Decision Brief processável",
+      "objective": "Completar o loop de valor central — do sinal à decisão sem sair do app",
+      "status": "done",
+      "completedAt": "2026-03-07"
+    },
+    {
+      "id": "M3",
+      "name": "Cockpit v1 completo",
+      "objective": "Modelo correto + read-only polido",
+      "status": "done",
+      "completedAt": "2026-03-08"
+    },
+    {
+      "id": "M4",
+      "name": "Interface hierárquica",
+      "objective": "Linear nativo para one-man-squad, read-only",
+      "status": "done",
+      "completedAt": "2026-03-08"
+    },
+    {
+      "id": "M5",
+      "name": "Canvas interativo",
+      "objective": "Usuário pode editar artefatos diretamente no app",
+      "status": "active",
+      "completedAt": null
+    }
+  ],
+  "features": [
+    {
+      "id": "app-foundation",
+      "title": "Esqueleto SwiftUI + SwiftData V1 + MenuBarExtra + WindowGroup",
+      "status": "done",
+      "milestone": "M1",
+      "path": null,
+      "dependencies": [],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-07",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "portfolio-view",
+      "title": "listWorktrees() → PortfolioStore → grid de hypothesis cards com onboarding",
+      "status": "done",
+      "milestone": "M1",
+      "path": null,
+      "dependencies": [
+        "app-foundation"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-07",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "sbar-detection",
+      "title": "hasPendingBrief via readArtifacts() + parseSBAR(); badge no card",
+      "status": "done",
+      "milestone": "M1",
+      "path": null,
+      "dependencies": [
+        "portfolio-view"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-07",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "fsevents-watch",
+      "title": "RepoWatcher sobre FSEvents.framework; auto-refresh sem polling",
+      "status": "done",
+      "milestone": "M1",
+      "path": null,
+      "dependencies": [
+        "portfolio-view"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-07",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "sbar-detail-view",
+      "title": "Painel SBAR ao clicar no card — Situation + Background + Assessment + Recommendation completos",
+      "status": "done",
+      "milestone": "M2",
+      "path": ".claude/feature-plans/archived/sbar-detail-view",
+      "dependencies": [],
+      "branch": null,
+      "prNumber": 9,
+      "startedAt": null,
+      "completedAt": "2026-03-07",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "cockpit-model",
+      "title": "Feature plans como identidade, SwiftData V2, status inference corrigida, JOIN slug↔worktree",
+      "status": "done",
+      "milestone": "M3",
+      "path": ".claude/feature-plans/archived/cockpit-model",
+      "dependencies": [],
+      "branch": null,
+      "prNumber": 11,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "settings-view",
+      "title": "Painel de preferências: SettingsView lê/grava CockpitSettings via modelContext (rootRepoPath)",
+      "status": "done",
+      "milestone": "M3",
+      "path": ".claude/feature-plans/archived/settings-view",
+      "dependencies": [],
+      "branch": null,
+      "prNumber": 12,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "polish",
+      "title": "Polish geral: dark mode, animações de transição, estados de erro, empty states, edge cases de UX",
+      "status": "done",
+      "milestone": "M3",
+      "path": ".claude/feature-plans/archived/polish",
+      "dependencies": [
+        "settings-view"
+      ],
+      "branch": null,
+      "prNumber": 14,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-07"
+    },
+    {
+      "id": "markdown-renderer",
+      "title": "Componente SwiftUI que renderiza markdown com frontmatter stripping",
+      "status": "done",
+      "milestone": "M4",
+      "path": ".claude/feature-plans/archived/markdown-renderer",
+      "dependencies": [],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "milestone-scanner",
+      "title": "Filtrar dirs de milestone do grid + scanner que lê sprint.md dos diretórios M*",
+      "status": "done",
+      "milestone": "M4",
+      "path": ".claude/feature-plans/archived/milestone-scanner",
+      "dependencies": [],
+      "branch": null,
+      "prNumber": 16,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "project-hierarchy-view",
+      "title": "Objeto 'projeto' com documentos associados (explore.md, discovery.md, research.md) navegáveis",
+      "status": "done",
+      "milestone": "M4",
+      "path": null,
+      "dependencies": [
+        "markdown-renderer"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "milestone-kanban",
+      "title": "Features por milestone em kanban com fases do skill-workflow",
+      "status": "done",
+      "milestone": "M4",
+      "path": ".claude/feature-plans/archived/milestone-kanban",
+      "dependencies": [
+        "markdown-renderer",
+        "milestone-scanner"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "agent-tasks-view",
+      "title": "Passos do plan.md como tasks dentro de cada feature card",
+      "status": "done",
+      "milestone": "M4",
+      "path": ".claude/feature-plans/archived/agent-tasks-view",
+      "dependencies": [
+        "markdown-renderer"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "write-infrastructure",
+      "title": "FileWriter service: validação de path traversal, dry-run, escrita atômica para .claude/feature-plans/",
+      "status": "done",
+      "milestone": "M5",
+      "path": ".claude/feature-plans/archived/write-infrastructure",
+      "dependencies": [],
+      "branch": null,
+      "prNumber": 20,
+      "startedAt": null,
+      "completedAt": "2026-03-08",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "artifact-editor",
+      "title": "Editor inline para artefatos markdown (roadmap, sprint, plan): botão Edit → TextEditor → save via FileWriter",
+      "status": "done",
+      "milestone": "M5",
+      "path": null,
+      "dependencies": [
+        "write-infrastructure"
+      ],
+      "branch": null,
+      "prNumber": 24,
+      "startedAt": null,
+      "completedAt": "2026-03-09T12:10:58Z",
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "resteer-signals",
+      "title": "Ao editar artefato upstream, sinalizar dependentes com badge 'outdated' e highlight visual",
+      "status": "pending",
+      "milestone": "M5",
+      "path": null,
+      "dependencies": [
+        "artifact-editor"
+      ],
+      "branch": null,
+      "prNumber": null,
+      "startedAt": null,
+      "completedAt": null,
+      "createdAt": "2026-03-08"
+    }
+  ],
+  "pitches": [],
+  "chores": []
+}

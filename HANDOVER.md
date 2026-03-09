@@ -373,6 +373,28 @@ Connected `listWorktrees()` from Core to `PortfolioStore` and rendered worktrees
 
 ---
 
+## artifact-editor — 2026-03-09
+
+**O que foi feito:** Editor inline de artefatos markdown no app. Botão Edit → TextEditor monospace → Save (alert + FileWriter atômico + reloadNow) / Cancel (descarta).
+
+**Decisões:**
+- Edit só disponível para discovery/research/plan — clarify/explore têm views customizadas
+- `reloadNow()` adicionado ao PortfolioStore para evitar double-reload pós-save (FSEvents já dispara ~1s depois)
+- `guard let text` no Edit button — elimina risco de data-loss se a guarda nil for removida futuramente
+
+**Armadilhas:**
+- `onSave: { store.refresh() }` causa double-reload: FSEvents detecta o write e dispara reload independente. Fix: expor `reloadNow()` que bypassa o guard de watchers.
+
+**Próximos passos:**
+- resteer-signals (M5 feature 2): ao editar upstream (roadmap.md → sprint.md → plan.md), sinalizar dependentes com badge "outdated"
+
+**Arquivos-chave:**
+- `Sources/OneManSquadOS/Views/FeatureDocumentsView.swift` — editor inline
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift` — reloadNow()
+- `Sources/Core/FileWriter.swift` — previewWrite + commitWrite (não modificado)
+
+---
+
 ## 2026-02-27 — Bootstrap via /start-project
 
 **What was done:**

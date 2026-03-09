@@ -342,6 +342,18 @@ carregar o histórico original do worktree.
 
 ---
 
+## 2026-03-09 — double-reload ao chamar refresh() após write de arquivo
+
+Quando `onSave` chama `PortfolioStore.refresh(repoPath:)`, o guard `repoPath != watchedPath` não dispara (mesmo repo), mas o FSEvents também detecta o write atômico ~1s depois e dispara um segundo `reload()`. Resultado: PortfolioView pisca `isLoading` duas vezes e reconstrói a árvore duas vezes. Fix padrão: expor `reloadNow()` que chama `reload()` diretamente — sem passar pelo guard de watchers. Usar sempre `reloadNow()` em writes in-app; reservar `refresh(repoPath:)` para mudança de repositório ou startup.
+
+---
+
+## 2026-03-09 — `?? ""` como fallback em guard de write de arquivo cria data-loss silencioso
+
+`guard let path = url?.path ?? ""` (ou qualquer `?? ""` num guard de nil) nunca falha — o guard passa com uma string vazia e o write tenta criar/sobrescrever um arquivo em `""`, que pode ser interpretado como o diretório de trabalho atual ou simplesmente silenciar o erro. O resultado é perda de dados sem mensagem de erro. Fix: usar `guard let path = url?.path else { return }` para garantir que o caminho nulo interrompe o fluxo.
+
+---
+
 ## markdownlint
 
 - Use `npx --yes markdownlint-cli2` to avoid requiring global install
