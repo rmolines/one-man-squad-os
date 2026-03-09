@@ -439,3 +439,61 @@ Connected `listWorktrees()` from Core to `PortfolioStore` and rendered worktrees
 
 - V2: dynamic task IDs (content-hash or UUID) when tasks can be added or removed at runtime
 - Consider surfacing task completion count in milestone overview row headers (kanban)
+
+---
+
+## philosophy-driven-ux — 2026-03-09
+
+**PR:** #22 + #23
+**Branch:** feat/philosophy-driven-ux (merged + deleted)
+
+### O que foi feito
+
+- Replaced flat `[FeaturePlanInfo]` model with `ProjectNode` typed tree: `RepoNode → GroupNode → FeatureNode`
+- Added `Phase` enum (`discovery`/`planning`/`delivery`), `Gate` struct with `evaluateGate()`, `ConfidenceParser` (reads `confiança:` as bare line in markdown body)
+- `ArtifactSet` now eager-loads `inferredPhase`, `confidenceT`, `taskItems` at construction — zero I/O per render
+- `PortfolioStore` replaced `hypotheses`/`milestones` with `repoTree: RepoNode?` via `buildProjectTree()`
+- `NavigationSplitView` 3-panel layout: sidebar of groups, feature list, detail pane with `.prominentDetail`
+- `HillChartView`: Canvas + cubic bezier, `HillItem` with `t: CGFloat` derived from `confidenceT`
+- `ClarifyDetailView` / `ExploreDetailView`: H2 section parser, headline extraction (tensão cristalizada / hipótese)
+- `GateIndicatorView`: lock icon + missing artifact names when `gate.canAdvance == false`
+- `HealthBadgeView`: staleness dot + relative date via `RelativeDateTimeFormatter`
+- Added shared `parseMarkdownH2Sections` helper; promoted `PhaseChip`/`StatusChip` to internal; `sections` as `let`; removed duplicate `parseTaskItems` call
+- Deleted `MilestoneKanbanView` (replaced by `NavigationSplitView`)
+- Cleaned up 5 dead worktrees whose content had already been merged
+
+### Decisões tomadas
+
+- `confiança:` parsed as bare markdown line (not YAML frontmatter) — line scan with `hasPrefix("confiança:")`
+- `Phase` chips and `Status` chips extracted to internal (not private) to enable reuse across views
+- `Task @MainActor` annotation added to `PortfolioStore.reload()` closure for Swift 6 strict concurrency compliance
+- `MilestoneKanbanView` deleted outright — `NavigationSplitView` with group sidebar supersedes the kanban layout
+
+### Armadilhas encontradas
+
+- `GateEvaluator.swift` was initially written to `.claire/` (typo) instead of `.claude/` — wrong directory was deleted and file re-created in the correct path
+- `.build/` accidentally staged and committed — removed with `git rm -r --cached .build` + follow-up cleanup commit
+- HTTP 400 on `git push` resolved by increasing `http.postBuffer` to 524288000
+- `gh pr merge --repo` flag is not valid on the `gh repo view` subcommand — use `gh api` for branch deletion after merge
+
+### Próximos passos
+
+- MilestoneScanner feature (upcoming milestone)
+- Hill Chart could display milestone-level rollup as a future enhancement
+
+### Arquivos-chave
+
+- `Sources/Core/Phase.swift`
+- `Sources/Core/ProjectNode.swift`
+- `Sources/Core/GateEvaluator.swift`
+- `Sources/Core/ConfidenceParser.swift`
+- `Sources/Core/ArtifactReader.swift`
+- `Sources/Core/FeaturePlanScanner.swift`
+- `Sources/OneManSquadOS/Stores/PortfolioStore.swift`
+- `Sources/OneManSquadOS/Views/PortfolioView.swift`
+- `Sources/OneManSquadOS/Views/HillChartView.swift`
+- `Sources/OneManSquadOS/Views/ClarifyDetailView.swift`
+- `Sources/OneManSquadOS/Views/ExploreDetailView.swift`
+- `Sources/OneManSquadOS/Views/MarkdownSectionParser.swift`
+
+---

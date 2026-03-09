@@ -1,5 +1,13 @@
 # Changelog
 
+## philosophy-driven-ux — PR #22 + #23 — 2026-03-09
+
+**Tipo:** feat
+**Commits:** `git show 9640d4f` (PR #22) · `git show 8075e48` (PR #23, fix follow-up)
+**Decisões e armadilhas:** ver LEARNINGS.md#philosophy-driven-ux
+
+---
+
 ## write-infrastructure — PR #20 — 2026-03-08
 
 **Tipo:** feat

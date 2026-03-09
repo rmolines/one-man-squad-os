@@ -304,6 +304,44 @@ light/dark mode automaticamente):
 
 ---
 
+## 2026-03-09 — `confiança:` em arquivos de plano é linha avulsa no body, não YAML frontmatter
+
+Arquivos `clarify.md` e `explore.md` gerados pelas skills usam `confiança: alta` como linha simples
+no corpo do markdown — não como YAML frontmatter delimitado por `---`. O parse correto é varredura
+de linhas com `hasPrefix("confiança:")`, não um parser YAML. Validar contra arquivos reais antes de
+implementar evita retrabalho completo caso a suposição de frontmatter esteja errada.
+
+---
+
+## 2026-03-09 — `private struct` bloqueia reuso entre arquivos do mesmo módulo
+
+`private struct PhaseChip` definido em `HypothesisCardView.swift` é invisível para `FeatureDocumentsView.swift`
+mesmo estando no mesmo target Swift. O resultado é duplicação silenciosa quando a segunda view precisa
+do mesmo componente. Fix: remover `private` (visibilidade `internal` é o default em Swift e abrange
+todo o módulo). Regra: usar `private` apenas para tipos que são implementação interna de uma única
+declaração; componentes de UI reutilizáveis devem ser `internal`.
+
+---
+
+## 2026-03-09 — `git push` falha com HTTP 400 em packs grandes; fix via `http.postBuffer`
+
+`git push` retorna HTTP 400 quando o pack excede o buffer HTTP padrão (~1 MB). O erro aparece como
+falha genérica de rede, sem mencionar o tamanho do pack. Fix: `git config http.postBuffer 524288000`
+(500 MB) antes do push. Sintoma diagnóstico: push de diffs pequenos funciona; push após squash de
+muitos commits ou binários falha.
+
+---
+
+## 2026-03-09 — Squash-merge + rebase no mesmo worktree gera conflitos irresolvíveis
+
+Após um PR ser merged via squash, os commits originais do worktree ainda existem localmente.
+`git rebase origin/main` vê o conteúdo squashado como novo commit em main e trata os commits locais
+como mudanças conflitantes — mesmo que o conteúdo seja idêntico. Fix: criar branch limpa a partir de
+`origin/main` (`git checkout -b fix/... origin/main`) e re-aplicar apenas as mudanças novas, sem
+carregar o histórico original do worktree.
+
+---
+
 ## markdownlint
 
 - Use `npx --yes markdownlint-cli2` to avoid requiring global install
