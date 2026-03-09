@@ -31,6 +31,11 @@ final class PortfolioStore {
         reload()
     }
 
+    /// Triggers an immediate tree reload without touching FSEvents watchers.
+    /// Use after an in-app write to avoid the double-reload that occurs when
+    /// calling `refresh()` (FSEvents fires ~1s later for the same write).
+    func reloadNow() { reload() }
+
     // MARK: - Private
 
     private func reload() {
