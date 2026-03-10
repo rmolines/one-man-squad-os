@@ -19,6 +19,9 @@ struct HypothesisCardView: View {
             HStack(spacing: 6) {
                 PhaseChip(phase: feature.phase)
                 StatusChip(status: feature.info.status)
+                if !feature.info.artifacts.outdatedArtifacts.isEmpty {
+                    OutdatedChip()
+                }
             }
 
             if !feature.gate.canAdvance {
@@ -44,20 +47,47 @@ struct HypothesisCardView: View {
     }
 }
 
+// MARK: - CapsuleChip (shared primitive)
+
+struct CapsuleChip: View {
+    let label: String
+    let color: Color
+    var showDot: Bool = false
+
+    var body: some View {
+        HStack(spacing: 3) {
+            if showDot {
+                Circle()
+                    .fill(color)
+                    .frame(width: 5, height: 5)
+            }
+            Text(label)
+        }
+        .font(.caption2)
+        .fontWeight(.medium)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .background(color.opacity(0.15))
+        .foregroundStyle(color)
+        .clipShape(Capsule())
+    }
+}
+
+// MARK: - OutdatedChip
+
+struct OutdatedChip: View {
+    var body: some View {
+        CapsuleChip(label: "Outdated", color: .orange, showDot: true)
+    }
+}
+
 // MARK: - PhaseChip
 
 struct PhaseChip: View {
     let phase: Phase
 
     var body: some View {
-        Text(phase.label)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(phase.color.opacity(0.15))
-            .foregroundStyle(phase.color)
-            .clipShape(Capsule())
+        CapsuleChip(label: phase.label, color: phase.color)
     }
 }
 
@@ -67,14 +97,7 @@ struct StatusChip: View {
     let status: HypothesisStatus
 
     var body: some View {
-        Text(status.label)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(status.color.opacity(0.15))
-            .foregroundStyle(status.color)
-            .clipShape(Capsule())
+        CapsuleChip(label: status.label, color: status.color)
     }
 }
 
