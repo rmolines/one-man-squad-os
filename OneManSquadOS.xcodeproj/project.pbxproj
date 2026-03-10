@@ -22,6 +22,7 @@
 		6E63928C19DAA8FEE6ABFED3 /* RepoWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */; };
 		886CD4702255647F4E9D7496 /* HillChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C702B92B7E4080AC76282 /* HillChartView.swift */; };
 		8F95206E252E5698E601FEFD /* FeatureDocumentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3830CD87855310402FE360F4 /* FeatureDocumentsView.swift */; };
+		AA1B211EEEF266D1C7B62A98 /* MarkdownSectionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4791FE36A407170AE3A3C6 /* MarkdownSectionParser.swift */; };
 		AA57B54C3A3AD9009D50E3AB /* PortfolioSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */; };
 		AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */; };
 		AF25E5AF8B64B21880FF9E74 /* PortfolioStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348F8135BD0F6C020C23F1AC /* PortfolioStore.swift */; };
@@ -44,6 +45,7 @@
 		54B1921F5959B03F46508A79 /* CockpitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CockpitApp.swift; sourceTree = "<group>"; };
 		6B9C702B92B7E4080AC76282 /* HillChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HillChartView.swift; sourceTree = "<group>"; };
 		74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypothesisCardView.swift; sourceTree = "<group>"; };
+		7B8F45A479A175AC23C43339 /* resteer-signals */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "resteer-signals"; path = .; sourceTree = SOURCE_ROOT; };
 		87498EAEC2A6A785DF5A83F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AB8947BCB49D0A3EE3C9FA0 /* RepoWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoWatcher.swift; sourceTree = "<group>"; };
 		94A0512F95BAE21582D3781E /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 		BC755B6EEA537DC414827C48 /* OneManSquadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneManSquadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D22A5A1974CBF4A912EB37BA /* GateIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GateIndicatorView.swift; sourceTree = "<group>"; };
 		D5CBDDCDA49C7998B7ED7458 /* ClarifyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarifyDetailView.swift; sourceTree = "<group>"; };
-		DD81564D7A1C925DEAA5D65C /* philosophy-driven-ux */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "philosophy-driven-ux"; path = .; sourceTree = SOURCE_ROOT; };
+		DB4791FE36A407170AE3A3C6 /* MarkdownSectionParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownSectionParser.swift; sourceTree = "<group>"; };
 		E85B7E3050376B87D2C1B7E3 /* HealthBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBadgeView.swift; sourceTree = "<group>"; };
 		EBF56484DFBC58E2C148F348 /* ExploreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDetailView.swift; sourceTree = "<group>"; };
 		F495BA19EC2C4DCC465D46A8 /* SBARDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBARDetailView.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				6B9C702B92B7E4080AC76282 /* HillChartView.swift */,
 				74ADC0900A78FC73E1BB4C9F /* HypothesisCardView.swift */,
 				9B73DC5BF408731331EE6FFF /* HypothesisStatus+UI.swift */,
+				DB4791FE36A407170AE3A3C6 /* MarkdownSectionParser.swift */,
 				94A0512F95BAE21582D3781E /* MarkdownView.swift */,
 				43C785ABB6B014BC20DFB59F /* MenuBarView.swift */,
 				4CB4ED297A34AD0902569EB0 /* PortfolioSidebarView.swift */,
@@ -132,7 +135,7 @@
 		D0B56D9EA0EBA8E20DF1AD93 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				DD81564D7A1C925DEAA5D65C /* philosophy-driven-ux */,
+				7B8F45A479A175AC23C43339 /* resteer-signals */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				886CD4702255647F4E9D7496 /* HillChartView.swift in Sources */,
 				AE322EB06B72812DC240EE1D /* HypothesisCardView.swift in Sources */,
 				B5020528F36DECB11F955BE2 /* HypothesisStatus+UI.swift in Sources */,
+				AA1B211EEEF266D1C7B62A98 /* MarkdownSectionParser.swift in Sources */,
 				DE723B2CE17B258A2A796B4A /* MarkdownView.swift in Sources */,
 				FB78D19E7F8559CEDB548E39 /* MenuBarView.swift in Sources */,
 				AA57B54C3A3AD9009D50E3AB /* PortfolioSidebarView.swift in Sources */,

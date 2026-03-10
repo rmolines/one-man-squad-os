@@ -124,6 +124,7 @@ struct FeatureDocumentsView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
                 ForEach(availableDocs, id: \.self) { doc in
+                    let isOutdated = artifacts.outdatedArtifacts.contains(filename(for: doc))
                     Button {
                         selectedDoc = doc
                     } label: {
@@ -140,6 +141,14 @@ struct FeatureDocumentsView: View {
                             Rectangle()
                                 .fill(Color.accentColor)
                                 .frame(height: 2)
+                        }
+                    }
+                    .overlay(alignment: .topTrailing) {
+                        if isOutdated {
+                            Circle()
+                                .fill(Color.orange)
+                                .frame(width: 7, height: 7)
+                                .offset(x: -4, y: 4)
                         }
                     }
                 }
